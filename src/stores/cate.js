@@ -4,9 +4,9 @@ import {
 import apis from '@/apis/index'
 import menuList from '@/utils/menuList'
 import {deepClone} from '@/utils/index'
-import {
-	User, Setting, Handbag, Pointer, Postcard, Files, Box
-} from "@element-plus/icons-vue"; 
+// import {
+// 	User, Setting, Handbag, Pointer, Postcard, Files, Box
+// } from "@element-plus/icons-vue"; 
 
 export const cateStore = defineStore('cate', {
 	persist: {
@@ -53,11 +53,11 @@ export const cateStore = defineStore('cate', {
 					label: ele.name,
 					type: 'title',
 					index: `api_${index}`,
-					icon: Setting,
+					icon: 'icon-xitongguanli',
 					children: ele.list.map(item => {
 						return {
 							label: item.name,
-							icon: '',
+							icon: 'icon-xitongguanli',
 							url: item.url
 						}
 					})

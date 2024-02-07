@@ -27,6 +27,18 @@ $browser: null;
     -o-box-sizing:border-box;
     box-sizing:border-box;
 }
+.box-border {
+	@extend %box-sizing;
+}
+.text-black {
+	color: #222;
+}
+.text-base {
+	color: #666;
+}
+.bg-white {
+	background-color: #fff;
+}
 
 // 绝对居中
 @mixin center($width, $height) {

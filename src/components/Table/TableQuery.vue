@@ -88,7 +88,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: '80vh'
+        default: 'auto'
     },
     customParams: {
         type: Object,

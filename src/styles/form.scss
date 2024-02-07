@@ -1,0 +1,11 @@
+
+.el-form { 
+    width: 100%!important; 
+    box-sizing: border-box;
+    ::v-deep { 
+        .el-form-item__label {
+            font-weight: normal;
+            font-size: 14px;
+        }
+    }
+}

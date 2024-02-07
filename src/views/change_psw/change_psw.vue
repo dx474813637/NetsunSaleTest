@@ -4,7 +4,7 @@
         :model="dynamicValidateForm" 
         label-width="120px" 
         :rules="rules" 
-        class="demo-dynamic u-p-20"
+        class="demo-dynamic u-p-20 box-border"
         label-position="top"
         scroll-to-error
         inline-message

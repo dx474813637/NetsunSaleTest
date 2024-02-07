@@ -1,5 +1,5 @@
 <template>
-	<header class="header" id="header"> 
+	<header class="header" id="header" :style="customStyle"> 
 		<div class="header-main">
 			<div class="home-w">
 				<div class="main-logo">
@@ -38,8 +38,21 @@ import router from "@/router/guard"
 const routerName = computed(() => { 
 	return router.currentRoute.value.name
 })
+const props = defineProps({
+	customStyle: {
+		type: Object,
+		deafult: () => {
+			return {}
+		}
+	}
+})
+
+
 </script>
 <style lang="scss" scoped>
+header {
+	transition: all .3s;
+}
 ::v-deep .input-with-select {
 	background-color: transparent;
 	.el-input__wrapper {
@@ -94,14 +107,14 @@ header {
 		.header-main {
 			.home-w {
 				@include flex(x, between);
-				height: 80px;
+				height: $header-h;
 			}
 
 			.main-logo {
 				flex: 0 0 300px;
 
 				.logo {
-					height: 55px;
+					height: 40px;
 				}
 			}
 			.main-nav {

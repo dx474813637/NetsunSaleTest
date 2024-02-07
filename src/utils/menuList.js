@@ -1,13 +1,13 @@
 
-import {
-	User, Setting, Handbag, Pointer, Postcard, Files, Box
-} from "@element-plus/icons-vue"; 
+// import {
+// 	User, Setting, Handbag, Pointer, Postcard, Files, Box
+// } from "@element-plus/icons-vue"; 
 export default [ 
 	{
 		label: '商品管理',
 		type: 'title',
 		index: '2',
-		icon: Setting,
+		icon: 'icon-gongyingshang',
 		children: [
 			{
 				label: '商品发布', 
@@ -55,7 +55,7 @@ export default [
 		label: '账户管理',
 		type: 'title',
 		index: '3',
-		icon: Setting,
+		icon: 'icon-quanxianguanli',
 		children: [
 			{
 				label: '修改密码', 

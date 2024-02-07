@@ -75,7 +75,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: '80vh'
+        default: 'auto'
     },
     currentRow: {
         type: Object,

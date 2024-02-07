@@ -80,6 +80,14 @@ const routes = [
         component: () => import('@/views/order/order.vue'),
     }, 
     {
+        path: '/web_view/',
+        name: 'web_view',
+        meta: {
+            title: '详情', 
+        }, 
+        component: () => import('@/views/web_view/web_view.vue'),
+    }, 
+    {
         path: '/:pathMatch(.*)*',
         name: '404',
         component: () => import('@/views/error/404.vue')

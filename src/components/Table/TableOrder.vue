@@ -2,24 +2,48 @@
     <el-table 
         v-loading="loading" 
         :data="list" 
-        style="width: 100%" 
-        border 
+        style="width: 100%"   
         :maxHeight="maxHeight"  
         > 
-        <el-table-column prop="id" label="ID" width="70" align="center"  />
-        <el-table-column prop="company" :label="props.customParams.role == '1'? '卖家' : '买家'" width="120" />
-        <el-table-column label="商品" width="auto"  >
+        <!-- <el-table-column prop="id" label="ID" width="70" align="center"  /> -->
+        <el-table-column label="商品信息" width="auto"  >
             <template #default="{row}">  
-                <el-link v-for="item in row.pid" :key="item.id" :underline="false" @click="emit('detailEvent', item.pid)">
-                    {{ item.name }}*{{ item.num }}；
-                </el-link> 
+                <div class="u-m-b-10 u-flex ">
+                    <div>
+                        <el-text type="info">订单编号</el-text>
+                        <el-text class="u-m-l-5 text-black" tag="b" >{{ row.id }}</el-text> 
+                    </div>
+                    <div class="u-m-l-20">
+                        <el-text type="info">创建时间</el-text>
+                        <el-text class="u-m-l-5 " type="info" >{{ row.ctime }}</el-text> 
+                    </div>
+                </div>
+                <div class="u-flex u-flex-items-start u-m-t-5 u-m-b-5" v-for="item in row.pid" :key="item.id">
+                    <div class="u-m-r-10" style="flex: 0 0 45px">
+                        <el-image class="u-radius-5" lazy style="width: 45px; height: 45px" :src="item.img" fit="fill" />
+                    </div> 
+                    <div class="u-flex-1">
+                        <el-link class="text-black" :underline="false" @click="emit('detailEvent', item.pid)" >
+                            {{ item.name }}*{{ item.num }}；
+                        </el-link> 
+                        <div class="u-flex u-flex-wrap u-flex-items-start">
+                            <el-tag class="u-m-r-5 u-m-t-5" type="primary" size="small">{{ item.goods_no }}</el-tag>
+                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ item.recommend_remark }}</el-tag>
+                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ item.delivery_delay_day }}天发货</el-tag>
+                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ item.warehouse }}</el-tag>
+                        </div>
+                    </div>
+                </div>
+                
             </template>
         </el-table-column>
-        <el-table-column prop="total_fee" label="总价" width="100"  >
+        <el-table-column prop="total_fee" label="总价" width="150" align="left"   >
             <template #default="{row}">
-                <el-statistic :precision="2" :value="row.total_fee" value-style="font-size: 14px" />
+                <el-statistic :precision="2" :value="row.total_fee" value-style="font-size: 14px; color: #f00" />
             </template>
         </el-table-column>
+        <el-table-column prop="company" :label="props.customParams.role == '1'? '卖家' : '买家'" width="220" />
+        
         <el-table-column label="订单状态" width="120" >
             <template #default="{row}">
                 <el-text type="danger" v-if="row.status == '6'">{{ $filters.order_status(row.status) }}</el-text>
@@ -27,7 +51,7 @@
                 <el-text type="warning" v-else >{{ $filters.order_status(row.status) }}</el-text>
             </template> 
         </el-table-column>  
-        <el-table-column prop="ctime" label="创建时间" width="200" />
+        <!-- <el-table-column prop="ctime" label="创建时间" width="200" /> -->
         <el-table-column label="操作" width="100" align="center" > 
             <template #default="{row}">
                 <div class="u-felx" v-if="row.status == '1'">
@@ -140,7 +164,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: '80vh'
+        default: 'auto'
     },
     customParams: {
         type: Object,
@@ -251,6 +275,7 @@ function close() {
 }
 </script>
 <style lang='scss' scoped>
+@import "@/styles/table.scss";
 // 
 .el-tree {
     background-color: transparent;

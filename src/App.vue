@@ -1,78 +1,102 @@
 <!--  -->
 <template>
-	<header-user></header-user>
+	<el-affix @change="headerAffixChange">
+		<header-user :customStyle="headerAffixStatus? {
+			background: '#fff',
+			boxShadow: '0 5px 5px rgba(90,90,90,.08)'
+		} :  {
+			background: 'transparent',
+			boxShadow: 'none'
+		}"></header-user>
+	</el-affix>
+	
 	<div class="user-wrap " :class="{fx_mode: routerName == 'fx_helper'}">
-		<div class="home-w u-flex u-flex-items-start u-p-t-15 u-p-b-15">
-			<div class="item item-menus u-radius-5 u-p-5">
-				<el-menu
-					:default-active="menuActive"
-					class="el-menu-vertical-demo"
-					router
-					@open="handleOpen"
-					@close="handleClose"
-					>
-					<template  v-for="item in menuList" >
-						<el-sub-menu  
-							v-if="item.children && item.children.length > 0" 
-							:index="item.index" 
-							:key="item.index"
-							>
-							<template #title>
-								<el-icon>
-									<component :is="item.icon"></component>
-								</el-icon>
-								
-								<span class="menu-title" >{{item.label}}</span>
-							</template>
-							<el-menu-item 
-								v-for="ele in item.children" 
-								:index="ele.index" 
-								:key="ele.index"
-								:route="ele.route" 
+		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
+			<div class="item item-menus">  
+				<el-affix :offset="76">
+					<div class="u-p-5 u-radius-8 bg-white menus-w box-border">
+						<el-scrollbar height="100%" >
+							<el-menu
+								:default-active="menuActive"
+								class="el-menu-vertical-demo"
+								router 
+								@open="handleOpen"
+								@close="handleClose"
 								>
-								
-								<!-- <i class="custom-icon" :class="ele.icon" v-if="ele.icon" ></i>
-								<span slot="title">{{ele.label}}</span> -->
-								<template #title>
-									<template v-if="ele.hasOwnProperty('url')">
-										<view class="u-flex u-flex-between u-flex-1" >
-											<el-text tag="a" style="display: block; width: 100%;" :href="ele.url" >{{ele.label}}</el-text>
-										</view> 
-									</template>
-									<view class="u-flex u-flex-between" v-else>
-										<view class="item-left">
-											<i class="custom-icon" :class="ele.icon" v-if="ele.icon" ></i>
-											<span>{{ele.label}}</span>
-										</view>
-										<!-- <view class="item-right">
-											<template v-if="ele.active == 'cart'">
-												<text class="num" v-if="cartNumTotal > 0">{{cartNumTotal}}</text>
+								<template  v-for="item in menuList" >
+									<el-sub-menu  
+										v-if="item.children && item.children.length > 0" 
+										:index="item.index" 
+										:key="item.index"
+										>
+										<template #title>
+											<!-- <el-icon>
+												<component :is="item.icon"></component>
+											</el-icon> -->
+											<i class="iconfont" :class="item.icon" ></i> 
+											<span class="menu-title" >{{item.label}}</span>
+										</template>
+										<el-menu-item 
+											v-for="ele in item.children" 
+											:index="ele.index" 
+											:key="ele.index"
+											:route="ele.route" 
+											>
+											
+											<!-- <i class="custom-icon" :class="ele.icon" v-if="ele.icon" ></i>
+											<span slot="title">{{ele.label}}</span> -->
+											<template #title>
+												<template v-if="ele.hasOwnProperty('url')">
+													<view class="u-flex u-flex-between" @click="gotoOtherPage(ele)">
+														<view class="item-left"> 
+															<span>{{ele.label}}</span>
+														</view> 
+													</view>
+													<!-- <view class="u-flex u-flex-between u-flex-1" > 
+														<el-text tag="a" style="display: block; width: 100%;" :href="ele.url" >{{ele.label}}</el-text>
+													</view>  -->
+												</template>
+												<view class="u-flex u-flex-between" v-else>
+													<view class="item-left">
+														<!-- <i class="iconfont" :class="ele.icon" v-if="ele.icon" ></i> -->
+														<span>{{ele.label}}</span>
+													</view>
+													<!-- <view class="item-right">
+														<template v-if="ele.active == 'cart'">
+															<text class="num" v-if="cartNumTotal > 0">{{cartNumTotal}}</text>
+														</template>
+														
+													</view> -->
+												</view>
 											</template>
 											
-										</view> -->
-									</view>
-								</template>
-								
-							</el-menu-item>
-						</el-sub-menu>
-						<el-menu-item v-else @click="funcClick(item)" class="logout">
-							<el-icon>
-								<component :is="item.icon"></component>
-							</el-icon>
-							<span >{{item.label}}</span>
-						</el-menu-item>
-					</template> 
-				</el-menu>
+										</el-menu-item>
+									</el-sub-menu>
+									<el-menu-item v-else @click="funcClick(item)" class="logout">
+										<!-- <el-icon>
+											<component :is="item.icon"></component>
+										</el-icon> -->
+										<span >{{item.label}}</span>
+									</el-menu-item>
+								</template> 
+							</el-menu>
+						</el-scrollbar> 
+					</div>
+					
+				</el-affix>
+				
 			</div>
-			<div class="item item-main u-m-l-15 u-radius-5">
-				<el-page-header class="u-p-10 u-p-t-20"  title="后退"  @back="onBack"> 
+			
+			
+			<div class="item item-main u-m-l-15 u-radius-8 u-flex-column u-flex-items-start">
+				<el-page-header class="u-p-10 u-p-t-20 box-border" style="width: 100%;"  title="后退"  @back="onBack"> 
 					<template #icon >
-						<el-icon>
+						<el-icon class="text-base">
 							<i-ep-ArrowLeft></i-ep-ArrowLeft>
 						</el-icon>
 					</template>
 					<template #content>
-						<el-text class="u-font-18" tag="b"> {{ useSettings.title }} </el-text>
+						<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
 						<el-text class="u-font-14 u-m-l-20" type="info"> {{ subTitle }} </el-text>
 					</template>
 					<template #extra>
@@ -88,12 +112,12 @@
 						many content as you want here.
 					</div> -->
 				</el-page-header>
-				<router-view style="width: 100%;" :key="routerPath"></router-view>
+				<router-view class="u-flex-1" style="width: 100%;" :key="routerPath"></router-view>
 			</div>
 		</div>
 	</div>
 	
-	<footer-help></footer-help>
+	<!-- <footer-help></footer-help> -->
 </template>
 
 <script setup lang="ts">
@@ -109,8 +133,12 @@ const cate = cateStore()
 const finance = useFinanceStore()
 const {menuList} = toRefs(cate)
 const { account_info, organizations_info } = toRefs(finance)
+const { webview } = toRefs(useSettings)
 const user = userStore() 
 const menuActive = ref('product_list')
+
+const headerAffixStatus = ref(false)
+
 const routerPath = computed(() => { 
 	return router.currentRoute.value.fullPath
 })
@@ -183,11 +211,73 @@ const onBack = () => {
 	router.go(-1) 
 }
 
+function headerAffixChange(e) {
+	// console.log(e)
+	headerAffixStatus.value = e
+}
+function gotoOtherPage(ele) {
+	localStorage.setItem('webview', JSON.stringify(ele))
+	webview.value = ele
+	router.push({ 
+		name: 'web_view', 
+	})
+}
+
 </script>
 <style lang="scss" scoped> 
+@import '@/styles/iconfont.css';
  
 .el-menu {
 	border-right: 0;
+
+	// transition: width 0.15s;
+	// -webkit-transition: width 0.15s;
+	// -moz-transition: width 0.15s;
+	// -webkit-transition: width 0.15s;
+	// -o-transition: width 0.15s; 
+	::v-deep {
+		.el-sub-menu__title {
+			height: 40px;
+			padding-left: 15px!important;
+			.menu-title {
+				font-weight: normal;
+			} 
+			.iconfont {
+				padding-right: 5px;
+			}
+		}
+		.el-sub-menu {
+			box-sizing: border-box;
+			width: 100%;
+			margin-bottom: 15px;
+			.el-menu {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				box-sizing: border-box;
+				.el-menu-item {
+					flex: 0 0 50%;
+					width: 50%;
+					padding: 0 15px;
+					display: flex; 
+					align-items: center;
+					color: #555;
+					font-size: 12px;
+					height: 35px;
+					.el-text {
+						font-size: 12px;
+					}
+					&:hover {
+						background-color: transparent;
+						color: var(--el-color-primary);
+					}
+					&.is-active {
+						color: var(--el-color-primary);
+					}
+				}
+			}
+		}
+	}
 }
 .user-wrap {
 	width: 100%;
@@ -224,14 +314,24 @@ const onBack = () => {
 	}
 }
 .item-menus {
-	background-color: #fff;	
+	// background-color: #fff;	
 	width: $user-menus-w;
+	// position: fixed;
+	// top: 96px;
+	// z-index: 100;
+	// height: calc(100vh - 96px);
+	
+}
+.menus-w {
+	height: calc(100vh - ($header-h) - 20px);
+	box-sizing: border-box;
+	width: 100%;
 }
 .item-main {
 	background-color: #fff;
 	flex: 0 0 calc(100% - $user-menus-w);
 	width: calc(100% - $user-menus-w);
-	min-height: 80vh;
+	min-height: calc(100vh - 20px - ($header-h));
 	// padding-left: 10px;
 	// padding-right: 10px;
 	@extend %box-sizing;

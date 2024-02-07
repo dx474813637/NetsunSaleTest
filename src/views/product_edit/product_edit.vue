@@ -8,58 +8,128 @@
         label-position="top"
         scroll-to-error
         inline-message
-        >
-        <el-form-item prop="name" label="商品名称">
-            <el-input v-model="dynamicValidateForm.name" />
-        </el-form-item>
-        <el-form-item prop="cate" label="分类">
-            <el-cascader 
-                v-model="dynamicValidateForm.cate" 
-                :options="cate_list"
-                placeholder="请选择分类"
-                :props="{
-                    value: 'id',
-                    label: 'name'
-                }"
-                filterable
-                style="width: 100%"
-                >
-                <template #default="{ node, data }">
-                    <span>{{ data.name }}</span>
-                    <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
-                </template>
-            </el-cascader>
-        </el-form-item>
-        <el-form-item prop="price" label="原价(吊牌价、市场价)">
-            <el-input v-model="dynamicValidateForm.price" />
-        </el-form-item>
+        > 
+        <el-row :gutter="20">
+            <el-col :span="8">
+                <el-form-item prop="name" label="商品名称">
+                    <el-input v-model="dynamicValidateForm.name" placeholder="请输入商品名称标题" />
+                </el-form-item>
+            </el-col>
+            <el-col :span="8"> 
+                <el-form-item prop="cate" label="分类">
+                    <el-cascader 
+                        v-model="dynamicValidateForm.cate" 
+                        :options="cate_list"
+                        placeholder="请选择分类"
+                        :props="{
+                            value: 'id',
+                            label: 'name'
+                        }"
+                        filterable
+                        style="width: 100%"
+                        >
+                        <template #default="{ node, data }">
+                            <span>{{ data.name }}</span>
+                            <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+                        </template>
+                    </el-cascader>
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item prop="price" label="原价(吊牌价、市场价)">
+                    <el-input v-model="dynamicValidateForm.price" placeholder="请输入原价(吊牌价、市场价)" />
+                </el-form-item>
+            </el-col>
+        </el-row>
+    
+        <el-row :gutter="20">
+            <el-col :span="8">
+                <el-form-item prop="pprice" label="批发价">
+                    <el-input v-model="dynamicValidateForm.pprice" placeholder="请输入批发价" />
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item prop="num" label="起批数">
+                    <el-input v-model="dynamicValidateForm.num" placeholder="请输入起批数" />
+                </el-form-item>
+            </el-col>
+            <el-col :span="8">
+                <el-form-item prop="goods_no" label="商品款号">
+                    <el-input v-model="dynamicValidateForm.goods_no" placeholder="请输入商品款号" />
+                </el-form-item>
+            </el-col>
+        </el-row>
+    
+        <el-row :gutter="20">
+            <el-col :span="8">
+                <el-form-item prop="warehouse" label="云仓">
+                    <!-- <el-input v-model="dynamicValidateForm.warehouse" /> -->
+                    <el-select
+                        v-model="dynamicValidateForm.warehouse" 
+                        style="width: 100%"
+                        placeholder="请选择"
+                        >
+                        <el-option
+                            v-for="item in warehouse_list"
+                            :key="item"
+                            :label="item"
+                            :value="item"
+                        />
+                    </el-select>
+                </el-form-item>
+            </el-col> 
+            <el-col :span="8">
+                <el-form-item prop="recommend_remark" label="商家推荐语">
+                    <el-input v-model="dynamicValidateForm.recommend_remark" placeholder="请输入商家推荐语" />
+                </el-form-item>
+            </el-col> 
+            <el-col :span="8">
+                <el-form-item prop="freight_id" label="运费模板">
+                    <el-cascader 
+                        v-model="dynamicValidateForm.freight_id" 
+                        :options="freight_list"
+                        placeholder="请选择运费模板"
+                        :props="{
+                            value: 'value',
+                            label: 'label'
+                        }"
+                        style="width: 100%"
+                        >
+                    </el-cascader>
+                </el-form-item>
+            </el-col> 
+        </el-row>
+        
         <!-- <el-form-item prop="price2" label="进价(供货价、采购价)">
             <el-input v-model="dynamicValidateForm.price2" />
         </el-form-item> -->
-        <el-form-item prop="pprice" label="批发价">
-            <el-input v-model="dynamicValidateForm.pprice" />
-        </el-form-item>
-        <el-form-item prop="num" label="起批数">
-            <el-input v-model="dynamicValidateForm.num" />
-        </el-form-item>
-        <el-form-item prop="goods_no" label="商品款号">
-            <el-input v-model="dynamicValidateForm.goods_no" />
-        </el-form-item>
-        <el-form-item prop="warehouse" label="云仓">
-            <!-- <el-input v-model="dynamicValidateForm.warehouse" /> -->
-            <el-select
-                v-model="dynamicValidateForm.warehouse" 
-                style="width: 100%"
-                placeholder="请选择"
-                >
-                <el-option
-                    v-for="item in warehouse_list"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                />
-            </el-select>
-        </el-form-item>
+        
+        <el-row :gutter="20">
+            <el-col :span="8">
+                <el-form-item prop="weight" label="重量">
+                    <el-input v-model="dynamicValidateForm.weight" placeholder="请输入重量" />
+                </el-form-item>
+            </el-col> 
+            <el-col :span="8">
+                <el-form-item prop="weight_unit" label="重量单位">
+                    <el-cascader 
+                        v-model="dynamicValidateForm.weight_unit" 
+                        :options="weight_unit_list"
+                        placeholder="请选择重量单位" 
+                        style="width: 100%"
+                        >
+                    </el-cascader> 
+                </el-form-item>
+            </el-col> 
+            <el-col :span="8">
+                <el-form-item prop="delivery_delay_day" label="承诺发货时间（天）">
+                    <el-input v-model="dynamicValidateForm.delivery_delay_day" placeholder="请输入承诺发货时间" />
+                </el-form-item>
+            </el-col> 
+        </el-row>
+        
+        
+        
         <el-form-item prop="pic" label="轮播主图">
             <div>
                 <el-upload 
@@ -136,34 +206,11 @@
         <!-- <el-form-item prop="divide" label="商品分成（%）">
             <el-input-number v-model="dynamicValidateForm.divide" :min="1" :max="100" step-strictly /> 
         </el-form-item> -->
-        <el-form-item prop="recommend_remark" label="商家推荐语">
-            <el-input v-model="dynamicValidateForm.recommend_remark" />
-        </el-form-item>
-        <el-form-item prop="freight_id" label="运费模板">
-            <el-cascader 
-                v-model="dynamicValidateForm.freight_id" 
-                :options="freight_list"
-                placeholder="请选择运费模板"
-                :props="{
-                    value: 'value',
-                    label: 'label'
-                }"
-                style="width: 100%"
-                >
-            </el-cascader>
-        </el-form-item>
-        <el-form-item prop="weight" label="重量">
-            <el-input v-model="dynamicValidateForm.weight" />
-        </el-form-item>
-        <el-form-item prop="weight_unit" label="重量单位">
-            <el-radio-group v-model="dynamicValidateForm.weight_unit">
-                <el-radio label="0">kg</el-radio>
-                <el-radio label="1">g</el-radio> 
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item prop="delivery_delay_day" label="承诺发货时间（天）">
-            <el-input v-model="dynamicValidateForm.delivery_delay_day" />
-        </el-form-item>
+        
+        
+        
+        
+        
         <!-- <el-form-item prop="info" label="富文本详情">
             <el-input v-model="dynamicValidateForm.info" />
         </el-form-item> -->
@@ -676,6 +723,16 @@ const dynamicValidateForm = reactive<{
 })
 const detail_spec_prices = ref('')
 const currentRow = ref()
+const weight_unit_list = [
+    {
+        label: 'kg',
+        value: '0'
+    },
+    {
+        label: 'g',
+        value: '1'
+    },
+]
 const rules = reactive<FormRules>({
     name: [
         {
@@ -1303,28 +1360,70 @@ function handleRemoveAttributeItem(id:any) {
 </script>
   
 <style lang='scss' scoped>
+@import "@/styles/form.scss"; 
 .domains2Price-rows {
     @include flex(x, start, start);
     width: 100%;
 }  
-::v-deep {
-    
-    .el-table {
-        // --el-table-border-color: #dcdfe6;
+
+
+.el-table {
+    ::v-deep { 
+        .el-tabs--border-card>.el-tabs__header {
+            border-radius: 5px 5px 0 0;
+        }
+        .el-tabs--border-card {
+            border-radius: 5px;
+        }
+        .el-form-item__label {
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .el-upload--picture-card {
+            --el-upload-picture-card-size: 65px;
+            // background-color: var(--el-color-primary-light-9);
+        }
         thead tr th{
             border-color: #dcdfe6;
         }
+        .el-table__header { 
+            thead .cell {
+                color: #000;
+                font-weight: normal;
+                font-size: 12px;
+            }
+            tr,
+            th.el-table__cell { 
+                background-color: #F3F4F5!important;  
+            }
+            th:first-child {
+                border-left: var(--el-table-border);
+                border-radius: 4px 0 0 0px;
+            }
+            th:last-child {
+                border-right: var(--el-table-border);
+                border-radius: 0 4px 0px 0;
+            } 
+        }
+        .el-table__body { 
+            .el-table__row {  
+                width: 100%;
+                td .cell,
+                .el-link,
+                .el-text,
+                .el-tree,
+                .el-statistic {
+                    font-size: 12px;
+                    line-height: 15px;
+                }   
+                &:last-child {
+
+                }
+            }
+        }
     }
-    .el-tabs--border-card>.el-tabs__header {
-        border-radius: 5px 5px 0 0;
-    }
-    .el-tabs--border-card {
-        border-radius: 5px;
-    }
-    .el-form-item__label {
-        font-weight: bold;
-        font-size: 15px;
-    }
+}
+::v-deep { 
     .el-upload--picture-card {
         --el-upload-picture-card-size: 65px;
         // background-color: var(--el-color-primary-light-9);

@@ -13,6 +13,7 @@ export const useSettingsStore = defineStore(
         state: () => ({
             loginToPage: null,
             title: '',
+            webview: JSON.parse(localStorage.getItem('webview')),
             dynamicTitle: storageSetting.dynamicTitle === undefined ? import.meta.env.VITE_APP_TITLE : storageSetting.dynamicTitle
         }),
         actions: {

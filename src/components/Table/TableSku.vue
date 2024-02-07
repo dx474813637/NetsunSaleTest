@@ -2,8 +2,7 @@
     <el-table 
         v-loading="loading" 
         :data="skuList" 
-        style="width: 100%" 
-        border 
+        style="width: 100%"  
         :maxHeight="maxHeight"
         :highlight-current-row="isRadioGroup"
         @current-change="handleCurrentTableChange"
@@ -102,7 +101,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: '80vh'
+        default: 'auto'
     }
 });
 const emit = defineEmits(["setCurrentRow"]);
@@ -160,6 +159,7 @@ const deleteSku = async (id) => {
 
 </script>
 <style lang='scss' scoped>
+@import "@/styles/table.scss";
 // 
 .el-tree {
     background-color: transparent;

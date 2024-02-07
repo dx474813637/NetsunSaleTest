@@ -2,8 +2,7 @@
     <el-table 
         v-loading="loading" 
         :data="skuList" 
-        style="width: 100%" 
-        border 
+        style="width: 100%"  
         :highlight-current-row="isRadioGroup"
         @current-change="handleCurrentTableChange"
         :max-height="maxHeight"
@@ -20,19 +19,43 @@
                 </div> 
             </template>
         </el-table-column>
-        <el-table-column fixed="left"  label="商品名" width="200" >
+        <el-table-column fixed="left"  label="商品名" width="300" >
+            <template #default="{row}">   
+                <div class="u-flex u-flex-items-start u-m-t-5 u-m-b-5" >
+                    <div class="u-m-r-10" style="flex: 0 0 45px">
+                        <el-image class="u-radius-5" lazy style="width: 45px; height: 45px" :src="row.pic.split('|')[0]" fit="fill" />
+                    </div> 
+                    <div class="u-flex-1">
+                        <el-link class="text-black" :underline="false" @click="emit('detailEvent', row.id)">
+                            {{ row.name }} 
+                        </el-link> 
+                        <div class="u-flex u-flex-wrap u-flex-items-start">
+                            <el-tag class="u-m-r-5 u-m-t-5" type="primary" size="small">{{ row.goods_no }}</el-tag> 
+                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.delivery_delay_day }}天发货</el-tag>
+                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.warehouse }}</el-tag>
+                        </div>
+                    </div>
+                </div>
+                
+            </template>
+        </el-table-column>
+        <!-- <el-table-column fixed="left"  label="商品名" width="200" >
             <template #default="{row}">
                 <el-link  @click="emit('detailEvent', row.id)">
                     <el-text type="primary" >{{ row.name }}</el-text>
                 </el-link> 
             </template>
+        </el-table-column> -->
+        <el-table-column prop="price1" label="销售价" width="120" >
+            <template #default="{ row }">
+                <el-text type="danger" class="u-line-2" >{{ row.price1 }}</el-text>
+            </template>
         </el-table-column>
         <el-table-column prop="cate" label="分类" width="100" />
-        <el-table-column prop="price1" label="销售价" width="120" />
-        <el-table-column prop="goods_no" label="商品款号" width="120" />
+        <!-- <el-table-column prop="goods_no" label="商品款号" width="120" /> -->
         <el-table-column prop="recommend_remark" label="商家推荐语" width="120" >
             <template #default="{ row }">
-                <el-text type="info" class="u-line-2" >{{ row.recommend_remark }}</el-text>
+                <el-text type="warning" class="u-line-2" >{{ row.recommend_remark }}</el-text>
             </template>
         </el-table-column>
         <el-table-column prop="sku" label="商品规格" width="200" >
@@ -164,7 +187,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: '80vh'
+        default: 'auto'
     }
 });
 const currentRow = ref()
@@ -308,6 +331,7 @@ const changeProductOnStatus = async (prod) => {
 
 </script>
 <style lang='scss' scoped>
+@import "@/styles/table.scss";
 // 
 .el-tree {
     background-color: transparent;

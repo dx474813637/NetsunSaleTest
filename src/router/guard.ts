@@ -13,7 +13,7 @@ router.beforeEach(async (to, from, next) => {
     const {account_info} = toRefs(finance)
     
     start()
-    // console.log(to, from)
+    console.log(to, from)
     // if(to?.meta?.isAuth) {
     //     if( to.matched.some(ele => ele.meta.isAuth) && !localStorage.getItem('token')) {
     //         // router.push({ name: 'login' })
@@ -36,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
     if(to?.meta?.title) {
         // document.title = to?.meta?.title
         useSettings.setTitle(to.meta.title)
-    }
+    } 
     next()
 })
 

@@ -2,8 +2,7 @@
     <el-table 
         v-loading="loading" 
         :data="list" 
-        style="width: 100%" 
-        border 
+        style="width: 100%"  
         :maxHeight="maxHeight"  
         > 
         <el-table-column prop="id" label="ID" width="70" align="center" fixed="left" />
@@ -26,6 +25,9 @@
                         :preview-teleported="true"
                     ></el-image> 
                 </template> 
+                <template v-else>
+                    无
+                </template> 
                 
             </template> 
         </el-table-column> 
@@ -34,7 +36,7 @@
                 <el-link type="primary" size="small"  @click="emit('detailEvent', row.oid)">查看</el-link>
             </template> 
         </el-table-column>
-        <el-table-column label="买方" width="100"  >
+        <el-table-column label="快递单号" width="100"  >
             <template #default="{row}">
                 <el-text size="small">{{ row.express }}</el-text>
             </template> 
@@ -181,7 +183,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: [String, Number],
-        default: '80vh'
+        default: 'auto'
     },
     customParams: {
         type: Object,
@@ -303,6 +305,7 @@ function lookDetailClick() {
 } 
 </script>
 <style lang='scss' scoped>
+@import "@/styles/table.scss";
 // 
 .el-tree {
     background-color: transparent;
