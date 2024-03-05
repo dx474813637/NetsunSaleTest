@@ -2,12 +2,11 @@ import {
 	defineStore
 } from 'pinia';
 import apis from '@/apis/index'
-import menuList from '@/utils/menuList'
-import {deepClone} from '@/utils/index'
+import menuList from '@/utils/menuList' 
+import {deepClone, initAddressData} from '@/utils/index'
 // import {
 // 	User, Setting, Handbag, Pointer, Postcard, Files, Box
-// } from "@element-plus/icons-vue"; 
-
+// } from "@element-plus/icons-vue";  
 export const cateStore = defineStore('cate', {
 	persist: {
 		enabled: false // true 表示开启持久化保存
@@ -24,9 +23,9 @@ export const cateStore = defineStore('cate', {
 				}
 			],
 			freight_loading: false,
-			regional_list: [],
+			regional_list: initAddressData(),
 			regional_loading: false,
-			// menuList: menuList,
+			menuList: menuList,
 			warehouse_list: [],
 			menus: []
 		};
@@ -46,7 +45,8 @@ export const cateStore = defineStore('cate', {
 			}) 
 			return cate
 		},
-		menuList: (state) => {
+		menuListAll: (state) => {
+			console.log(state)
 			let menus = deepClone(state.menus).map((ele, index) => {
 				return {
 					...ele,
@@ -63,7 +63,7 @@ export const cateStore = defineStore('cate', {
 					})
 				}
 			})
-			return [...menuList, ...menus]
+			return [...state.menuList, ...menus]
 		},
 	},
 	// 也可以这样定义

@@ -4,6 +4,38 @@
 // } from "@element-plus/icons-vue"; 
 export default [ 
 	{
+		label: '旺铺管理',
+		type: 'title',
+		index: '1',
+		icon: 'icon-shiyanshifangjian',
+		children: [
+			{
+				label: '旺铺信息', 
+				icon: '',
+				index: 'shop_info', 
+				route: {
+					name: 'shop_info'
+				}
+			},
+			{
+				label: '退货地址', 
+				icon: '',
+				index: 'return_add', 
+				route: {
+					name: 'return_add'
+				}
+			},
+			{
+				label: '资质证书', 
+				icon: '',
+				index: 'qua_ce', 
+				route: {
+					name: 'qua_ce'
+				}
+			},
+		]
+	},
+	{
 		label: '商品管理',
 		type: 'title',
 		index: '2',
@@ -64,6 +96,11 @@ export default [
 				route: {
 					name: 'change_psw'
 				}
+			},
+			{
+				label: '退出登录', 
+				url: 'https://www.sunmaxx.cn/',
+				linkWay: 'replace'
 			},
 		], 
 	}, 

@@ -72,7 +72,7 @@ export const userStore = defineStore('user', {
 		},
 		async getCpyData(needLoading = false) {
 			this.cpy_loading = true
-			const res = await apis.my_company({ needLoading });
+			const res = await apis.company_detail({ needLoading });
 			this.cpy_loading = false
 			if (res.code == 1) {
 				this.cpy_info = res.list || {}

@@ -11,13 +11,14 @@
         > 
         <el-row :gutter="20">
             <el-col :span="8">
-                <el-form-item prop="name" label="商品名称">
-                    <el-input v-model="dynamicValidateForm.name" placeholder="请输入商品名称标题" />
+                <el-form-item prop="name" :label="modeConfig.sku_goods_text">
+                    <el-input v-model="dynamicValidateForm.name" placeholder="请输入商品名称标题" :disabled="editMode? true: false" />
                 </el-form-item>
             </el-col>
             <el-col :span="8"> 
                 <el-form-item prop="cate" label="分类">
                     <el-cascader 
+                        :disabled="editMode? true: false"
                         v-model="dynamicValidateForm.cate" 
                         :options="cate_list"
                         placeholder="请选择分类"
@@ -27,6 +28,7 @@
                         }"
                         filterable
                         style="width: 100%"
+                        @change="handleChange"
                         >
                         <template #default="{ node, data }">
                             <span>{{ data.name }}</span>
@@ -37,75 +39,102 @@
             </el-col>
             <el-col :span="8">
                 <el-form-item prop="price" label="原价(吊牌价、市场价)">
-                    <el-input v-model="dynamicValidateForm.price" placeholder="请输入原价(吊牌价、市场价)" />
+                    <el-input v-model="dynamicValidateForm.price" placeholder="请输入原价(吊牌价、市场价)" :disabled="editMode? true: false" />
                 </el-form-item>
             </el-col>
         </el-row>
-    
-        <el-row :gutter="20">
+        <template v-if="!editMode">
+            <el-row :gutter="20">
+                <el-col :span="8">
+                    <el-form-item prop="warehouse" label="云仓">
+                        <!-- <el-input v-model="dynamicValidateForm.warehouse" /> -->
+                        <el-select
+                            v-model="dynamicValidateForm.warehouse" 
+                            style="width: 100%"
+                            placeholder="请选择"
+                            >
+                            <el-option
+                                v-for="item in warehouse_list"
+                                :key="item"
+                                :label="item"
+                                :value="item"
+                            />
+                        </el-select>
+                    </el-form-item>
+                </el-col> 
+                <el-col :span="8">
+                    <el-form-item prop="recommend_remark" label="商家推荐语">
+                        <el-input v-model="dynamicValidateForm.recommend_remark" placeholder="请输入商家推荐语" />
+                    </el-form-item>
+                </el-col> 
+                <el-col :span="8">
+                    <el-form-item prop="freight_id" label="运费模板">
+                        <el-cascader 
+                            v-model="dynamicValidateForm.freight_id" 
+                            :options="freight_list"
+                            placeholder="请选择运费模板"
+                            :props="{
+                                value: 'value',
+                                label: 'label'
+                            }"
+                            style="width: 100%"
+                            >
+                        </el-cascader>
+                    </el-form-item>
+                </el-col> 
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="8">
+                    <el-form-item prop="goods_no" label="商品款号">
+                        <el-input v-model="dynamicValidateForm.goods_no" placeholder="请输入商品款号" />
+                    </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                    <el-form-item prop="delivery_delay_day" label="承诺发货时间（天）">
+                        <el-input v-model="dynamicValidateForm.delivery_delay_day" placeholder="请输入承诺发货时间" />
+                    </el-form-item>
+                </el-col> 
+            </el-row>
+        </template>
+       
+        <el-row :gutter="20" v-if="editMode == '1'">
             <el-col :span="8">
-                <el-form-item prop="pprice" label="批发价">
-                    <el-input v-model="dynamicValidateForm.pprice" placeholder="请输入批发价" />
-                </el-form-item>
-            </el-col>
-            <el-col :span="8">
-                <el-form-item prop="num" label="起批数">
+                <el-form-item prop="num" label="起批数" required :rules="{
+                        validator: (rule: any, value: any, callback: any) => {
+                            if (value == '' || value == 0) {
+                                callback('起批数不能为空')
+                            }else {
+                                callback()
+                            }
+                        }, 
+                        trigger: ['blur', 'change'],
+                    }">
                     <el-input v-model="dynamicValidateForm.num" placeholder="请输入起批数" />
                 </el-form-item>
             </el-col>
             <el-col :span="8">
-                <el-form-item prop="goods_no" label="商品款号">
-                    <el-input v-model="dynamicValidateForm.goods_no" placeholder="请输入商品款号" />
+                <el-form-item label="其他">
+                    <el-button type="primary" @click="router.push({name: 'product_edit', params:{id: id}})">查看商品基础信息</el-button>
                 </el-form-item>
+               
             </el-col>
         </el-row>
+        
     
-        <el-row :gutter="20">
+        <!-- <el-row :gutter="20">
             <el-col :span="8">
-                <el-form-item prop="warehouse" label="云仓">
-                    <!-- <el-input v-model="dynamicValidateForm.warehouse" /> -->
-                    <el-select
-                        v-model="dynamicValidateForm.warehouse" 
-                        style="width: 100%"
-                        placeholder="请选择"
-                        >
-                        <el-option
-                            v-for="item in warehouse_list"
-                            :key="item"
-                            :label="item"
-                            :value="item"
-                        />
-                    </el-select>
+                <el-form-item prop="pprice" label="批发价(批发平台需要，非必填)">
+                    <el-input v-model="dynamicValidateForm.pprice" placeholder="请输入批发价" />
                 </el-form-item>
-            </el-col> 
-            <el-col :span="8">
-                <el-form-item prop="recommend_remark" label="商家推荐语">
-                    <el-input v-model="dynamicValidateForm.recommend_remark" placeholder="请输入商家推荐语" />
-                </el-form-item>
-            </el-col> 
-            <el-col :span="8">
-                <el-form-item prop="freight_id" label="运费模板">
-                    <el-cascader 
-                        v-model="dynamicValidateForm.freight_id" 
-                        :options="freight_list"
-                        placeholder="请选择运费模板"
-                        :props="{
-                            value: 'value',
-                            label: 'label'
-                        }"
-                        style="width: 100%"
-                        >
-                    </el-cascader>
-                </el-form-item>
-            </el-col> 
-        </el-row>
+            </el-col>
+        </el-row> -->
+    
         
         <!-- <el-form-item prop="price2" label="进价(供货价、采购价)">
             <el-input v-model="dynamicValidateForm.price2" />
         </el-form-item> -->
         
-        <el-row :gutter="20">
-            <el-col :span="8">
+            <!-- <el-col :span="8">
                 <el-form-item prop="weight" label="重量">
                     <el-input v-model="dynamicValidateForm.weight" placeholder="请输入重量" />
                 </el-form-item>
@@ -120,21 +149,14 @@
                         >
                     </el-cascader> 
                 </el-form-item>
-            </el-col> 
-            <el-col :span="8">
-                <el-form-item prop="delivery_delay_day" label="承诺发货时间（天）">
-                    <el-input v-model="dynamicValidateForm.delivery_delay_day" placeholder="请输入承诺发货时间" />
-                </el-form-item>
-            </el-col> 
-        </el-row>
+            </el-col>  -->
         
         
-        
-        <el-form-item prop="pic" label="轮播主图">
+        <el-form-item prop="pic" label="轮播主图" v-if="!editMode">
             <div>
                 <el-upload 
                     ref="pic" 
-                    action=""  
+                    action=""   
                     v-model:file-list="dynamicValidateForm.pic"
                     list-type="picture-card" 
                     :headers="configHeader"  
@@ -167,7 +189,7 @@
             </div>
            
         </el-form-item> 
-        <el-form-item prop="description" label="商品描述">
+        <el-form-item prop="description" label="商品描述" v-if="!editMode">
             <div>
                 <el-upload 
                     ref="description" 
@@ -214,13 +236,13 @@
         <!-- <el-form-item prop="info" label="富文本详情">
             <el-input v-model="dynamicValidateForm.info" />
         </el-form-item> -->
-        <el-form-item prop="on" label="是否上架"> 
+        <el-form-item prop="on" label="是否上架" v-if="!editMode"> 
             <el-radio-group v-model="dynamicValidateForm.on">
                 <el-radio label="1">上架</el-radio>
                 <el-radio label="0">下架</el-radio> 
             </el-radio-group>
         </el-form-item>
-        <el-form-item prop="attribute" label="商品详细属性自定义" required > 
+        <el-form-item prop="attribute" label="商品详细属性自定义" required  v-if="!editMode"> 
             <div class="u-flex u-flex-between u-m-b-15" style="width: 100%;">
                 <div class="u-flex">
                     <!-- <div class="u-m-r-10">商品详细属性自定义</div> -->
@@ -268,7 +290,7 @@
             </el-row>
         </el-form-item>
 
-        <el-form-item label="商品规格" prop="domains"> 
+        <el-form-item label="商品规格" prop="domains" v-if="!editMode"> 
             <div class="u-flex u-flex-between u-m-b-15" style="width: 100%;">
                 <div class="u-flex">
                     <el-button :icon="CirclePlus" type="primary" plain @click.prevent="addDomain('')">添加新的规格</el-button>
@@ -463,10 +485,10 @@
                     </template>
                     
                 </el-table-column>
-                <el-table-column prop="price9" label="进价" fixed="right" width="150" >
+                <el-table-column prop="price9" :label="modeConfig.sku_pick_price_text" fixed="right" width="150" >
                     <template #header >
                         <div class="u-flex">
-                            <div class="item" style="white-space: nowrap;">进价</div>
+                            <div class="item" style="white-space: nowrap;">{{ modeConfig.sku_pick_price_text }}</div>
                             <div class="item u-m-l-5" v-show="!quickEditForm.price9.show">
                                 <el-button type="warning" plain size="small" link @click="() => {quickEditForm.price9.show = true}">
                                     <div class="u-flex">
@@ -496,17 +518,17 @@
                     <template #default="{ row, $index }">
                         <el-form-item :prop="'domains2Price.' + $index + '.price9'" :rules="{
                                 required: true,
-                                message: '进价不能为空',
+                                message: `${modeConfig.sku_pick_price_text}不能为空`,
                                 trigger: 'blur',
                             }">
-                                <el-input v-model="row.price9" clearable placeholder="进价" />
+                                <el-input v-model="row.price9" clearable :placeholder="modeConfig.sku_pick_price_text" />
                             </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" label="价格" fixed="right" width="150" >
+                <el-table-column prop="price" :label="modeConfig.sku_sale_price_text" fixed="right" width="150" >
                     <template #header >
                         <div class="u-flex">
-                            <div class="item" style="white-space: nowrap;">价格</div>
+                            <div class="item" style="white-space: nowrap;">{{ modeConfig.sku_sale_price_text }}</div>
                             <div class="item u-m-l-5" v-show="!quickEditForm.price.show">
                                 <el-button type="warning" plain size="small" link @click="() => {quickEditForm.price.show = true}">
                                     <div class="u-flex">
@@ -526,9 +548,7 @@
                                     <el-button type="danger" size="small" link  @click="() => {quickEditForm.price.show = false}">
                                         <i-ep-CloseBold />
                                     </el-button>
-                                </div>
-                                
-                                
+                                </div> 
                             </div>
                         </div>
                         
@@ -536,10 +556,10 @@
                     <template #default="{ row, $index }">
                         <el-form-item :prop="'domains2Price.' + $index + '.price'" :rules="{
                                 required: true,
-                                message: '价格不能为空',
+                                message: `${modeConfig.sku_sale_price_text}不能为空`,
                                 trigger: 'blur',
                             }">
-                                <el-input v-model="row.price" clearable placeholder="价格" />
+                                <el-input v-model="row.price" clearable :placeholder="modeConfig.sku_sale_price_text" />
                             </el-form-item>
                     </template>
                 </el-table-column>
@@ -629,7 +649,7 @@
 </template>
   
 <script lang="ts" setup>
-import { reactive, ref, inject, toRefs, watch, nextTick  } from 'vue'
+import { reactive, ref, inject, toRefs, watch, nextTick, computed  } from 'vue'
 import { genFileId, ElMessage } from 'element-plus'
 import type { FormInstance, UploadFile, UploadRequestOptions, UploadRawFile, UploadProps, FormRules, TableColumnCtx  } from 'element-plus'
 import {
@@ -653,6 +673,7 @@ const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 const dialogVisible2 = ref(false)
 const disabled = ref(false)
+const editMode = ref('')
 const formRef = ref<FormInstance>()
 // const freightRef = ref([
 //     {
@@ -662,6 +683,10 @@ const formRef = ref<FormInstance>()
 // ])
 const props = defineProps({
     id: {
+        type: String,
+        default: ''
+    }, 
+    mode: {
         type: String,
         default: ''
     }, 
@@ -689,7 +714,7 @@ const dynamicValidateForm = reactive<{
     goods_no: string
     warehouse: string
     pprice: string
-    num: string
+    num: number
     // divide: number
     // zt: string
     // spec_prices: string
@@ -702,12 +727,12 @@ const dynamicValidateForm = reactive<{
     price: '',
     price2: '',
     pprice: '',
-    num: '',
+    num: 0,
     pic: [],
     description: [],
     recommend_remark: '',
     freight_id: '0',
-    weight: '',
+    weight: '1',
     weight_unit: '0',
     delivery_delay_day: '',
     info: '',
@@ -783,13 +808,13 @@ const rules = reactive<FormRules>({
             trigger: ['change', 'blur'],
         },
     ], 
-    weight: [
-        {
-            required: true,
-            message: '重量不能为空',
-            trigger: ['change', 'blur'],
-        },
-    ], 
+    // weight: [
+    //     {
+    //         required: true,
+    //         message: '重量不能为空',
+    //         trigger: ['change', 'blur'],
+    //     },
+    // ], 
     // divide: [
     //     {
     //         required: true,
@@ -831,7 +856,7 @@ const rules = reactive<FormRules>({
             message: '价格库存表不能为空',
             trigger: ['change', 'blur'],
         }
-    ]
+    ] 
 })
 const quickEditForm = reactive({
     price: {
@@ -850,9 +875,16 @@ const quickEditForm = reactive({
 let uploadImgIndex = ref(-1)
 
 watch(
+    () => router.currentRoute.value.query.mode,
+    (newVal:any ) => { 
+        editMode.value = newVal || ''
+    },
+    {immediate: true}
+)
+watch(
     () => props.id,
     (newVal ) => {
-        // console.log('id:' +newVal );
+        // console.log('id:' +newVal ); 
         if(!newVal) return
         getProductData()
     },
@@ -894,7 +926,19 @@ watch(
         deep: true
     }
 )
-
+const modeConfig = computed(() => {
+    let obj = {
+        sku_sale_price_text: '特卖价',
+        sku_pick_price_text: '供货价',
+        sku_goods_text: '商品名称',
+    }
+    if(editMode.value == '1') {
+        obj.sku_sale_price_text = '批发价'
+        obj.sku_pick_price_text = '批发供货价'
+        obj.sku_goods_text = '批发商品名称'
+    }
+    return obj
+})
 interface SpanMethodProps {
 //   row: User
 //   column: TableColumnCtx<any>
@@ -923,7 +967,7 @@ const objectSpanMethod = ({
 let domainIndex = 0
 const domainsTabsValue = ref('')
 // const domainsTabs:Array<any> = ref([]) 
-cate.getCateData()
+cate.getCateData() 
 interface DomainItem {
     key: number | string
     values: any
@@ -1078,10 +1122,11 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
     if (!/(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(rawFile.type)) {
         ElMessage.error('图片格式有误！请检查！')
         return false
-    } else if (rawFile.size / 1024 / 1024 > 2) {
-        ElMessage.error('图片大小请勿超过2MB！')
-        return false
-    }
+    } 
+    // else if (rawFile.size / 1024 / 1024 > 2) {
+    //     ElMessage.error('图片大小请勿超过2MB！')
+    //     return false
+    // }
     return true
 }
 // function handlePictureSuccess(response, file, fileList, index) {
@@ -1097,7 +1142,7 @@ function submitForm(formEl: FormInstance | undefined) {
             console.log('submit!')
             // console.log(dynamicValidateForm)
             let params = formParams2apiParams()
-            // console.log(params)
+            console.log(params)
             await submitApi(params)
         } else {
             console.log('error submit!')
@@ -1198,7 +1243,8 @@ function setOldText(e) {
 
 async function submitApi(data) { 
     const res = await $api.save_product({
-        ...data
+        ...data,
+        pf: editMode.value
     })
     if(res.code == 1) {
         ElMessage.success(res.msg)
@@ -1212,7 +1258,11 @@ function formParams2apiParams() {
     let formParams = deepClone(dynamicValidateForm);
     formParams.pic = formParams.pic.map((ele:any) => ele.url).join('|')
     formParams.description = formParams.description.map((ele:any) => ele.url).join('|')
-    formParams.cate = formParams.cate[formParams.cate.length - 1]
+    if(typeof formParams.cate != 'string') {
+        formParams.cate = formParams.cate[formParams.cate.length - 1]
+    } 
+    
+    // formParams.cate = formParams.cate 
     let tar = formParams.domains2Price.map((ele:any) => { 
         let obj = {
             sku: deepClone(ele.sku),
@@ -1273,7 +1323,7 @@ function skuTableConfirm() {
 }
 
 async function getProductData () {
-    const res = await $api.product_detail({params: {id: props.id}})
+    const res = await $api.product_detail({params: {id: props.id, pf: editMode.value}})
     if(res.code == 1) {
         let {arr, newTabName} = sku2domains(res.list.sku);
         let data = res.list 
@@ -1356,7 +1406,10 @@ function handleRemoveAttributeItem(id:any) {
     if(i == -1) return;
     dynamicValidateForm.attribute.splice(i, 1)
 }
-
+const handleChange = (value) => {
+  console.log(value)
+  console.log(dynamicValidateForm.cate)
+}
 </script>
   
 <style lang='scss' scoped>

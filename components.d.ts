@@ -9,7 +9,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/Table/TableProduct copy.vue')['default']
+    Editor: typeof import('./src/components/Editor/Editor.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCascader: typeof import('element-plus/es')['ElCascader']
@@ -77,6 +80,7 @@ declare module '@vue/runtime-core' {
     TableQueryProduct: typeof import('./src/components/Table/TableQueryProduct.vue')['default']
     TableSku: typeof import('./src/components/Table/TableSku.vue')['default']
     TableWhiteSeller: typeof import('./src/components/Table/TableWhiteSeller.vue')['default']
+    TableWorkers: typeof import('./src/components/Table/TableWorkers.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

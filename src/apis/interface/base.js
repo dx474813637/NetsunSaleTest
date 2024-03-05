@@ -106,3 +106,31 @@ export const web_danye = (data) => axios.get('Userapi/web_danye', data)
 export const web_help = (data) => axios.get('Userapi/web_help', data) 
 // web_help_detail 帮助页详情 参数id
 export const web_help_detail = (data) => axios.get('Userapi/web_help_detail', data) 
+
+
+// PC商家管理后台
+// company_detail 旺铺详情接口
+export const company_detail = (data) => axios.get('Userapi/company_detail', data) 
+// edit_company 新增/编辑旺铺 参数company 公司名称 logo公司logo address公司地址 tel联系电话 name联系人 参数info 富文本公司介绍 rz_company 实名公司名称 rz_no统一社会信用代码 rz_pic营业执照 rc=1不允许编辑
+export const edit_company = (data, config) => axios.post('Userapi/edit_company', data, config) 
+// pc端 address_detail 退货地址详情
+export const address_detail = (data) => axios.get('Userapi/address_detail', data) 
+// edit_address 编辑退货地址
+// 参数kefu 企业微信客服地址
+// a1 省 a2市 a3区 a4详细地址（去掉省市区） a5手机 a6收件人
+export const edit_address = (data, config) => axios.post('Userapi/edit_address', data, config) 
+// pc端 certificate_detail 资质证书
+export const certificate_detail = (data) => axios.get('Userapi/certificate_detail', data)
+// edit_certificate 编辑资质证书 参数pic 多个图片英文逗号隔开
+export const edit_certificate = (data, config) => axios.post('Userapi/edit_certificate', data, config) 
+
+// personnel_list 员工列表 参数p
+export const personnel_list = (data) => axios.get('Userapi/personnel_list', data)
+// get_code 员工发送验证码 参数uid
+export const get_code = (data) => axios.get('Userapi/get_code', data)
+// uid_bind_handle 绑定员工 参数uid code验证码
+export const uid_bind_handle = (data) => axios.get('Userapi/uid_bind_handle', data)
+// tuan_list 员工发展团长列表 参数p uid
+export const tuan_list = (data) => axios.get('Userapi/tuan_list', data)
+// shop_list 员工发展商家列表 参数p uid
+export const shop_list = (data) => axios.get('Userapi/shop_list', data)

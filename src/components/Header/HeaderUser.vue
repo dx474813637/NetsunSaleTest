@@ -3,7 +3,7 @@
 		<div class="header-main">
 			<div class="home-w">
 				<div class="main-logo">
-					<a href="#/" title=""
+					<a href="https://www.sunmaxx.cn/" title=""
 						><img
 							src="/logo.png"
 							class="logo"

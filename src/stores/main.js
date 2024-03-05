@@ -36,10 +36,11 @@ export const baseStore = defineStore('base', {
 			if (!/(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(rawFile.type)) {
 				ElMessage.error('图片格式有误！请检查！')
 				return false
-			} else if (rawFile.size / 1024 / 1024 > size) {
-				ElMessage.error(`图片大小请勿超过${size}MB！`)
-				return false
-			}
+			} 
+			// else if (rawFile.size / 1024 / 1024 > size) {
+			// 	ElMessage.error(`图片大小请勿超过${size}MB！`)
+			// 	return false
+			// }
 			return true
 		},
 		async getImageBase64_readFile(file) {

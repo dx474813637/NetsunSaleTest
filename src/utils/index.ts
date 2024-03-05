@@ -3,6 +3,10 @@ import test from './test.js'
 import { ElMessage } from "element-plus";
 import { AxiosResponse } from "axios";
 
+
+import provinces from '@/utils/address/province.js';
+import citys from '@/utils/address/city.js';
+import areas from '@/utils/address/area.js';
 /**
  * 下载文件
  * @param response
@@ -258,4 +262,15 @@ export function timeFrom(timestamp:any = null, format:any = 'yyyy-mm-dd') {
 
 export function isNumber (num) {
     return !isNaN(parseFloat(num)) && isFinite(num)
+}
+
+export function initAddressData() {
+	let data = deepClone(provinces);
+	data.forEach((province, index) => {
+		province.children = deepClone(citys[index]).map((item, i) => {
+			item.children = deepClone(areas[index][i])
+			return item
+		}) 
+	})  
+	return data
 }
