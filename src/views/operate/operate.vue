@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-	<el-affix @change="headerAffixChange">
+	<!-- <el-affix @change="headerAffixChange">
 		<header-user :customStyle="headerAffixStatus? {
 			background: '#fff',
 			boxShadow: '0 5px 5px rgba(90,90,90,.08)'
@@ -8,7 +8,7 @@
 			background: 'transparent',
 			boxShadow: 'none'
 		}"></header-user>
-	</el-affix>
+	</el-affix> -->
 	
 	<div class="user-wrap " >
 		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
@@ -93,7 +93,7 @@
 			
 			
 			<div class="item item-main u-radius-8 u-flex-column u-flex-items-start">
-				<el-page-header class="u-p-10 u-p-t-20 box-border" style="width: 100%;"  title="后退"  @back="onBack"> 
+				<el-page-header class="u-p-15 u-radius-15 box-border bg-white u-m-b-15 base-shadow" style="width: 100%;"  title="后退"  @back="onBack"> 
 					<template #icon >
 						<el-icon class="text-base">
 							<i-ep-ArrowLeft></i-ep-ArrowLeft>
@@ -116,7 +116,7 @@
 						many content as you want here.
 					</div> -->
 				</el-page-header>
-				<router-view class="u-flex-1" style="width: 100%;" :key="routerPath"></router-view>
+				<router-view class="u-flex-1 base-shadow" style="width: 100%;" :key="routerPath"></router-view>
 			</div>
 		</div>
 	</div>
@@ -357,7 +357,7 @@ $user-menus-w: 0px;
 	width: 100%;
 }
 .item-main {
-	background-color: #fff;
+	// background-color: #fff;
 	flex: 0 0 calc(100% - $user-menus-w);
 	width: calc(100% - $user-menus-w);
 	min-height: calc(100vh - 20px - ($header-h));

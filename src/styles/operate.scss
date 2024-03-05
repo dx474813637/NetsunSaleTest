@@ -1,17 +1,19 @@
  
 .el-table {
     ::v-deep { 
-        --el-fill-color-lighter: '#F5F5F5';
+        --el-fill-color-lighter: #f3f3f3;
+        --el-table-header-bg-color: #f3f3f3;
         .el-table__header {
             height: 50px;
             thead .cell {
-                color: #000;
-                font-weight: normal;
+                color: #323232;
+                font-weight: bold;
                 font-size: 12px;
             }
             tr,
             th.el-table__cell { 
-                background-color: #F3F3F3!important;  
+                // background-color: #F3F3F3!important;  
+                border: 0;
             }
             th:first-child {
                 border-left: var(--el-table-border);
@@ -23,7 +25,7 @@
             } 
         }
         .el-table__body {
-            border-spacing:0px 10px;
+            border-spacing:0px 1px;
             .el-table__row {  
                 width: 100%;
                 td .cell,
@@ -35,19 +37,18 @@
                     line-height: 15px;
                 }
                 td {
+                    border: 0;
                     padding-top: 20px;
                     padding-bottom: 20px;
                 }
-                td:first-child {
-                    border-left: var(--el-table-border);
+                td:first-child { 
                     border-radius: 1rem 0 0 1rem;
                 }
-                td:last-child {
-                    border-right: var(--el-table-border);
+                td:last-child { 
                     border-radius: 0 1rem 1rem 0;
                 } 
                 td.el-table__cell, th.el-table__cell.is-leaf {
-                    border-top: var(--el-table-border);
+                    border: 0;
                 }
                 &.el-table__row--striped {
                     td.el-table__cell {

@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-    <div class="u-p-10 box">
+    <div class="box u-p-15 u-radius-15 bg-white ">
         <table-workers
             isEditBtn 
             @detailEvent="detailEvent"

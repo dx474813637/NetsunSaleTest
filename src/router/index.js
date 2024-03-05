@@ -122,6 +122,7 @@ const routes = [
     },
     {
         path: '/operate',
+        name: 'operate',
         redirect: () => ({name: 'workers_list'}),
         component: () => import('@/views/operate/operate.vue'),
         children: [
