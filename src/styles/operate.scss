@@ -1,4 +1,47 @@
- 
+.el-pagination {
+    ::v-deep {
+        .btn-prev,
+        .btn-next,
+        .el-pager li  {
+            margin: 0; 
+            border-radius: 0;
+            background-color: #DEE2E6;
+        }
+        .el-pager li  {
+            font-size: 14px;
+            &.is-active {
+                font-weight: normal;
+                background-color: #626AEF;
+            }
+        }
+        .btn-prev {
+            border-radius: 1rem 0 0 1rem;
+        }
+        .btn-next {
+            border-radius: 0 1rem 1rem 0;
+        }
+    }
+}
+.el-button {
+    ::v-deep { 
+        &.el-button--primary.is-plain {
+            --el-button-border-color: var(--el-color-primary-light-9);
+        }
+        &.el-button--warning.is-plain {
+            --el-button-border-color: var(--el-color-warning-light-9);
+        }
+        &.el-button--danger.is-plain {
+            --el-button-border-color: var(--el-color-danger-light-9);
+        }
+        &.el-button--info.is-plain {
+            --el-button-border-color: var(--el-color-info-light-9);
+        }
+        &.el-button--success.is-plain {
+            --el-button-border-color: var(--el-color-success-light-9);
+        }
+    }
+
+}
 .el-table {
     ::v-deep { 
         --el-fill-color-lighter: #f3f3f3;
@@ -38,8 +81,8 @@
                 }
                 td {
                     border: 0;
-                    padding-top: 20px;
-                    padding-bottom: 20px;
+                    padding-top: 12px;
+                    padding-bottom: 12px;
                 }
                 td:first-child { 
                     border-radius: 1rem 0 0 1rem;

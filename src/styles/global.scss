@@ -42,6 +42,9 @@ $browser: null;
 .base-shadow {
 	box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);
 }
+.text-bold {
+	font-weight: bold;
+}
 
 // 绝对居中
 @mixin center($width, $height) {

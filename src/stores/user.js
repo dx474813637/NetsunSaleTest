@@ -56,14 +56,14 @@ export const userStore = defineStore('user', {
 			localStorage.removeItem('login')
 		},
 		async getRoleData(needLoading = false) {
-			const res = await apis.login_role({ needLoading });
+			const res = await apis.login_role({ loading: needLoading });
 			if (res.code == 1) {
 				this.role = res.role
 			}
 		},
 		async getUserData(needLoading = false) {
 			this.user_loading = true
-			const res = await apis.my_card({ needLoading });
+			const res = await apis.my_card({ loading: needLoading });
 			this.user_loading = false
 			if (res.code == 1) {
 				this.user_info = res.list
@@ -72,7 +72,7 @@ export const userStore = defineStore('user', {
 		},
 		async getCpyData(needLoading = false) {
 			this.cpy_loading = true
-			const res = await apis.company_detail({ needLoading });
+			const res = await apis.company_detail({ loading: needLoading });
 			this.cpy_loading = false
 			if (res.code == 1) {
 				this.cpy_info = res.list || {}

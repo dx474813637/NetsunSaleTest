@@ -134,6 +134,30 @@ const routes = [
                 },
                 component: () => import('@/views/operate/workers_list/workers_list.vue'),
             },
+            {
+                path: 'workers_add',
+                name: 'workers_add',
+                meta: {
+                    title: '绑定员工', 
+                },
+                component: () => import('@/views/operate/workers_add/workers_add.vue'),
+            },
+            {
+                path: 'workers2t_list',
+                name: 'workers2t_list',
+                meta: {
+                    title: '发展团长列表', 
+                },
+                component: () => import('@/views/operate/workers2role_list/workers2role_list.vue'),
+            },
+            {
+                path: 'workers2s_list',
+                name: 'workers2s_list', 
+                meta: {
+                    title: '发展商家列表',  
+                }, 
+                component: () => import('@/views/operate/workers2shop_list/workers2shop_list.vue'),
+            },
         ]
     },
     {

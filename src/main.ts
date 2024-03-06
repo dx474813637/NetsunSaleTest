@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import pinia from '@/stores/index.js';
 import router from '@/router/guard'
+import * as icons from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 import './style.css'
 import App from './App.vue'
@@ -21,5 +22,7 @@ app.use(filters)
 app.provide('$api', apis);
 app.provide('$axios', axios);
 app.mount('#app')
-
+Object.keys(icons).forEach(key => {
+	app.component(key, icons[key])
+})
 export default app

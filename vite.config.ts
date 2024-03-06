@@ -69,6 +69,7 @@ export default (({ mode }) => {
 			// }),
 			vueSetupExtend(),
 			AutoImport({
+				imports: ['vue'],
 				resolvers: [
 					ElementPlusResolver(),
 					// Auto import icon components
@@ -88,6 +89,7 @@ export default (({ mode }) => {
 			}),
 			Icons({
 				autoInstall: true,
+				compiler: 'vue3'
 			}),
 		],
 	})

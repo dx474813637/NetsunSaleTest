@@ -12,14 +12,14 @@
 	
 	<div class="user-wrap " >
 		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
-			<div class="item item-menus" v-if="false">  
-				<el-affix :offset="76">
-					<div class="u-p-5 u-radius-8 bg-white menus-w box-border">
+			<div class="item item-menus u-m-r-20" v-if="true">  
+				<el-affix :offset="15">
+					<div class="u-p-5 menus-w box-border base-shadow">
 						<el-scrollbar height="100%" >
 							<el-menu
-								:default-active="menuActive"
-								class="el-menu-vertical-demo"
+								:default-active="menuActive" 
 								router 
+								:default-openeds="openeds"
 								@open="handleOpen"
 								@close="handleClose"
 								>
@@ -92,7 +92,7 @@
 			</div>
 			
 			
-			<div class="item item-main u-radius-8 u-flex-column u-flex-items-start">
+			<div class="item item-main u-flex-column u-flex-items-start">
 				<el-page-header class="u-p-15 u-radius-15 box-border bg-white u-m-b-15 base-shadow" style="width: 100%;"  title="后退"  @back="onBack"> 
 					<template #icon >
 						<el-icon class="text-base">
@@ -104,12 +104,16 @@
 						<el-text class="u-font-14 u-m-l-20" type="info"> {{ subTitle }} </el-text>
 					</template>
 					<template #extra>
-						<el-button 
-							type="primary" 
-							plain 
+						<el-button  
+							color="#626aef"
+							dark
+							:icon="btnActive.icon"
 							v-if="btnActive" 
+							class="text-bold u-font-13 u-radius-10"
 							@click="router.push({name: btnActive.to.name})"
-							>{{ btnActive.title }}</el-button>
+							> 
+							{{ btnActive.title }} 
+						</el-button>
 					</template>
 					<!-- <div class="mt-4 text-sm font-bold">
 						Your additional content can be added with default slot, You may put as
@@ -167,7 +171,16 @@ const addBtnList = [
 			name: 'product_add'
 		}
 	},
+	{
+		name: 'workers_list',
+		title: '绑定员工',
+		icon: 'CirclePlus',
+		to: {
+			name: 'workers_add'
+		}
+	},
 ]
+const openeds = computed(() => menuListAll.value.map(ele => ele.index))
 onMounted(async () => {
 	cate.getWarehouseData()
 	cate.getMenusData()
@@ -255,16 +268,22 @@ function gotoOtherPage(ele) {
 
 </script> 
 <style lang="scss" scoped> 
-$user-menus-w: 0px;
+@import '@/styles/iconfont.css';
+@import '@/styles/operate.scss';
+// $user-menus-w: 0px;
 .el-menu {
 	border-right: 0;
-
+	background-color: transparent;
+	margin-right: 10px;
 	// transition: width 0.15s;
 	// -webkit-transition: width 0.15s;
 	// -moz-transition: width 0.15s;
 	// -webkit-transition: width 0.15s;
 	// -o-transition: width 0.15s; 
 	::v-deep {
+		.el-menu { 
+			background-color: transparent;
+		}
 		.el-sub-menu__title {
 			height: 40px;
 			padding-left: 15px!important;
@@ -279,29 +298,42 @@ $user-menus-w: 0px;
 			box-sizing: border-box;
 			width: 100%;
 			margin-bottom: 15px;
+			.el-sub-menu__title {
+				border-radius: 10px;
+				color: #8D9199;
+				.menu-title {
+					font-weight: bold; 
+				}
+				&:hover {
+					background-color: #232328;
+				}
+			}
 			.el-menu {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: flex-start;
 				box-sizing: border-box;
+				padding-left: 20px;
 				.el-menu-item {
-					flex: 0 0 50%;
-					width: 50%;
+					flex: 0 0 100%;
+					width: 100%; 
 					padding: 0 15px;
 					display: flex; 
 					align-items: center;
-					color: #555;
+					color: #E7EEF8;
 					font-size: 12px;
 					height: 35px;
+					font-weight: bold;
+					border-radius: 10px;
 					.el-text {
-						font-size: 12px;
+						font-size: 12px; 
 					}
 					&:hover {
-						background-color: transparent;
-						color: var(--el-color-primary);
+						background-color: #232328;
+						// color: var(--el-color-primary);
 					}
 					&.is-active {
-						color: var(--el-color-primary);
+						color: #fff;
 					}
 				}
 			}
@@ -312,9 +344,9 @@ $user-menus-w: 0px;
 	width: 100%;
 	::v-deep {
 		.el-menu-item {
-			color: #888;
+			color: #E7EEF8;
 			&.is-active {
-				color: $uni-color-primary;
+				color: #fff;
 			}
 		}
 		.el-sub-menu__title,
@@ -352,15 +384,20 @@ $user-menus-w: 0px;
 	
 }
 .menus-w {
-	height: calc(100vh - ($header-h) - 20px);
+	// height: calc(100vh - ($header-h) - 20px);
+	height: calc(100vh - 30px);
 	box-sizing: border-box;
 	width: 100%;
+	border-radius: 1rem;
+	background-color: #05050B; 
 }
 .item-main {
 	// background-color: #fff;
 	flex: 0 0 calc(100% - $user-menus-w);
 	width: calc(100% - $user-menus-w);
-	min-height: calc(100vh - 20px - ($header-h));
+	// min-height: calc(100vh - 20px - ($header-h));
+	min-height: calc(100vh - 30px);
+	margin-bottom: 15px;
 	// padding-left: 10px;
 	// padding-right: 10px;
 	@extend %box-sizing;

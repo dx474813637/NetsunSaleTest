@@ -134,3 +134,10 @@ export const uid_bind_handle = (data) => axios.get('Userapi/uid_bind_handle', da
 export const tuan_list = (data) => axios.get('Userapi/tuan_list', data)
 // shop_list 员工发展商家列表 参数p uid
 export const shop_list = (data) => axios.get('Userapi/shop_list', data)
+
+// shop_order_list 发展商家有效订单列表 参数p uid员工id login商家账号。
+// 商家账号参数优先级高于UID，有商家账号参数了，传UID就无效。 
+// UID login都不传，就是发展的所有商家的有效订单列表。
+export const shop_order_list = (data) => axios.get('Userapi/shop_order_list', data)
+// shop_product_num 商家商品数 参数login必填
+export const shop_product_num = (data) => axios.get('Userapi/shop_product_num', data)
