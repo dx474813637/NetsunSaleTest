@@ -61,7 +61,7 @@
                 </div> 
             </template>
         </el-table-column>  
-        <el-table-column label="发展人" align="center" width="200"  fixed="right">
+        <el-table-column label="发展人" align="center" width="220"  fixed="right">
             <template #default="{ row }">
                 <div class="u-flex u-flex-center" :style="{
                     cursor: uid? 'default': 'pointer'
@@ -71,7 +71,7 @@
                         size="small"
                         class="u-m-r-8"
                     >{{ row.share }}</el-tag>  
-                    <el-text :type="uid?'info': 'warning'"   class=" u-line-2">{{ row.name2 }}</el-text> 
+                    <el-text :type="uid?'info': 'warning'"   class="u-line-2">{{ row.name2 }}</el-text> 
                     <el-icon 
                         v-show="uid? false : true" 
                         size="16" 

@@ -158,6 +158,14 @@ const routes = [
                 }, 
                 component: () => import('@/views/operate/workers2shop_list/workers2shop_list.vue'),
             },
+            {
+                path: 'shop_order_list',
+                name: 'shop_order_list', 
+                meta: {
+                    title: '发展商家有效订单列表',  
+                }, 
+                component: () => import('@/views/operate/shop_order_list/shop_order_list.vue'),
+            },
         ]
     },
     {

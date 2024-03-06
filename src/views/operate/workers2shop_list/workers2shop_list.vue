@@ -8,17 +8,12 @@
           v-if="isUid"
           class="u-m-b-15 u-radius-15" 
           @close="closeEvent"
-          close-text="取消筛选发展人，查看所有员工发展团长列表"
+          close-text="取消筛选发展人，查看所有员工发展商家列表"
           />
         <table-shop
             isEditBtn 
             @detailEvent="detailEvent"
         ></table-shop>
-      <!-- <table-product
-        isEditBtn 
-        @detailEvent="detailEvent"
-      ></table-product>
-          <product-popup :show="dialogTableVisible" :id="detail_id" @setShow="setShow"></product-popup> -->
     </div>
   </template>
   
@@ -29,7 +24,7 @@
   // $api.product() 
   const detail_id = ref('');
   const dialogTableVisible = ref(false);
-
+ 
   const isUid = computed(() => router.currentRoute.value.query.uid? true : false)
   const uidInfo = computed(() => router.currentRoute.value.query.uid)
 
@@ -41,7 +36,7 @@
       dialogTableVisible.value = v
   }
   function closeEvent() {
-    router.replace({name: 'workers2t_list'})
+    router.replace({name: 'workers2s_list'})
   }
   </script>
   <style lang='scss' scoped>

@@ -3,8 +3,7 @@
         v-loading="loading" 
         :data="dataList" 
         style="width: 100%"  
-        :highlight-current-row="isRadioGroup"
-        @current-change="handleCurrentTableChange"
+        :highlight-current-row="isRadioGroup" 
         :max-height="maxHeight"
         stripe 
         > 
@@ -15,45 +14,105 @@
                 </div> 
             </template>
         </el-table-column> 
-        <el-table-column label="团长信息" width="350" >
+        <el-table-column label="店铺信息" width="350" >
             <template #default="{ row }">
-                <div class="u-flex u-flex-items-center"> 
-                    <el-avatar :src="row.img1" fit="cover" :size="35" style="flex: 0 0 auto" >{{ row.name1.split('')[0] }}</el-avatar>
-                    <el-text class="u-m-l-8 u-line-2">{{ row.name1 }}</el-text> 
-                    <el-tag 
-                        type="danger" 
-                        effect="dark" 
-                        size="small"
-                        class="u-m-l-8"
-                    >UID：{{ row.login }}</el-tag>  
+                <div class="u-flex u-flex-items-start" v-if="row.info"> 
+                    <el-avatar :src="row.info.logo" fit="cover" :size="35" style="flex: 0 0 auto" >{{ row.info.company.split('')[0] }}</el-avatar>
+                    <div >
+                        <div class="u-flex u-flex-items-center">
+                            <el-text class="u-m-l-8 u-line-2">{{ row.info.company }}</el-text> 
+                            <el-tag 
+                                :type="row.info.rz == 1 ? 'success' : 'warning'" 
+                                effect="light" 
+                                size="small"
+                                class="u-m-l-8"
+                            >
+                                <template v-if="row.info.rz == 1">
+                                    <el-icon size="12"><SuccessFilled /></el-icon>
+                                    <span class="u-m-l-4">已认证</span>
+                                </template>
+                                <template v-else >
+                                    <el-icon size="12"><WarningFilled /></el-icon>
+                                    <span class="u-m-l-4">未认证</span>
+                                </template>
+                            </el-tag>  
+                        </div>
+                        <el-text type="info" class="u-m-l-8 u-line-2">{{ row.info.info || '未填写简介' }}</el-text> 
+                    </div>
                 </div> 
             </template>
         </el-table-column> 
-        <el-table-column label="手机" width="140" align="center" >
+        <el-table-column label="商家商品数" width="140" align="center" >
             <template #default="{ row }">
-                <div class="u-flex u-flex-center">
-                    <el-text >{{ row.tel1 }}</el-text>  
-                </div> 
-            </template>
-        </el-table-column> 
-        <el-table-column label="身份" width="auto" align="center" >
-            <template #default="{ row }">
-                <div class="u-flex u-flex-center">
-                    <el-tag 
+                <div v-if="row.hasOwnProperty('all_total')"> 
+                    <div>{{ row.on_count }}上架 / {{ row.all_total }}件</div> 
+                </div>
+                <div v-else>
+                    <el-button 
                         type="primary" 
-                        effect="light"
-                        round
-                        v-if="row.scene == '2'"
-                    >团长</el-tag> 
-                    <el-tag 
-                        type="warning" 
-                        effect="light"
-                        round
-                        v-if="row.scene == '1'"
-                    >达人</el-tag>  
+                        plain 
+                        size="small" 
+                        @click="getShopProdNum(row)"
+                        :loading="row.loading"
+                    >点击查询</el-button>
                 </div> 
             </template>
         </el-table-column> 
+        <el-table-column label="联系人" width="240" >
+            <template #default="{ row }">
+                <div v-if="row.info"> 
+                    <div class="u-flex "> 
+                        <el-icon><User /></el-icon>
+                        <el-text class="u-m-l-5 u-m-r-8">{{ row.info.name || '无' }}</el-text>  
+                        <el-icon ><Phone /></el-icon>
+                        <el-text class="u-m-l-3">{{ row.info.tel || '无' }}</el-text>   
+                    </div>  
+                    <div class="u-flex u-flex-items-start u-m-t-5" >
+                        <el-icon><MapLocation /></el-icon>
+                        <el-text type="info" class="u-m-l-5">{{ row.info.address || '无' }}</el-text>  
+                    </div> 
+                </div>
+            </template>
+        </el-table-column>  
+        <el-table-column label="认证信息" width="300" >
+            <template #default="{ row }">
+                <div class="u-flex u-flex-items-center" v-if="row.info"> 
+                    <el-image
+                        class="u-radius-8"
+                        style="width: 50px; height: 50px; flex: 0 0 auto"
+                        :src="row.info.rz_pic"
+                        :zoom-rate="1.2"
+                        :max-scale="7"
+                        :min-scale="0.2"
+                        :preview-src-list="[row.info.rz_pic]"
+                        :initial-index="0"
+                        fit="cover" 
+                        :z-index="150"
+                        previewTeleported
+                    /> 
+                    <div >
+                        <div class="u-flex u-flex-items-center">
+                            <el-text class="u-m-l-8 u-line-2">{{ row.info.rz_company }}</el-text>   
+                        </div>
+                        <el-text type="info" class="u-m-l-8 u-line-2">{{ row.info.rz_no }}</el-text> 
+                    </div>
+                </div> 
+            </template>
+        </el-table-column> 
+        <el-table-column label="role" width="140" align="center" >
+            <template #default="{ row }">
+                <div class="u-flex u-flex-center">
+                    <el-text >{{ row.role }}</el-text>  
+                </div> 
+            </template>
+        </el-table-column>  
+        <el-table-column label="status" width="140" align="center" >
+            <template #default="{ row }">
+                <div class="u-flex u-flex-center">
+                    <el-text >{{ row.status }}</el-text>  
+                </div> 
+            </template>
+        </el-table-column>  
         <el-table-column label="" width="200" align="center" >
             <template #default="{ row }">
                 <div class="u-flex u-flex-center">
@@ -67,17 +126,11 @@
                     cursor: uid? 'default': 'pointer'
                 }" @click="UidClick(row.share)">  
                     <el-tag 
-                        :type="uid?'info': 'warning'"  
+                        type="danger" 
+                        effect="dark" 
                         size="small"
-                        class="u-m-r-8"
-                    >{{ row.share }}</el-tag>  
-                    <el-text :type="uid?'info': 'warning'"   class=" u-line-2">{{ row.name2 }}</el-text> 
-                    <el-icon 
-                        v-show="uid? false : true" 
-                        size="16" 
-                        color="#e6a23c"
-                        class="u-m-l-5"
-                    ><Operation /></el-icon>
+                        class="u-m-l-8"
+                    >login：{{ row.uid }}</el-tag>
                 </div> 
             </template>
         </el-table-column>  
@@ -173,8 +226,7 @@ watch(
         loading.value = false;
     },
     {deep: true}
-)
-let uploadRefs2: any = [] 
+) 
 
 const getData = async () => { 
     const res = await $api.shop_list({params: paramsObj.value, loading: false})
@@ -185,45 +237,28 @@ const getData = async () => {
     }
    
 }
-  
-const handleCurrentTableChange = (val: User | undefined) => { 
-    if(!props.isRadioGroup) return 
-    currentRow.value = val
-}
+async function getShopProdNum(data) {
+    let i = dataList.value.findIndex(ele => ele.id == data.id);
+    if(i == -1) return
+    if(dataList.value[i].loading) return;
+    dataList.value[i].loading = true
+    try {
+        const res = await $api.shop_product_num({params: {login: data.info.login}}); 
+        if(res.code == 1) {
+            dataList.value[i].all_total = res.all_total
+            dataList.value[i].on_count = res.on_count
 
-const beforeProdOnChange = async (item) => {
-    item.switchLoading = true  
-    return new Promise(async (resolve, reject)=>{
+        }
+    } catch (error) {
         
-        let res = await changeProductOnStatus(item) 
-        item.switchLoading = false
-        if(res.code == 1) { 
-            ElNotification({
-                title: '系统消息',
-                message: res.msg,
-                type: 'success',
-                position: 'bottom-right',
-            })
-            return resolve(true)
-        }else { 
-            ElNotification({
-                title: '系统消息',
-                message: res.msg,
-                type: 'success',
-                position: 'bottom-right',
-            })
-            return resolve(false)
-        } 
-    })
-    
-}
+    }
+    dataList.value[i].loading = false
+   
+} 
+ 
 function UidClick(uid) {
     router.replace({name: 'workers2t_list', query: {uid}})
-}
-const changeProductOnStatus = async (prod) => { 
-    const res = await $api.change_product_status({params: {id: prod.id}}); 
-    return res
-}
+} 
 
 
 </script>
