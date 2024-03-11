@@ -1,0 +1,54 @@
+
+@media (max-width: 768px) { 
+    
+    .user-wrap {
+        .home-w {
+            .item-menus {
+                display: none;
+            }
+            .item-main {
+                width: $h5-w-full; 
+                flex: 1; 
+                // margin-right: 15px;
+            }
+            .menus-w {
+                height: 100%;
+                box-sizing: border-box;
+                width: 100%;
+            }
+        }
+        
+    }
+    .menus-h5 { 
+        ::v-deep {
+            .el-menu-item {
+                flex: 0 0 100%!important;
+                width: 100%!important;
+            }
+        }
+    }
+    ::v-deep {
+        .header-main {
+            .home-w {
+                .main-logo {
+                    flex: 0 0 auto!important;
+                    padding-left: 15px!important;
+                }
+            }
+            
+        } 
+        .el-pagination {
+            flex-wrap: wrap;
+        }
+        .product-edit-form {
+            .domain2Item-box .domain2Item {
+                flex: 0 0 50%!important;
+            }
+        }
+        .el-dialog {
+            --el-dialog-width: 90%!important;
+        }
+    }
+    
+    
+}

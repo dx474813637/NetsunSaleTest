@@ -8,7 +8,7 @@
           v-if="isUid"
           class="u-m-b-15 u-radius-15" 
           @close="closeEvent"
-          close-text="取消筛选发展人，查看所有员工发展商家列表"
+          :close-text="isH5? '移除筛选':'取消筛选发展人，查看所有员工发展商家列表'"
           />
         <table-shop
             isEditBtn 
@@ -19,8 +19,11 @@
   
   <script setup lang='ts'>
   import router from "@/router/guard" 
-  import { reactive,ref, inject, computed} from 'vue'  
+  import { reactive,ref, inject, computed, toRefs} from 'vue'  
   const $api: any = inject('$api')
+import { useSettingsStore } from '@/stores/settings' 
+const settings = useSettingsStore()
+const { isH5 } = toRefs(settings)
   // $api.product() 
   const detail_id = ref('');
   const dialogTableVisible = ref(false);

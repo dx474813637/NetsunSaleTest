@@ -36,14 +36,20 @@ $browser: null;
 .text-base {
 	color: #666;
 }
+.text-white {
+	color: #fff;
+}
 .bg-white {
 	background-color: #fff;
 }
 .base-shadow {
-	box-shadow: 0 1.6rem 3rem rgba(0,0,0,.1);
+	box-shadow: 0 1rem 2rem rgba(0,0,0,.1);
 }
 .text-bold {
 	font-weight: bold;
+}
+.text-nowrap {
+	white-space: nowrap;
 }
 
 // 绝对居中

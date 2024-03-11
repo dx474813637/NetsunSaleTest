@@ -1,5 +1,6 @@
 <template>
     <el-table 
+        class="large-table"
         v-loading="loading" 
         :data="dataList" 
         style="width: 100%"  
@@ -76,61 +77,35 @@
         </el-table-column>  
         <el-table-column label="认证信息" width="300" >
             <template #default="{ row }">
-                <div class="u-flex u-flex-items-center" v-if="row.info"> 
-                    <el-image
-                        class="u-radius-8"
-                        style="width: 50px; height: 50px; flex: 0 0 auto"
-                        :src="row.info.rz_pic"
-                        :zoom-rate="1.2"
-                        :max-scale="7"
-                        :min-scale="0.2"
-                        :preview-src-list="[row.info.rz_pic]"
-                        :initial-index="0"
-                        fit="cover" 
-                        :z-index="150"
-                        previewTeleported
-                    /> 
+                <div class="u-flex u-flex-items-center" v-if="row.info">
                     <div >
                         <div class="u-flex u-flex-items-center">
-                            <el-text class="u-m-l-8 u-line-2">{{ row.info.rz_company }}</el-text>   
+                            <el-text class="u-m-l-8 u-line-2">{{ row.info.rz_company || '无' }}</el-text>   
                         </div>
                         <el-text type="info" class="u-m-l-8 u-line-2">{{ row.info.rz_no }}</el-text> 
                     </div>
                 </div> 
             </template>
-        </el-table-column> 
-        <el-table-column label="role" width="140" align="center" >
+        </el-table-column>  
+        <el-table-column label="" width="150" align="center" >
             <template #default="{ row }">
                 <div class="u-flex u-flex-center">
-                    <el-text >{{ row.role }}</el-text>  
+                    <el-text type="info" >{{ row.ctime }}</el-text>  
                 </div> 
             </template>
         </el-table-column>  
-        <el-table-column label="status" width="140" align="center" >
+        <el-table-column label="发展" align="center" width="200"  :fixed="isH5? false :'right'">
             <template #default="{ row }">
-                <div class="u-flex u-flex-center">
-                    <el-text >{{ row.status }}</el-text>  
-                </div> 
-            </template>
-        </el-table-column>  
-        <el-table-column label="" width="200" align="center" >
-            <template #default="{ row }">
-                <div class="u-flex u-flex-center">
-                    <el-text type="info" >{{ row.uptime }}</el-text>  
-                </div> 
-            </template>
-        </el-table-column>  
-        <el-table-column label="发展人" align="center" width="200"  fixed="right">
-            <template #default="{ row }">
-                <div class="u-flex u-flex-center" :style="{
-                    cursor: uid? 'default': 'pointer'
-                }" @click="UidClick(row.share)">  
+                <div class="u-flex-column u-flex-center" >  
                     <el-tag 
-                        type="danger" 
-                        effect="dark" 
+                        type="danger"  
                         size="small"
-                        class="u-m-l-8"
-                    >login：{{ row.uid }}</el-tag>
+                        plain
+                        class="u-m-b-10"
+                        v-if="row.uid != 0"
+                    >发展人UID：{{ row.uid }}</el-tag>
+                    <el-button type="success" icon="DocumentChecked" round plain size="small" 
+                        @click="router.push({name: 'shop_order_list', query: {login: row.username}})" >商家订单</el-button>
                 </div> 
             </template>
         </el-table-column>  
@@ -164,6 +139,9 @@ import { genFileId,ElNotification, ElMessage } from 'element-plus'
 import router from "@/router/guard" 
 import { cateStore } from '@/stores/cate' 
 import useProductSku from '@/hook/useProductSku'
+import { useSettingsStore } from '@/stores/settings' 
+const settings = useSettingsStore()
+const { isH5 } = toRefs(settings)
 const {
     sku2treeData
 } = useProductSku()

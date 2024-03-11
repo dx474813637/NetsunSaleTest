@@ -99,8 +99,32 @@ export default [
 			},
 			{
 				label: '退出登录', 
-				url: 'https://www.sunmaxx.cn/',
+				url: 'https://www.sunmaxx.cn/Index/logout',
 				linkWay: 'replace'
+			},
+		], 
+	}, 
+	{
+		label: '运营管理',
+		type: 'title',
+		index: 'yy',
+		icon: 'icon-weituodantongji',
+		children: [
+			{
+				label: '员工管理', 
+				icon: '',
+				index: 'workers_list2', 
+				route: {
+					name: 'workers_list2'
+				}
+			},
+			{
+				label: '绑定员工', 
+				icon: '',
+				index: 'workers_add2', 
+				route: {
+					name: 'workers_add2'
+				}
 			},
 		], 
 	}, 

@@ -118,11 +118,30 @@ const routes = [
                 }, 
                 component: () => import('@/views/index/web_view/web_view.vue'),
             }, 
+            {
+                path: 'workers_list',
+                name: 'workers_list2',
+                meta: {
+                    title: '员工管理', 
+                },
+                component: () => import('@/views/operate/workers_list/workers_list2.vue'),
+            },
+            {
+                path: 'workers_add',
+                name: 'workers_add2',
+                meta: {
+                    title: '绑定员工', 
+                },
+                component: () => import('@/views/operate/workers_add/workers_add2.vue'),
+            },
         ]
     },
     {
         path: '/operate',
         name: 'operate',
+        meta: {
+            role: [2, 3]
+        },
         redirect: () => ({name: 'workers_list'}),
         component: () => import('@/views/operate/operate.vue'),
         children: [
@@ -131,6 +150,7 @@ const routes = [
                 name: 'workers_list',
                 meta: {
                     title: '员工管理', 
+                    role: [2, 3],
                 },
                 component: () => import('@/views/operate/workers_list/workers_list.vue'),
             },
@@ -139,6 +159,7 @@ const routes = [
                 name: 'workers_add',
                 meta: {
                     title: '绑定员工', 
+                    role: [2, 3],
                 },
                 component: () => import('@/views/operate/workers_add/workers_add.vue'),
             },
@@ -147,6 +168,7 @@ const routes = [
                 name: 'workers2t_list',
                 meta: {
                     title: '发展团长列表', 
+                    role: [2, 3],
                 },
                 component: () => import('@/views/operate/workers2role_list/workers2role_list.vue'),
             },
@@ -155,6 +177,7 @@ const routes = [
                 name: 'workers2s_list', 
                 meta: {
                     title: '发展商家列表',  
+                    role: [2],
                 }, 
                 component: () => import('@/views/operate/workers2shop_list/workers2shop_list.vue'),
             },
@@ -162,7 +185,8 @@ const routes = [
                 path: 'shop_order_list',
                 name: 'shop_order_list', 
                 meta: {
-                    title: '发展商家有效订单列表',  
+                    title: '商家订单',  
+                    role: [2],
                 }, 
                 component: () => import('@/views/operate/shop_order_list/shop_order_list.vue'),
             },

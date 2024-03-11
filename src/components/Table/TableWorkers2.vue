@@ -5,8 +5,7 @@
         style="width: 100%"  
         :highlight-current-row="isRadioGroup"
         @current-change="handleCurrentTableChange"
-        :max-height="maxHeight"
-        stripe 
+        :max-height="maxHeight" 
         > 
         <el-table-column label="ID" align="center" width="60" >
             <template #default="{ row }">
@@ -15,7 +14,7 @@
                 </div> 
             </template>
         </el-table-column> 
-        <el-table-column label="员工信息" width="260" >
+        <el-table-column label="员工信息" width="300" >
             <template #default="{ row }"> 
                 <div class="u-flex u-flex-items-start" > 
                     <el-avatar :src="row.img" fit="cover" :size="35" style="flex: 0 0 auto" >{{ row.name.split('')[0] }}</el-avatar>
@@ -36,23 +35,7 @@
                     </div>
                 </div> 
             </template>
-        </el-table-column>  
-        <el-table-column label="邀请信息" width="200" align="center" >
-            <template #default="{ row }">
-                <div class="u-flex u-flex-center">
-                    <el-image style="width: 60px; height: 60px; flex: 0 0 60px" :src="row.yaoqing_ewm" fit="fill"
-                        @click="download(row.yaoqing_ewm)"
-                    />
-                    <el-text type="primary" class="u-m-l-5"  style="cursor: pointer;"
-                        @click="settings.copyEvent({type: 'text', content: row.yaoqing})"
-                    >
-                        {{ row.yaoqing }}
-                        <el-icon color="#f00"><CopyDocument /></el-icon>
-                        <span style="color: #f00">点击复制</span>
-                    </el-text>  
-                </div> 
-            </template>
-        </el-table-column> 
+        </el-table-column>   
         <el-table-column label="身份" width="auto" align="center" >
             <template #default="{ row }">
                 <div class="u-flex u-flex-center">
@@ -77,26 +60,7 @@
                     <el-text type="info" >{{ row.uptime }}</el-text>  
                 </div> 
             </template>
-        </el-table-column> 
-        <el-table-column label="发展情况" width="300" align="left" :fixed="isH5? false :'right'" > 
-            <template #default="{row}">  
-                <div class="u-flex u-flex-items-center">  
-                    <el-button type="primary" icon="Avatar" round plain size="small" 
-                        @click="router.push({name: 'workers2t_list', query: {uid: row.uid}})">团长</el-button>  
-                    <template v-if="role == 2">
-                        <el-button type="warning" icon="Avatar" round plain size="small" 
-                            @click="router.push({name: 'workers2s_list', query: {uid: row.uid}})" 
-                            >商家</el-button>  
-                        <el-button type="success" icon="DocumentChecked" round plain size="small" 
-                            @click="router.push({name: 'shop_order_list', query: {uid: row.uid}})" 
-                            >商家订单</el-button> 
-                    </template>
-                    
-                </div>
-                
-            </template>
-            
-        </el-table-column>
+        </el-table-column>  
         <template #empty>
             <div class="u-flex u-flex-center u-p-t-20 u-p-b-20">
                 <el-empty description="无数据" />
@@ -131,9 +95,8 @@ const {
     sku2treeData
 } = useProductSku()
 const cate = cateStore()
-const settings = useSettingsStore() 
-const { isH5 } = toRefs(settings)
-const { freight_list, role } = toRefs(cate)
+const settings = useSettingsStore()
+const { freight_list } = toRefs(cate)
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 const disabled = ref(false)
@@ -236,8 +199,8 @@ const changeProductOnStatus = async (prod) => {
 
 
 </script>
-<style lang='scss' scoped> 
-@import '@/styles/operate.scss';
+<style lang='scss' scoped>  
+@import "@/styles/table.scss";
 // 
 .el-tree {
     background-color: transparent;

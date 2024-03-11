@@ -6,34 +6,18 @@ import pinia from '@/stores/index';
 import {userStore} from '@/stores/user'
 import {useSettingsStore} from '@/stores/settings'
 import {useFinanceStore} from '@/stores/finance'
+import {cateStore} from '@/stores/cate'
 import { ElMessage, ElMessageBox  } from 'element-plus'
 router.beforeEach(async (to, from, next) => {
     const useSettings = useSettingsStore(pinia)
     const user = userStore(pinia)
     const finance = useFinanceStore(pinia)
+    const cate = cateStore(pinia)
     const {account_info} = toRefs(finance)
     const {cpy_info} = toRefs(user)
+    const {role} = toRefs(cate)
     
-    start()
-    // console.log(to, from)
-    // if(to?.meta?.isAuth) {
-    //     if( to.matched.some(ele => ele.meta.isAuth) && !localStorage.getItem('token')) {
-    //         // router.push({ name: 'login' })
-    //         useSettings.goLogin()
-    //         useSettings.setPrevPage(to)
-    //         return
-    //     }
-    //     else if(!user.login && to.name != 'user_index') {  
-    //         user.getUserData()
-    //     }
-    // }
-   
-    // if(to?.meta?.isFinanceAuth && to.matched.some(ele => ele.meta.isFinanceAuth) && !account_info.hasOwnProperty('state')) {
-    //     await finance.getAccountData(true);
-    //     if(account_info.value.organizations_id) { 
-    //         finance.getCpyData();
-    //     } 
-    // }
+    start() 
 
     if(to?.meta?.rz && cpy_info.value.rz == 0) {
         // console.log(router)
@@ -53,10 +37,17 @@ router.beforeEach(async (to, from, next) => {
                 router.push({name: 'shop_info'})
             }) 
             next(from)
+            return  
         }
         
-        // return  
     } 
+    if(role.value === '') { 
+        await cate.getMenusData();
+    }
+    if(to?.meta?.role && !to.meta.role.includes(role.value) ) {
+        next(from)
+        return
+    }
     if(to?.meta?.title) {
         // document.title = to?.meta?.title
         useSettings.setTitle(to.meta.title)

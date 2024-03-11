@@ -10,81 +10,44 @@
 		}"></header-user>
 	</el-affix> -->
 	
+	<el-drawer custom-class="menus-drawer" v-model="menusShow" :with-header="false" value="ltr" size="80vw">
+		<div style="height: calc(100% - 40px);">
+			<menus-index class="menus-h5" mode="operate"></menus-index>
+		</div>
+		<div class="u-flex u-flex-items-center u-flex-between u-p-15 box-border return-w"
+			@click="router.push({name: 'product_list'})" 
+			style="height: 40px;cursor: pointer;">
+			<div class="item u-flex u-flex-items-center">
+				<el-icon ><Operation /></el-icon>
+				<el-text class="u-m-l-10 ">商家中心</el-text>
+			</div>
+			<div class="item">
+				<el-icon size="14"><ArrowRight /></el-icon>
+			</div>
+		</div>
+	</el-drawer>
 	<div class="user-wrap " >
 		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
 			<div class="item item-menus u-m-r-20" v-if="true">  
 				<el-affix :offset="15">
 					<div class="u-p-5 menus-w box-border base-shadow">
-						<el-scrollbar height="100%" >
-							<el-menu
-								:default-active="menuActive" 
-								router 
-								:default-openeds="openeds"
-								@open="handleOpen"
-								@close="handleClose"
-								>
-								<template  v-for="item in menuListAll" >
-									<el-sub-menu  
-										v-if="item.children && item.children.length > 0" 
-										:index="item.index" 
-										:key="item.index"
-										>
-										<template #title>
-											<!-- <el-icon>
-												<component :is="item.icon"></component>
-											</el-icon> -->
-											<i class="iconfont" :class="item.icon" ></i> 
-											<span class="menu-title" >{{item.label}}</span>
-										</template>
-										<el-menu-item 
-											v-for="ele in item.children" 
-											:index="ele.index" 
-											:key="ele.index"
-											:route="ele.route" 
-											>
-											
-											<!-- <i class="custom-icon" :class="ele.icon" v-if="ele.icon" ></i>
-											<span slot="title">{{ele.label}}</span> -->
-											<template #title>
-												<template v-if="ele.hasOwnProperty('url')">
-													<view class="u-flex u-flex-between" @click="gotoOtherPage(ele)">
-														<view class="item-left"> 
-															<span>{{ele.label}}</span>
-														</view> 
-													</view>
-													<!-- <view class="u-flex u-flex-between u-flex-1" > 
-														<el-text tag="a" style="display: block; width: 100%;" :href="ele.url" >{{ele.label}}</el-text>
-													</view>  -->
-												</template>
-												<view class="u-flex u-flex-between" v-else>
-													<view class="item-left"> 
-														<span>{{ele.label}}</span> 
-													
-														<el-icon size="15" v-show="ele.hasOwnProperty('tag')">
-															<WarningFilled v-if="ele.tag == 'error'" style="color: #f30404" />
-															<SuccessFilled v-if="ele.tag == 'success'" style="color: #38cb30" />
-														</el-icon>  
-													</view>
-													<!-- <view class="item-right">
-														<template v-if="ele.active == 'cart'">
-															<text class="num" v-if="cartNumTotal > 0">{{cartNumTotal}}</text>
-														</template>
-														
-													</view> -->
-												</view>
-											</template>
-											
-										</el-menu-item>
-									</el-sub-menu>
-									<el-menu-item v-else @click="funcClick(item)" class="logout">
-										<!-- <el-icon>
-											<component :is="item.icon"></component>
-										</el-icon> -->
-										<span >{{item.label}}</span>
-									</el-menu-item>
-								</template> 
-							</el-menu>
-						</el-scrollbar> 
+						<div style="height: calc(100% - 40px);">
+							<el-scrollbar height="100%" > 
+								<menus-index mode="operate"></menus-index>
+							</el-scrollbar> 
+						</div>
+						
+						<div class="u-flex u-flex-items-center u-flex-between text-white u-p-15 box-border return-w"
+							@click="router.push({name: 'product_list'})" 
+							style="height: 40px;cursor: pointer;">
+							<div class="item u-flex u-flex-items-center">
+								<el-icon color="#fff"><Operation /></el-icon>
+								<el-text class="u-m-l-10 text-white">商家中心</el-text>
+							</div>
+							<div class="item">
+								<el-icon size="14"><ArrowRight /></el-icon>
+							</div>
+						</div>
 					</div>
 					
 				</el-affix>
@@ -93,38 +56,51 @@
 			
 			
 			<div class="item item-main u-flex-column u-flex-items-start">
-				<el-page-header class="u-p-15 u-radius-15 box-border bg-white u-m-b-15 base-shadow" style="width: 100%;"  title="后退"  @back="onBack"> 
-					<template #icon >
-						<el-icon class="text-base">
-							<i-ep-ArrowLeft></i-ep-ArrowLeft>
-						</el-icon>
-					</template>
-					<template #content>
-						<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
-						<el-text class="u-font-14 u-m-l-20" type="info"> {{ subTitle }} </el-text>
-					</template>
-					<template #extra>
-						<el-button  
-							color="#626aef"
-							dark
-							:icon="btnActive.icon"
-							v-if="btnActive" 
-							class="text-bold u-font-13 u-radius-10"
-							@click="router.push({name: btnActive.to.name})"
-							> 
-							{{ btnActive.title }} 
-						</el-button>
-					</template>
-					<!-- <div class="mt-4 text-sm font-bold">
-						Your additional content can be added with default slot, You may put as
-						many content as you want here.
-					</div> -->
-				</el-page-header>
+				<el-affix :offset="15" style="width: 100%;">
+					<el-page-header class="u-p-15 u-radius-15 box-border base-shadow u-m-b-15 page-header" style="width: 100%;"  title="后退"  @back="onBack"> 
+						<template #icon >
+							<el-icon class="text-base">
+								<i-ep-ArrowLeft></i-ep-ArrowLeft>
+							</el-icon>
+						</template>
+						<template #content>
+							<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
+							<el-text class="u-font-14 u-m-l-20" type="info"> {{ subTitle }} </el-text>
+						</template>
+						<template #extra>
+							<el-button  
+								color="#626aef"
+								dark
+								:icon="btnActive.icon"
+								v-if="btnActive && !isH5" 
+								class="text-bold u-font-13 u-radius-10"
+								@click="router.push({name: btnActive.to.name})"
+								> 
+								{{ btnActive.title }} 
+							</el-button>
+						</template>
+						<!-- <div class="mt-4 text-sm font-bold">
+							Your additional content can be added with default slot, You may put as
+							many content as you want here.
+						</div> -->
+					</el-page-header>
+				</el-affix>
+				
 				<router-view class="u-flex-1 base-shadow" style="width: 100%;" :key="routerPath"></router-view>
 			</div>
 		</div>
 	</div>
 	
+	<div class="menus-btn-h5">
+		<el-button 
+			type="primary" 
+			class="u-font-25" 
+			size="large" 
+			icon="Operation" 
+			circle 
+			@click="menusShow = !menusShow"
+		/>
+	</div>
 	<!-- <footer-help></footer-help> -->
 </template>
 
@@ -143,11 +119,12 @@ const cate = cateStore()
 const finance = useFinanceStore()
 const {menuListAll, menuList} = toRefs(cate)
 const { account_info, organizations_info } = toRefs(finance)
-const { webview } = toRefs(useSettings)
+const { webview, isH5 } = toRefs(useSettings)
 const user = userStore() 
 const {cpy_info} = toRefs(user)
 const menuActive = ref('product_list')
 
+const menusShow = ref(false)
 const headerAffixStatus = ref(false)
 
 const routerPath = computed(() => { 
@@ -270,76 +247,24 @@ function gotoOtherPage(ele) {
 <style lang="scss" scoped> 
 @import '@/styles/iconfont.css';
 @import '@/styles/operate.scss';
-// $user-menus-w: 0px;
-.el-menu {
-	border-right: 0;
-	background-color: transparent;
-	margin-right: 10px;
-	// transition: width 0.15s;
-	// -webkit-transition: width 0.15s;
-	// -moz-transition: width 0.15s;
-	// -webkit-transition: width 0.15s;
-	// -o-transition: width 0.15s; 
-	::v-deep {
-		.el-menu { 
-			background-color: transparent;
-		}
-		.el-sub-menu__title {
-			height: 40px;
-			padding-left: 15px!important;
-			.menu-title {
-				font-weight: normal;
-			} 
-			.iconfont {
-				padding-right: 5px;
-			}
-		}
-		.el-sub-menu {
-			box-sizing: border-box;
-			width: 100%;
-			margin-bottom: 15px;
-			.el-sub-menu__title {
-				border-radius: 10px;
-				color: #8D9199;
-				.menu-title {
-					font-weight: bold; 
-				}
-				&:hover {
-					background-color: #232328;
-				}
-			}
-			.el-menu {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: flex-start;
-				box-sizing: border-box;
-				padding-left: 20px;
-				.el-menu-item {
-					flex: 0 0 100%;
-					width: 100%; 
-					padding: 0 15px;
-					display: flex; 
-					align-items: center;
-					color: #E7EEF8;
-					font-size: 12px;
-					height: 35px;
-					font-weight: bold;
-					border-radius: 10px;
-					.el-text {
-						font-size: 12px; 
-					}
-					&:hover {
-						background-color: #232328;
-						// color: var(--el-color-primary);
-					}
-					&.is-active {
-						color: #fff;
-					}
-				}
-			}
-		}
+@import '@/styles/mediaScreen.scss';
+.return-w {
+	border-top: 1px solid #4b549d;
+	transition: all .3s;
+	&:hover {
+		background-color: rgba(0,0,0,.1);
 	}
 }
+.page-header {
+	background-image: radial-gradient(transparent 1px, #fff 1px);
+	background-size: 5px 5px;
+    backdrop-filter: saturate(50%) blur(4px);
+    -webkit-backdrop-filter: saturate(50%) blur(4px);
+	position: relative;
+	z-index: 50;
+}
+// $user-menus-w: 0px;
+
 .user-wrap {
 	width: 100%;
 	::v-deep {
@@ -354,25 +279,7 @@ function gotoOtherPage(ele) {
 			font-weight: bold;
 			color: #333;
 		}
-	}
-	&.fx_mode {
-		.home-w {
-			min-width: 1440px;
-			max-width: 100vw;
-			padding-top: 0!important;
-		}
-		.item-menus.item {
-			display: none;
-		}
-		.item-main.item {
-			width: 100%;
-			flex: 1;
-			margin: 0!important;
-			.el-page-header {
-				display: none;
-			}
-		}
-	}
+	} 
 }
 .item-menus {
 	// background-color: #fff;	
@@ -389,7 +296,7 @@ function gotoOtherPage(ele) {
 	box-sizing: border-box;
 	width: 100%;
 	border-radius: 1rem;
-	background-color: #05050B; 
+	background-color: #2b326e; 
 }
 .item-main {
 	// background-color: #fff;
@@ -409,4 +316,28 @@ function gotoOtherPage(ele) {
 		}
 	}
 }
+.menus-btn-h5 {
+	display: none;
+	position: fixed;
+	right: 20px;
+	bottom: 80px; 
+	z-index: 80; 
+	border-radius: 50%;
+	overflow: hidden;
+	.el-button {
+		width: 50px;
+		height: 50px;
+	}
+	@media (max-width: 768px) {
+		display: block;
+	}
+}  
+	.menus-drawer {
+		background-color: #2b326e!important;  
+			.el-drawer__body {
+				background-color: #2b326e!important; 
+			} 
+	}  
+	
+
 </style>

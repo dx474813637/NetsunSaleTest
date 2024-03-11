@@ -61,7 +61,7 @@
                 </div> 
             </template>
         </el-table-column>  
-        <el-table-column label="发展人" align="center" width="220"  fixed="right">
+        <el-table-column label="发展人" align="center" width="220" :fixed="isH5? false :'right'">
             <template #default="{ row }">
                 <div class="u-flex u-flex-center" :style="{
                     cursor: uid? 'default': 'pointer'
@@ -111,6 +111,9 @@ import { genFileId,ElNotification, ElMessage } from 'element-plus'
 import router from "@/router/guard" 
 import { cateStore } from '@/stores/cate' 
 import useProductSku from '@/hook/useProductSku'
+import { useSettingsStore } from '@/stores/settings' 
+const settings = useSettingsStore()
+const { isH5 } = toRefs(settings)
 const {
     sku2treeData
 } = useProductSku()

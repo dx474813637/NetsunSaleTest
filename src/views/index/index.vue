@@ -2,88 +2,24 @@
 <template>
 	<el-affix @change="headerAffixChange">
 		<header-user :customStyle="headerAffixStatus? {
-			background: '#fff',
+			backgroundImage: 'radial-gradient(transparent 1px, #fff 1px)',
 			boxShadow: '0 5px 5px rgba(90,90,90,.08)'
 		} :  {
-			background: 'transparent',
+			backgroundImage: 'radial-gradient(transparent 1px, #F1F6FD 1px)',
 			boxShadow: 'none'
 		}"></header-user>
 	</el-affix>
 	
+	<el-drawer v-model="menusShow" :with-header="false" append-to-body value="ltr" size="80vw">
+		<menus-index class="menus-h5"></menus-index>
+	</el-drawer>
 	<div class="user-wrap " :class="{fx_mode: routerName == 'fx_helper'}">
 		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
-			<div class="item item-menus">  
-				<el-affix :offset="76">
+			<div class="item item-menus u-m-r-15" >  
+				<el-affix class="menus-index-affix" :offset="76">
 					<div class="u-p-5 u-radius-8 bg-white menus-w box-border">
 						<el-scrollbar height="100%" >
-							<el-menu
-								:default-active="menuActive"
-								class="el-menu-vertical-demo"
-								router 
-								@open="handleOpen"
-								@close="handleClose"
-								>
-								<template  v-for="item in menuListAll" >
-									<el-sub-menu  
-										v-if="item.children && item.children.length > 0" 
-										:index="item.index" 
-										:key="item.index"
-										>
-										<template #title>
-											<!-- <el-icon>
-												<component :is="item.icon"></component>
-											</el-icon> -->
-											<i class="iconfont" :class="item.icon" ></i> 
-											<span class="menu-title" >{{item.label}}</span>
-										</template>
-										<el-menu-item 
-											v-for="ele in item.children" 
-											:index="ele.index" 
-											:key="ele.index"
-											:route="ele.route" 
-											>
-											
-											<!-- <i class="custom-icon" :class="ele.icon" v-if="ele.icon" ></i>
-											<span slot="title">{{ele.label}}</span> -->
-											<template #title>
-												<template v-if="ele.hasOwnProperty('url')">
-													<view class="u-flex u-flex-between" @click="gotoOtherPage(ele)">
-														<view class="item-left"> 
-															<span>{{ele.label}}</span>
-														</view> 
-													</view>
-													<!-- <view class="u-flex u-flex-between u-flex-1" > 
-														<el-text tag="a" style="display: block; width: 100%;" :href="ele.url" >{{ele.label}}</el-text>
-													</view>  -->
-												</template>
-												<view class="u-flex u-flex-between" v-else>
-													<view class="item-left"> 
-														<span>{{ele.label}}</span> 
-													
-														<el-icon size="15" v-show="ele.hasOwnProperty('tag')">
-															<WarningFilled v-if="ele.tag == 'error'" style="color: #f30404" />
-															<SuccessFilled v-if="ele.tag == 'success'" style="color: #38cb30" />
-														</el-icon>  
-													</view>
-													<!-- <view class="item-right">
-														<template v-if="ele.active == 'cart'">
-															<text class="num" v-if="cartNumTotal > 0">{{cartNumTotal}}</text>
-														</template>
-														
-													</view> -->
-												</view>
-											</template>
-											
-										</el-menu-item>
-									</el-sub-menu>
-									<el-menu-item v-else @click="funcClick(item)" class="logout">
-										<!-- <el-icon>
-											<component :is="item.icon"></component>
-										</el-icon> -->
-										<span >{{item.label}}</span>
-									</el-menu-item>
-								</template> 
-							</el-menu>
+							<menus-index></menus-index>
 						</el-scrollbar> 
 					</div>
 					
@@ -92,7 +28,7 @@
 			</div>
 			
 			
-			<div class="item item-main u-m-l-15 u-radius-8 u-flex-column u-flex-items-start">
+			<div class="item item-main u-radius-8 u-flex-column u-flex-items-start">
 				<el-page-header class="u-p-10 u-p-t-20 box-border" style="width: 100%;"  title="后退"  @back="onBack"> 
 					<template #icon >
 						<el-icon class="text-base">
@@ -120,29 +56,32 @@
 			</div>
 		</div>
 	</div>
-	
+	<div class="menus-btn-h5">
+		<el-button 
+			type="primary" 
+			class="u-font-25" 
+			size="large" 
+			icon="Operation" 
+			circle 
+			@click="menusShow = !menusShow"
+		/>
+	</div>
 	<!-- <footer-help></footer-help> -->
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, toRefs  } from "vue"; 
-import router from "@/router/guard" 
-import {
-    WarningFilled, SuccessFilled
-} from '@element-plus/icons-vue'
+import router from "@/router/guard"  
 import {useSettingsStore} from '@/stores/settings'
 import {cateStore} from '@/stores/cate'
-import {userStore} from '@/stores/user'
-import {useFinanceStore} from '@/stores/finance'
+import {userStore} from '@/stores/user' 
 const useSettings = useSettingsStore()
-const cate = cateStore()
-const finance = useFinanceStore()
-const {menuListAll, menuList} = toRefs(cate)
-const { account_info, organizations_info } = toRefs(finance)
-const { webview } = toRefs(useSettings)
+const cate = cateStore() 
+const {menuListAll, menuList} = toRefs(cate)  
 const user = userStore() 
 const {cpy_info} = toRefs(user)
 const menuActive = ref('product_list')
+const menusShow = ref(false)
 
 const headerAffixStatus = ref(false)
 
@@ -169,21 +108,12 @@ const addBtnList = [
 	},
 ]
 onMounted(async () => {
-	cate.getWarehouseData()
-	cate.getMenusData()
-	await user.getCpyData(true)
-	// user.getRoleData()
+	cate.getWarehouseData() 
 })
  
 const btnActive = computed(() => { 
 	return addBtnList.filter(ele => ele.name == menuActive.value)[0]
-})
-const handleOpen = (key: string, keyPath: string[]) => {
-	// console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-	// console.log(key, keyPath);
-};
+}) 
 const subTitle = computed(() => {
 	return menuListAll.value.filter(ele => {
 		return ele.children && ele.children.some(item => {
@@ -200,39 +130,7 @@ watch(
 		menuActive.value = newValue.name
 	},
 	{immediate: true, deep: true}
-)
-watch(
-	() => cpy_info.value,
-	(newValue:any) => { 
-		menuList.value.some(ele => {
-			if(ele.index == 1) {
-				ele.children.forEach(item => {
-					if(item.index == 'shop_info' ) {
-						item.tag = newValue.rz == 1? 'success': 'error'
-						item.msg = newValue.rz == 1? '已认证': '未认证'
-					}
-				})
-				return true
-			}
-			return false
-		})
-	},
-	{immediate: true, deep: true}
-)
-
-const funcClick = (item) => {
-	if(item.index == 'logout') {
-		user.logout()
-		useSettings.goLogin() 
-	}
-	else if(item.index == 'fx') {
-		const target = router.resolve({
-			name: 'fx_helper'
-		})
-		window.open(target.href, '_blank')
-	}
-}
-
+)  
 const onBack = () => {
 	router.go(-1) 
 }
@@ -240,23 +138,11 @@ const onBack = () => {
 function headerAffixChange(e) {
 	console.log(e)
 	headerAffixStatus.value = e
-}
-function gotoOtherPage(ele) {
-	if(ele.hasOwnProperty('linkWay')) {
-		location.href = ele.url
-		return
-	}
-	localStorage.setItem('webview', JSON.stringify(ele))
-	webview.value = ele
-	router.push({ 
-		name: 'web_view', 
-	})
-}
-
-</script>
+} 
+</script> 
 <style lang="scss" scoped> 
 @import '@/styles/iconfont.css';
- 
+@import '@/styles/mediaScreen.scss';
 .el-menu {
 	border-right: 0;
 
@@ -342,14 +228,14 @@ function gotoOtherPage(ele) {
 			}
 		}
 	}
-}
+} 
 .item-menus {
 	// background-color: #fff;	
 	width: $user-menus-w;
 	// position: fixed;
 	// top: 96px;
 	// z-index: 100;
-	// height: calc(100vh - 96px);
+	// height: calc(100vh - 96px); 
 	
 }
 .menus-w {
@@ -371,6 +257,22 @@ function gotoOtherPage(ele) {
 		.el-page-header__title {
 			color: #999;
 		}
+	}
+}
+.menus-btn-h5 {
+	display: none;
+	position: fixed;
+	right: 20px;
+	bottom: 80px; 
+	z-index: 80; 
+	border-radius: 50%;
+	overflow: hidden;
+	.el-button {
+		width: 50px;
+		height: 50px;
+	}
+	@media (max-width: 768px) {
+		display: block;
 	}
 }
 </style>

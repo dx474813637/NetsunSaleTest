@@ -4,7 +4,7 @@
         <el-form ref="formRef" :model="dynamicValidateForm" label-width="120px" :rules="rules"
             class="demo-dynamic u-p-20 box-border" label-position="top" scroll-to-error inline-message> 
             <el-form-item label="企业微信客服地址" prop="kefu">
-                <el-input v-model="dynamicValidateForm.kefu" />
+                <el-input v-model="dynamicValidateForm.kefu" clearable />
             </el-form-item> 
             <el-form-item label="省/市/区" prop="area">
                 <el-cascader
@@ -27,10 +27,10 @@
                 /> 
             </el-form-item>
             <el-form-item label="手机" prop="a5" required>
-                <el-input v-model="dynamicValidateForm.a5" />
+                <el-input v-model="dynamicValidateForm.a5" clearable />
             </el-form-item>
             <el-form-item label="收件人" prop="a6">
-                <el-input v-model="dynamicValidateForm.a6" />
+                <el-input v-model="dynamicValidateForm.a6" clearable />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm(formRef)">提交</el-button>

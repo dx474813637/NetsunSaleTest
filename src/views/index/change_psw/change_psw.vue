@@ -1,4 +1,4 @@
-<template>
+<template> 
     <el-form 
         ref="formRef" 
         :model="dynamicValidateForm" 
@@ -8,15 +8,14 @@
         label-position="top"
         scroll-to-error
         inline-message
-        >
-        <!-- <el-form-item prop="name" label="密码">
-            <el-input v-model="dynamicValidateForm.name" />
-        </el-form-item>  -->
+        > 
         <el-form-item label="旧密码" prop="password">
             <el-input 
                 v-model="dynamicValidateForm.password" 
                 type="password" 
                 autocomplete="off" 
+                clearable
+                style="max-width: 400px;"
             />
         </el-form-item>
         <el-form-item label="新密码" prop="passworda">
@@ -24,6 +23,8 @@
                 v-model="dynamicValidateForm.passworda" 
                 type="password" 
                 autocomplete="off" 
+                clearable
+                style="max-width: 400px;"
             />
         </el-form-item>
         <el-form-item label="确认新密码" prop="checkPass">
@@ -31,12 +32,14 @@
                 v-model="dynamicValidateForm.checkPass"
                 type="password"
                 autocomplete="off"
+                clearable
+                style="max-width: 400px;"
             />
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm(formRef)">提交</el-button> 
         </el-form-item>
-    </el-form> 
+    </el-form>  
 </template>
   
 <script lang="ts" setup>
@@ -128,11 +131,7 @@ async function submitApi(data) {
 
 </script>
   
-<style lang='scss' scoped>
-.domains2Price-rows {
-    @include flex(x, start, start);
-    width: 100%;
-}  
+<style lang='scss' scoped> 
 ::v-deep {
     
     .el-table {
@@ -140,100 +139,12 @@ async function submitApi(data) {
         thead tr th{
             border-color: #dcdfe6;
         }
-    }
-    .el-tabs--border-card>.el-tabs__header {
-        border-radius: 5px 5px 0 0;
-    }
-    .el-tabs--border-card {
-        border-radius: 5px;
-    }
+    } 
     .el-form-item__label {
         font-weight: bold;
         font-size: 15px;
-    }
-    .el-upload--picture-card {
-        --el-upload-picture-card-size: 65px;
-        // background-color: var(--el-color-primary-light-9);
-    }
+    } 
+ 
 
-    .limit {
-        .el-upload--picture-card {
-            display: none;
-        }
-        .el-upload-list--picture-card {
-            display: flex;
-        }
-        .el-upload-list--picture-card .el-upload-list__item {
-            margin: 0
-        }
-    }
-
-    .el-upload-list--picture-card .el-upload-list__item {
-        --el-upload-list-picture-card-size: 65px;
-        
-    }
-
-}
-.table-box {
-    ::v-deep {
-        .el-upload--picture-card { 
-            --el-upload-picture-card-size: 55px;
-        }
-        .el-upload-list--picture-card .el-upload-list__item {
-            --el-upload-list-picture-card-size: 55px;
-        }
-        .el-upload-list--picture-card .el-upload-list__item-actions span+span {
-            margin-left: 8px
-        }
-    }
 } 
-.domain2Item-box {
-    @include flex(x, start, start);
-    flex-wrap: wrap;
-    width: 100%;
-    .domain2Item {
-        flex: 0 0 33%;
-        .domain2Item-inp {
-            width: 100%;
-            @include flex(x);
-            .item {
-                flex: 1;
-                &.remove-btn {
-                    flex: 0 0 40px; 
-                    &>div {
-                        @include flex(x, start, center);
-                        cursor: pointer;
-                        &:hover {
-                            .el-icon {
-                                color: $uni-color-error;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-}
-.domains2Price-rows { 
-    ::v-deep {
-        .el-upload-list--picture-card .el-upload-list__item {
-            margin: 0;
-        }
-    }
-}
-.tabs-item {
-    @include flex(x)
-}
-.domains-box {
-    padding: 20px 0;
-    border-radius: 10px;
-    transition: all .3s;
-    border: 1px dashed #eee;
-
-    &:hover {
-        background-color: #f8f8f8;
-        border-color: $uni-color-primary;
-    }
-}
 </style>

@@ -11,6 +11,21 @@
 					/></a>
 				</div>
 				<div class="main-nav">
+					<template v-if="role ==2 || role == 3">
+						<div class="nav-item">
+							<el-button  
+								color="#626aef"
+								dark
+								icon="Switch" 
+								class="text-bold u-font-13 u-radius-10"
+								@click="router.push({name: 'workers_list'})"
+								>
+								<template v-if="role == 2">运营商管理中心</template> 
+								<template v-if="role == 3">MCN机构管理中心</template> 
+								
+							</el-button> 
+						</div>
+					</template>
 					<!-- <template v-if="routerName == 'fx_helper'">
 						<div class="nav-item">
 							<router-link :to="{name: 'user_index'}">返回用户中心</router-link> 
@@ -35,6 +50,9 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, toRefs  } from "vue";
 import router from "@/router/guard" 
+import { cateStore } from '@/stores/cate'
+const cate = cateStore()
+const { role } = toRefs(cate)
 const routerName = computed(() => { 
 	return router.currentRoute.value.name
 })
@@ -69,8 +87,15 @@ header {
 
 header {
 	color: $uni-text-color-grey;
-	background: #fff;
+	// background: #fff;
 	border-bottom: 1px solid #f8f8f8;
+	
+	background-image: radial-gradient(transparent 1px, #fff 1px);
+	background-size: 4px 4px;
+    backdrop-filter: saturate(50%) blur(4px);
+    -webkit-backdrop-filter: saturate(50%) blur(4px);
+	position: relative;
+	z-index: 50;
 	&.header {
 		.header-top {
 			background-color: #fafafa;

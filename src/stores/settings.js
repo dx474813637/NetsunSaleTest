@@ -2,7 +2,9 @@
 import { useDynamicTitle } from '@/utils/dynamicTitle'
 import {defineStore} from "pinia";
 import router from "@/router/guard" 
- 
+import { ElMessage, ElMessageBox  } from 'element-plus'
+import {judgeBigScreen} from '@/utils'
+
 // const { dynamicTitle } = defaultSettings
  
 const storageSetting = JSON.parse(localStorage.getItem('storageSetting')) || ''
@@ -13,6 +15,7 @@ export const useSettingsStore = defineStore(
         state: () => ({
             loginToPage: null,
             title: '',
+            isH5: judgeBigScreen(),
             webview: JSON.parse(localStorage.getItem('webview')),
             dynamicTitle: storageSetting.dynamicTitle === undefined ? import.meta.env.VITE_APP_TITLE : storageSetting.dynamicTitle
         }),
@@ -21,6 +24,10 @@ export const useSettingsStore = defineStore(
             setTitle(title) {
                 this.title = title
                 useDynamicTitle();
+            },
+            updateH5Size() {
+                let res = judgeBigScreen()
+                this.isH5 = res
             },
             goLogin() {
                 router.push({ name: 'login' }) 
@@ -44,6 +51,20 @@ export const useSettingsStore = defineStore(
                 this.loginToPage = null
                 
             }, 
+            copyEvent(data) {
+                if(data.type == 'text') {
+                    const clipboard = navigator.clipboard;
+                    const text = data.content;
+                    clipboard.writeText(text)
+                    .then(() => { 
+                        ElMessage.success('邀请链接已复制到剪贴板');
+                    })
+                    .catch((error) => {
+                        ElMessage.success('复制邀请链接失败');
+                        console.error('复制邀请链接失败:', error);
+                    });
+                }
+            }
         }
     })
  

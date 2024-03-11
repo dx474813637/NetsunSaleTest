@@ -5,13 +5,21 @@
             <el-alert title="旺铺信息未认证" :closable="false" type="error" v-else />
         </div>
         
-        <el-form ref="formRef" :model="dynamicValidateForm" label-width="120px" :rules="rules"
-            class="demo-dynamic u-p-20 box-border" label-position="top" scroll-to-error inline-message>
+        <el-form 
+            ref="formRef" 
+            :model="dynamicValidateForm" 
+            label-width="120px" 
+            :rules="rules"
+            class="demo-dynamic u-p-20 box-border" 
+            label-position="top" 
+            scroll-to-error 
+            inline-message
+            >
             <!-- <el-form-item prop="name" label="密码">
                 <el-input v-model="dynamicValidateForm.name" />
             </el-form-item>  -->
             <el-form-item label="旺铺名称" prop="company">
-                <el-input v-model="dynamicValidateForm.company" />
+                <el-input v-model="dynamicValidateForm.company" clearable />
             </el-form-item>
             <el-form-item label="旺铺logo" prop="logo" required>
                 <!-- <el-input v-model="dynamicValidateForm.logo" /> -->
@@ -66,12 +74,12 @@
                 </div> -->
             </el-form-item>
             <el-form-item label="实名公司名称" prop="rz_company" >
-                <el-input v-model="dynamicValidateForm.rz_company" :disabled="cpy_info.rz == 1" />
+                <el-input v-model="dynamicValidateForm.rz_company" :disabled="cpy_info.rz == 1"  clearable/>
             </el-form-item>
             <el-form-item label="统一社会信用代码" prop="rz_no">
-                <el-input v-model="dynamicValidateForm.rz_no" :disabled="cpy_info.rz == 1" />
+                <el-input v-model="dynamicValidateForm.rz_no" :disabled="cpy_info.rz == 1" clearable />
             </el-form-item>
-            <el-form-item label="营业执照" prop="rz_pic" required>
+            <el-form-item label="营业执照" prop="rz_pic" required clearable>
                 <!-- <el-input v-model="dynamicValidateForm.rz_pic" /> -->
                 <el-upload 
                     ref="rz_pic" 
@@ -109,13 +117,13 @@
                 </el-upload> 
             </el-form-item> 
             <el-form-item label="公司地址" prop="address" required >
-                <el-input v-model="dynamicValidateForm.address" />
+                <el-input v-model="dynamicValidateForm.address" clearable />
             </el-form-item>
             <el-form-item label="联系电话" prop="tel" required> 
-                <el-input v-model="dynamicValidateForm.tel"  />
+                <el-input v-model="dynamicValidateForm.tel" clearable  />
             </el-form-item>
             <el-form-item label="联系人" prop="name" required>
-                <el-input v-model="dynamicValidateForm.name"  />
+                <el-input v-model="dynamicValidateForm.name" clearable />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm(formRef)">提交</el-button>

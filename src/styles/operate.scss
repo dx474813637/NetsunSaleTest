@@ -6,19 +6,23 @@
             margin: 0; 
             border-radius: 0;
             background-color: #DEE2E6;
+            transition: all .3s;
+            &:hover {
+                background-color: #F8F9FA;
+            }
         }
         .el-pager li  {
-            font-size: 14px;
+            font-size: 13px;
             &.is-active {
                 font-weight: normal;
                 background-color: #626AEF;
             }
         }
         .btn-prev {
-            border-radius: 1rem 0 0 1rem;
+            border-radius: .7rem 0 0 .7rem;
         }
         .btn-next {
-            border-radius: 0 1rem 1rem 0;
+            border-radius: 0 .7rem .7rem 0;
         }
     }
 }
@@ -43,11 +47,23 @@
 
 }
 .el-table {
+    &.large-table {
+        ::v-deep { 
+            .el-table__body { 
+                .el-table__row {    
+                    td { 
+                        padding-top: 25px;
+                        padding-bottom: 25px;
+                    }
+                }
+            }
+        }
+    }
     ::v-deep { 
         --el-fill-color-lighter: #f3f3f3;
         --el-table-header-bg-color: #f3f3f3;
         .el-table__header {
-            height: 50px;
+            height: 50px; 
             thead .cell {
                 color: #323232;
                 font-weight: bold;

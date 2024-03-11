@@ -3,7 +3,9 @@ import {
 } from 'pinia';
 import apis from '@/apis/index'
 import menuList from '@/utils/menuList' 
-import {deepClone, initAddressData} from '@/utils/index'
+import menuList2 from '@/utils/menuList_operate' 
+import {deepClone, initAddressData} from '@/utils/index' 
+import router from '@/router/guard'
 // import {
 // 	User, Setting, Handbag, Pointer, Postcard, Files, Box
 // } from "@element-plus/icons-vue";  
@@ -27,7 +29,22 @@ export const cateStore = defineStore('cate', {
 			regional_loading: false,
 			menuList: menuList,
 			warehouse_list: [],
-			menus: []
+			menus: [],
+			role: '',
+			roleStr: [
+				{
+					role: '1',
+					name: '商家'
+				},
+				{
+					role: '2',
+					name: '运营商'
+				},
+				{
+					role: '3',
+					name: 'MCN机构'
+				},
+			],
 		};
 	},
 	getters: {
@@ -46,7 +63,7 @@ export const cateStore = defineStore('cate', {
 			return cate
 		},
 		menuListAll: (state) => {
-			console.log(state)
+			// console.log(state)
 			let menus = deepClone(state.menus).map((ele, index) => {
 				return {
 					...ele,
@@ -63,6 +80,15 @@ export const cateStore = defineStore('cate', {
 					})
 				}
 			})
+			// console.log(1, router.currentRoute.value)
+			if(router.currentRoute.value.matched.some(ele => ele.name == 'operate')) {
+				let menus = menuList2.map(ele => {
+					ele.children = ele.children.filter(item => item.role.includes(state.role))
+					return {...ele}
+				}) 
+				console.log(2,menus)
+				return [...menus]
+			}
 			return [...state.menuList, ...menus]
 		},
 	},
@@ -88,6 +114,7 @@ export const cateStore = defineStore('cate', {
 			const res = await apis.memu({ needLoading });
 			if (res.code == 1) {
 				this.menus = res.list
+				this.role = res.role
 			}
 		},
 		async getFreightData() {

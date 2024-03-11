@@ -7,7 +7,7 @@
         @current-change="handleCurrentTableChange"
         :max-height="maxHeight"
         > 
-        <el-table-column fixed="left" label="ID" :width="isRadioGroup ?70:70" >
+        <el-table-column  fixed="left" label="ID" :width="isRadioGroup ?70:60" >
             <template #default="{ row }">
                 <div class="u-flex">
                     <span>{{ row.id }}</span> 
@@ -19,7 +19,7 @@
                 </div> 
             </template>
         </el-table-column>
-        <el-table-column fixed="left"  label="商品名" width="300" >
+        <el-table-column :fixed="isH5? false :'left'"  label="商品名" width="300" >
             <template #default="{row}">   
                 <div class="u-flex u-flex-items-start u-m-t-5 u-m-b-5" >
                     <div class="u-m-r-10" style="flex: 0 0 45px">
@@ -70,7 +70,7 @@
                 </div>
             </template>
         </el-table-column>
-        <el-table-column label="上架状态" fixed="right" width="100"> 
+        <el-table-column label="上架状态" :fixed="isH5? false :'right'" width="100"> 
             <template #default="{row}">
                 <el-switch 
                     size="large"
@@ -126,7 +126,7 @@
                 </div>
             </template>
         </el-table-column> -->
-        <el-table-column label="操作" fixed="right" width="140" align="center" v-if="isEditBtn"> 
+        <el-table-column label="操作"  :fixed="isH5? false :'right'" width="140" align="center" v-if="isEditBtn"> 
             <template #default="{row}">
 
                 <el-button 
@@ -173,6 +173,9 @@ import type { UploadFile  } from 'element-plus'
 import { genFileId,ElNotification, ElMessage } from 'element-plus'
 import router from "@/router/guard" 
 import { cateStore } from '@/stores/cate' 
+import { useSettingsStore } from '@/stores/settings' 
+const settings = useSettingsStore()
+const { isH5 } = toRefs(settings)
 import useProductSku from '@/hook/useProductSku'
 const {
     sku2treeData

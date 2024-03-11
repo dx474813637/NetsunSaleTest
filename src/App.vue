@@ -27,7 +27,6 @@ const isOperate = computed(() => router.currentRoute.value.matched.some(ele => e
 	</div>
 	
 </template>
-
 <style lang="scss" scoped> 
 @import '@/styles/iconfont.css';
 body,
@@ -36,6 +35,10 @@ body,
  	padding: 0;
  } 
  .operate {
-	background-color: #f7f7f7;
+	background: linear-gradient(to bottom, #fff, #f7f7f7);
  }
 </style>
+
+<!-- <style lang="scss">
+@import '@/styles/mediaScreen.scss';
+</style> -->

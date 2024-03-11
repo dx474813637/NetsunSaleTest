@@ -6,7 +6,7 @@
         :maxHeight="maxHeight"  
         > 
         <el-table-column prop="id" label="ID" width="70" align="center" fixed="left" />
-        <el-table-column prop="cate" label="类型" width="70" align="center"  fixed="left" />
+        <el-table-column prop="cate" label="类型" width="70" align="center"   :fixed="isH5? false :'left'" />
         <el-table-column prop="info" label="原因" width="240"  >
             <template #default="{row}">
                 <div v-html="row.info"></div> 
@@ -57,7 +57,7 @@
                 <el-text size="small">{{ row.uptime }}</el-text>
             </template> 
         </el-table-column>
-        <el-table-column label="操作" width="200" align="center" fixed="right"> 
+        <el-table-column label="操作" width="200" align="center" :fixed="isH5? false :'right'"> 
             <template #default="{row}">
                 <div class="u-flex u-flex-center"> 
                     <div  v-if="row.zt == 0">
@@ -172,6 +172,9 @@
 import { reactive,ref,computed, inject, onMounted, watch } from 'vue'
 import router from "@/router/guard"  
 import { genFileId,ElNotification, ElMessage } from 'element-plus'
+import { useSettingsStore } from '@/stores/settings' 
+const settings = useSettingsStore()
+const { isH5 } = toRefs(settings)
 const props = defineProps({
     isRadioGroup: {
         type: Boolean,

@@ -4,18 +4,18 @@
         :model="dynamicValidateForm" 
         label-width="120px" 
         :rules="rules" 
-        class="demo-dynamic u-p-20"
+        class="product-edit-form u-p-20"
         label-position="top"
         scroll-to-error
         inline-message
         > 
         <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="8" :xs="24">
                 <el-form-item prop="name" :label="modeConfig.sku_goods_text">
-                    <el-input v-model="dynamicValidateForm.name" placeholder="请输入商品名称标题" :disabled="editMode? true: false" />
+                    <el-input v-model="dynamicValidateForm.name" placeholder="请输入商品名称标题" :disabled="editMode? true: false" clearable />
                 </el-form-item>
             </el-col>
-            <el-col :span="8"> 
+            <el-col :span="8" :xs="24"> 
                 <el-form-item prop="cate" label="分类">
                     <el-cascader 
                         :disabled="editMode? true: false"
@@ -37,15 +37,15 @@
                     </el-cascader>
                 </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :xs="24">
                 <el-form-item prop="price" label="原价(吊牌价、市场价)">
-                    <el-input v-model="dynamicValidateForm.price" placeholder="请输入原价(吊牌价、市场价)" :disabled="editMode? true: false" />
+                    <el-input v-model="dynamicValidateForm.price" placeholder="请输入原价(吊牌价、市场价)" :disabled="editMode? true: false" clearable />
                 </el-form-item>
             </el-col>
         </el-row>
         <template v-if="!editMode">
             <el-row :gutter="20">
-                <el-col :span="8">
+                <el-col :span="8" :xs="24">
                     <el-form-item prop="warehouse" label="云仓">
                         <!-- <el-input v-model="dynamicValidateForm.warehouse" /> -->
                         <el-select
@@ -62,12 +62,12 @@
                         </el-select>
                     </el-form-item>
                 </el-col> 
-                <el-col :span="8">
+                <el-col :span="8" :xs="24">
                     <el-form-item prop="recommend_remark" label="商家推荐语">
-                        <el-input v-model="dynamicValidateForm.recommend_remark" placeholder="请输入商家推荐语" />
+                        <el-input v-model="dynamicValidateForm.recommend_remark" placeholder="请输入商家推荐语" clearable />
                     </el-form-item>
                 </el-col> 
-                <el-col :span="8">
+                <el-col :span="8" :xs="24">
                     <el-form-item prop="freight_id" label="运费模板">
                         <el-cascader 
                             v-model="dynamicValidateForm.freight_id" 
@@ -84,21 +84,21 @@
                 </el-col> 
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="8">
+                <el-col :span="8" :xs="24">
                     <el-form-item prop="goods_no" label="商品款号">
-                        <el-input v-model="dynamicValidateForm.goods_no" placeholder="请输入商品款号" />
+                        <el-input v-model="dynamicValidateForm.goods_no" placeholder="请输入商品款号" clearable />
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="8" :xs="24">
                     <el-form-item prop="delivery_delay_day" label="承诺发货时间（天）">
-                        <el-input v-model="dynamicValidateForm.delivery_delay_day" placeholder="请输入承诺发货时间" />
+                        <el-input v-model="dynamicValidateForm.delivery_delay_day" placeholder="请输入承诺发货时间" clearable />
                     </el-form-item>
                 </el-col> 
             </el-row>
         </template>
        
         <el-row :gutter="20" v-if="editMode == '1'">
-            <el-col :span="8">
+            <el-col :span="8" :xs="24">
                 <el-form-item prop="num" label="起批数" required :rules="{
                         validator: (rule: any, value: any, callback: any) => {
                             if (value == '' || value == 0) {
@@ -112,7 +112,7 @@
                     <el-input v-model="dynamicValidateForm.num" placeholder="请输入起批数" />
                 </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" :xs="24">
                 <el-form-item label="其他">
                     <el-button type="primary" @click="router.push({name: 'product_edit', params:{id: id}})">查看商品基础信息</el-button>
                 </el-form-item>
@@ -122,7 +122,7 @@
         
     
         <!-- <el-row :gutter="20">
-            <el-col :span="8">
+            <el-col :span="8" :xs="24">
                 <el-form-item prop="pprice" label="批发价(批发平台需要，非必填)">
                     <el-input v-model="dynamicValidateForm.pprice" placeholder="请输入批发价" />
                 </el-form-item>
@@ -134,12 +134,12 @@
             <el-input v-model="dynamicValidateForm.price2" />
         </el-form-item> -->
         
-            <!-- <el-col :span="8">
+            <!-- <el-col :span="8" :xs="24">
                 <el-form-item prop="weight" label="重量">
                     <el-input v-model="dynamicValidateForm.weight" placeholder="请输入重量" />
                 </el-form-item>
             </el-col> 
-            <el-col :span="8">
+            <el-col :span="8" :xs="24">
                 <el-form-item prop="weight_unit" label="重量单位">
                     <el-cascader 
                         v-model="dynamicValidateForm.weight_unit" 
@@ -253,7 +253,7 @@
                 v-for="(item, index) in dynamicValidateForm.attribute"
                 :key="item.id"
                 > 
-                <el-col :span="8" class="u-flex u-flex-items-start">
+                <el-col :span="8"  class="u-flex u-flex-items-start">
                     <el-button
                         type="danger"
                         class="u-m-r-10" 
@@ -270,7 +270,7 @@
                             message: '自定义属性名不能为空',
                             trigger: ['blur', 'change'],
                         }">
-                        <el-input v-model="item.name" placeholder="自定义属性名" v-trim />    
+                        <el-input v-model="item.name" placeholder="自定义属性名" v-trim clearable />    
                     </el-form-item>
                     
                 </el-col>
@@ -283,7 +283,7 @@
                             message: '自定义属性值不能为空',
                             trigger: ['blur', 'change'],
                         }">
-                        <el-input v-model="item.value" placeholder="自定义属性值" v-trim />  
+                        <el-input v-model="item.value" placeholder="自定义属性值" v-trim clearable />  
                     </el-form-item>
                     
                 </el-col>
@@ -340,10 +340,10 @@
                             trigger: 'blur',
                         }">
                         <el-row style="width: 100%;" :gutter="10">
-                            <el-col :span="8"> 
+                            <el-col :span="8" :xs="24"> 
                                 <el-input v-model="domain.label" placeholder="输入自定义规格名" @focus="setOldText($event)" @blur="render({prop: 'text', positionArr: [index, -1]})" /> 
                             </el-col>
-                            <el-col :span="8">
+                            <el-col :span="8" :xs="24">
                                 <el-switch 
                                     v-model="domain.isMainKey"
                                     :name="domain.name"
@@ -368,7 +368,7 @@
                                             message: '规格值不能为空',
                                             trigger: 'blur',
                                         }">
-                                         <el-input v-model="domainValue.value" placeholder="输入规格值" @blur="render({prop: 'text', positionArr: [index, i]})" />
+                                         <el-input v-model="domainValue.value" placeholder="输入规格值" @blur="render({prop: 'text', positionArr: [index, i]})" clearable />
                                     </el-form-item>
 
                                    
@@ -443,7 +443,7 @@
                     :prop="item.label" 
                     :label="item.label"
                     />
-                <el-table-column label="预览图" width="80px" fixed="right" >
+                <el-table-column label="预览图" width="80px" :fixed="isH5 ? false:'right'" >
                     <template #default="{ row, $index }">
                         <div class="table-box">
                             <el-upload 
@@ -485,7 +485,7 @@
                     </template>
                     
                 </el-table-column>
-                <el-table-column prop="price9" :label="modeConfig.sku_pick_price_text" fixed="right" width="150" >
+                <el-table-column prop="price9" :label="modeConfig.sku_pick_price_text" :fixed="isH5 ? false:'right'" width="150" >
                     <template #header >
                         <div class="u-flex">
                             <div class="item" style="white-space: nowrap;">{{ modeConfig.sku_pick_price_text }}</div>
@@ -525,7 +525,7 @@
                             </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" :label="modeConfig.sku_sale_price_text" fixed="right" width="150" >
+                <el-table-column prop="price" :label="modeConfig.sku_sale_price_text" :fixed="isH5 ? false:'right'" width="150" >
                     <template #header >
                         <div class="u-flex">
                             <div class="item" style="white-space: nowrap;">{{ modeConfig.sku_sale_price_text }}</div>
@@ -563,7 +563,7 @@
                             </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="stock" label="库存" fixed="right" width="150" >
+                <el-table-column prop="stock" label="库存" :fixed="isH5 ? false:'right'" width="150" >
                     <template #header >
                         <div class="u-flex">
                             <div class="item" style="white-space: nowrap;">库存</div>
@@ -604,7 +604,7 @@
                     </template>
 
                 </el-table-column>
-                <el-table-column prop="spec_no" label="规格编码" fixed="right" width="150" > 
+                <el-table-column prop="spec_no" label="规格编码" :fixed="isH5 ? false:'right'" width="150" > 
                     <template #default="{ row, $index }">
                         <el-form-item :prop="'domains2Price.' + $index + '.spec_no'" :rules="{
                                 required: true,
@@ -624,7 +624,7 @@
         </el-form-item>
     </el-form>
 
-    <el-dialog v-model="dialogVisible">
+    <el-dialog v-model="dialogVisible" >
         <img w-full style="width: 100%" :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
     <el-dialog v-model="dialogVisible2" title="商品规格模板" width="70%" > 
@@ -661,6 +661,9 @@ import { cateStore } from '@/stores/cate'
 import toSpecPrices from '@/utils/toSpecPrices' 
 import { deepClone, isNumber } from '@/utils' 
 import useProductSku from '@/hook/useProductSku'
+import { useSettingsStore } from '@/stores/settings' 
+const settings = useSettingsStore()
+const { isH5 } = toRefs(settings)
 const {
     skuTable2domains,
     sku2domains

@@ -1,5 +1,5 @@
 <template>
-    <div class="u-p-15 u-radius-15 bg-white box-border">
+    <div >
         <el-form 
             ref="formRef" 
             :model="dynamicValidateForm" 
@@ -24,11 +24,11 @@
             <el-row>
                 <el-col :span="12" :xs="24">
                     <el-form-item label="验证码" prop="code">
-                        <div class="u-flex u-flex-items-center " >
+                        <div class="u-flex u-flex-items-center ">
                             <el-input 
                                 class="u-flex-1 u-m-r-20"
-                                v-model="dynamicValidateForm.code"  
-                                clearable 
+                                v-model="dynamicValidateForm.code"   
+                                clearable
                             />
                             <el-button 
                                 type="primary"   
@@ -55,10 +55,9 @@
                             </el-button>
                         </div>
                         
-                    </el-form-item>
+                    </el-form-item> 
                 </el-col>
             </el-row>
-             
             
             <el-row>
                 <el-col :span="12" :xs="24">
@@ -163,7 +162,7 @@ async function submitApi(data) {
     if(res.code == 1) {
         ElMessage.success(res.msg)
         router.push({
-            name: 'workers_list'
+            name: 'workers_list2'
         })
     }
 }
