@@ -67,7 +67,7 @@ export const save_product = (data, config) => axios.post('Userapi/save_product',
 // 弃用 save_stock 保存某一个规格的库存和价格 参数id 库存id stock price img
 export const save_stock = (data) => axios.get('Userapi/save_stock', data) 
 // save_product_ewm 参数id ewm 保存商品二维码
-export const save_product_ewm = (data) => axios.get('Userapi/save_product_ewm', data) 
+// export const save_product_ewm = (data) => axios.get('Userapi/save_product_ewm', data) 
 
 // `home` 参数p term（ 搜索关键字） tags（分类名称）term、tags两个不能同时有效，传tags了term就无效。
 export const home = (data) => axios.get('Userapi/home', data) 
@@ -141,3 +141,33 @@ export const shop_list = (data) => axios.get('Userapi/shop_list', data)
 export const shop_order_list = (data) => axios.get('Userapi/shop_order_list', data)
 // shop_product_num 商家商品数 参数login必填
 export const shop_product_num = (data) => axios.get('Userapi/shop_product_num', data)
+
+// sub_account 子账号列表 参数p all  all=1返回全部，p失效。
+export const sub_account = (data) => axios.get('Userapi/sub_account', data)
+// add_sub_account 添加子账号 phone 手机 创建成功会返回密码，需要显示，提示复制保持。
+export const add_sub_account = (data) => axios.get('Userapi/add_sub_account', data)
+// edit_sub_account 编辑子账号密码 参数id 子账号id 从列表进入修改，psw 密码
+export const edit_sub_account = (data) => axios.get('Userapi/edit_sub_account', data)
+
+// save_product_ewm这个原来修改二维码的接口变成关联子账号的接口。参数不变。 参数id ewm 保存商品二维码
+export const save_product_ewm = (data) => axios.get('Userapi/save_product_ewm', data)
+
+// sinopay 供应商结算接口 参数action 接口名
+// action有下列值：
+// BA_QUERY余额查询 无参数
+// GET_BANK_CODE获取银行编码 无参数
+// GET_BANK_NAME获取开户行列表 terms搜索关键字
+// OUT_QUERY转账查询 order_id 订单id（出金订单）
+// CITIC_BA_RECONCILE_DL历史明细查询 datea开始日期 dateb结束日期
+// OUT_PAY_APPLY出金申请 
+    // rec_bank_account_name银行账户名称 
+    // rec_bank_code银行编码 
+    // rec_bank_no银行行号	
+    // rec_bank_account银行卡号
+    // rec_bank_name银行支行名称
+    // amount提现金额(元)
+    // memo备注
+export const sinopay = (data, config) => axios.post('Userapi/sinopay', data, config) 
+
+// pay_info 出金资料 不用参数，返回auth=1有资料，不需要去获取银行等信息，只要填写一个提现金额和备注（备注不必填） =0没资料 那就要获取出金申请所需的所有资料。
+export const pay_info = (data) => axios.get('Userapi/pay_info', data)

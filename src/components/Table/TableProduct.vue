@@ -31,6 +31,7 @@
                         </el-link> 
                         <div class="u-flex u-flex-wrap u-flex-items-start">
                             <el-tag class="u-m-r-5 u-m-t-5" type="primary" size="small">{{ row.goods_no }}</el-tag> 
+                            <el-tag class="u-m-r-5 u-m-t-5" type="warning" size="small">{{ row.cate }}</el-tag>
                             <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.delivery_delay_day }}天发货</el-tag>
                             <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.warehouse }}</el-tag>
                         </div>
@@ -50,17 +51,38 @@
             <template #default="{ row }">
                 <el-text type="danger" class="u-line-2" >{{ row.price1 }}</el-text>
             </template>
-        </el-table-column>
-        <el-table-column prop="cate" label="分类" width="100" />
+        </el-table-column> 
         <!-- <el-table-column prop="goods_no" label="商品款号" width="120" /> -->
-        <el-table-column prop="recommend_remark" label="商家推荐语" width="120" >
-            <template #default="{ row }">
-                <el-text type="warning" class="u-line-2" >{{ row.recommend_remark }}</el-text>
+        <el-table-column label="子账户" width="160" align="center" v-if="cpy_info.account == 1">
+            <template #default="{row}">
+                <div class="u-p-10" v-loading="row.ewm_loading" >
+                    <!-- <el-text type="info" class="u-font-12">{{ row.ewm }}</el-text> -->
+                    <el-select
+                        v-model="row.ewm"
+                        filterable
+                        placeholder="分配子账户" 
+                        size="small"
+                        clearable
+                        @change="(value) => {accChangeEvent(value, row)}"
+                    >
+                        <el-option
+                            v-for="item in subAccount"
+                            :key="item.id"
+                            :label="item.phone"
+                            :value="item.phone"
+                        />
+                    </el-select>
+                </div>
             </template>
         </el-table-column>
         <el-table-column prop="sku" label="商品规格" width="200" >
             <template #default="{ $index }">
                 <el-tree :data="skuList[$index].sku" :props="defaultProps"  />
+            </template>
+        </el-table-column>
+        <el-table-column prop="recommend_remark" label="商家推荐语" width="120" >
+            <template #default="{ row }">
+                <el-text type="warning" class="u-line-2" >{{ row.recommend_remark }}</el-text>
             </template>
         </el-table-column>
         <el-table-column label="更新时间" width="100" >
@@ -167,7 +189,7 @@
     </el-dialog>
 </template>
 
-<script setup lang='ts'>
+<script setup lang='ts'> 
 import { reactive,ref,computed, inject, onMounted, toRefs,watch } from 'vue'
 import type { UploadFile  } from 'element-plus'
 import { genFileId,ElNotification, ElMessage } from 'element-plus'
@@ -176,6 +198,9 @@ import { cateStore } from '@/stores/cate'
 import { useSettingsStore } from '@/stores/settings' 
 const settings = useSettingsStore()
 const { isH5 } = toRefs(settings)
+import { userStore } from '@/stores/user' 
+const user = userStore()
+const { cpy_info, subAccount } = toRefs(user)
 import useProductSku from '@/hook/useProductSku'
 const {
     sku2treeData
@@ -220,7 +245,7 @@ onMounted(async () => {
     loading.value = true; 
     await getData()
     loading.value = false;
-
+    user.getSubAccData()
 })
 watch(
     () => [curP.value, props.customParams],
@@ -338,6 +363,31 @@ const changeProductOnStatus = async (prod) => {
     return res
 }
 
+async function accChangeEvent(value, row) {
+    console.log(value, row)
+    if(row.ewm_loading) return
+    row.ewm_loading = true;
+    try {
+        
+        const res = await $api.save_product_ewm({
+            params: {
+                id: row.id,
+                ewm: value
+            }
+        })
+        if(res.code == 1) {
+            row.ewm = value
+            ElNotification({
+                title: '系统消息',
+                message: `商品ID【${row.id}】${res.msg}`,
+                type: 'success',
+                position: 'bottom-right',
+            })
+        }
+    } catch (error) {
+    }
+    row.ewm_loading = false;
+}
 
 </script>
 <style lang='scss' scoped>

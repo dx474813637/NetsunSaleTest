@@ -106,9 +106,16 @@ const addBtnList = [
 			name: 'product_add'
 		}
 	},
+	{
+		name: 'sub_acc',
+		title: '新增子账户',
+		to: {
+			name: 'sub_acc_add'
+		}
+	},
 ]
 onMounted(async () => {
-	cate.getWarehouseData() 
+	// cate.getWarehouseData() 
 })
  
 const btnActive = computed(() => { 
@@ -136,7 +143,7 @@ const onBack = () => {
 }
 
 function headerAffixChange(e) {
-	console.log(e)
+	// console.log(e)
 	headerAffixStatus.value = e
 } 
 </script> 

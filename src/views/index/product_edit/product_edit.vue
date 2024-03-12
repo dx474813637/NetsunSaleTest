@@ -94,6 +94,24 @@
                         <el-input v-model="dynamicValidateForm.delivery_delay_day" placeholder="请输入承诺发货时间" clearable />
                     </el-form-item>
                 </el-col> 
+                <el-col :span="8" :xs="24" v-if="cpy_info.account == 1">
+                    <el-form-item prop="ewm" label="分配子账户">
+                        <el-select
+                            style="width: 100%"
+                            v-model="dynamicValidateForm.ewm"
+                            filterable
+                            placeholder="分配子账户"  
+                            clearable 
+                        >
+                            <el-option
+                                v-for="item in subAccount"
+                                :key="item.id"
+                                :label="item.phone"
+                                :value="item.phone"
+                            />
+                        </el-select>
+                    </el-form-item>
+                </el-col> 
             </el-row>
         </template>
        
@@ -649,7 +667,7 @@
 </template>
   
 <script lang="ts" setup>
-import { reactive, ref, inject, toRefs, watch, nextTick, computed  } from 'vue'
+import { reactive, ref, inject, toRefs, watch, nextTick, computed, onMounted  } from 'vue'
 import { genFileId, ElMessage } from 'element-plus'
 import type { FormInstance, UploadFile, UploadRequestOptions, UploadRawFile, UploadProps, FormRules, TableColumnCtx  } from 'element-plus'
 import {
@@ -664,6 +682,9 @@ import useProductSku from '@/hook/useProductSku'
 import { useSettingsStore } from '@/stores/settings' 
 const settings = useSettingsStore()
 const { isH5 } = toRefs(settings)
+import { userStore } from '@/stores/user' 
+const user = userStore()
+const { cpy_info, subAccount } = toRefs(user)
 const {
     skuTable2domains,
     sku2domains
@@ -970,7 +991,12 @@ const objectSpanMethod = ({
 let domainIndex = 0
 const domainsTabsValue = ref('')
 // const domainsTabs:Array<any> = ref([]) 
-cate.getCateData() 
+
+
+onMounted(async () => {
+    cate.getCateData() 
+	cate.getWarehouseData() 
+})
 interface DomainItem {
     key: number | string
     values: any

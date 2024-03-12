@@ -51,6 +51,32 @@ const routes = [
                 component: () => import('@/views/index/qua_ce/qua_ce.vue'),
             },
             {
+                path: 'sub_acc',
+                name: 'sub_acc',
+                meta: {
+                    title: '子账号列表', 
+                },
+                component: () => import('@/views/index/sub_acc/sub_acc.vue'),
+            },
+            {
+                path: 'sub_acc_edit/:id',
+                name: 'sub_acc_edit',
+                meta: {
+                    title: '编辑子账号密码',  
+                },
+                props:true, 
+                component: () => import('@/views/index/sub_acc_edit/sub_acc_edit.vue'),
+            },
+            {
+                path: 'sub_acc_add',
+                name: 'sub_acc_add',
+                meta: {
+                    title: '新增子账号',  
+                },
+                props:true, 
+                component: () => import('@/views/index/sub_acc_edit/sub_acc_edit.vue'),
+            },
+            {
                 path: 'product_edit/:id',
                 name: 'product_edit',
                 meta: {
@@ -133,6 +159,14 @@ const routes = [
                     title: '绑定员工', 
                 },
                 component: () => import('@/views/operate/workers_add/workers_add2.vue'),
+            },
+            {
+                path: 'out_pay_apply',
+                name: 'out_pay_apply',
+                meta: {
+                    title: '供应商结算', 
+                },
+                component: () => import('@/views/index/out_pay_apply/out_pay_apply.vue'),
             },
         ]
     },

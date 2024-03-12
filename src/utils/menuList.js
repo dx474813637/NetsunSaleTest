@@ -33,6 +33,22 @@ export default [
 					name: 'qua_ce'
 				}
 			},
+			{
+				label: '子账户列表', 
+				icon: '',
+				index: 'sub_acc', 
+				route: {
+					name: 'sub_acc'
+				}
+			},
+			{
+				label: '供应商结算', 
+				icon: '',
+				index: 'out_pay_apply', 
+				route: {
+					name: 'out_pay_apply'
+				}
+			},
 		]
 	},
 	{

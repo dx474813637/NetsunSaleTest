@@ -57,11 +57,11 @@ export const useSettingsStore = defineStore(
                     const text = data.content;
                     clipboard.writeText(text)
                     .then(() => { 
-                        ElMessage.success('邀请链接已复制到剪贴板');
+                        ElMessage.success('信息已复制到剪贴板');
                     })
                     .catch((error) => {
-                        ElMessage.success('复制邀请链接失败');
-                        console.error('复制邀请链接失败:', error);
+                        ElMessage.success('复制信息失败');
+                        console.error('复制信息失败:', error);
                     });
                 }
             }

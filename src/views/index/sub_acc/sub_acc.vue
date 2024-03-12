@@ -1,0 +1,19 @@
+<!--  -->
+<template>
+  <div class="u-p-10 box">
+    <table-sub-acc
+      isEditBtn 
+    ></table-sub-acc>
+  </div>
+  
+</template>
+
+<script setup lang='ts'>
+import { reactive,ref, inject} from 'vue'  
+const $api: any = inject('$api')
+</script>
+<style lang='scss' scoped>
+.box {
+  @extend %box-sizing;
+}
+</style>

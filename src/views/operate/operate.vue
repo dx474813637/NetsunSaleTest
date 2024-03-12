@@ -159,9 +159,9 @@ const addBtnList = [
 ]
 const openeds = computed(() => menuListAll.value.map(ele => ele.index))
 onMounted(async () => {
-	cate.getWarehouseData()
-	cate.getMenusData()
-	await user.getCpyData(true)
+	// cate.getWarehouseData()
+	// cate.getMenusData()
+	// await user.getCpyData(true)
 	// user.getRoleData()
 })
  

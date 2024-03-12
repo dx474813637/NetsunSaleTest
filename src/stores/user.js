@@ -38,6 +38,7 @@ export const userStore = defineStore('user', {
 					name: '采购商'
 				},
 			],
+			subAccount: []
 		};
 	},
 	getters: {
@@ -59,6 +60,12 @@ export const userStore = defineStore('user', {
 			const res = await apis.login_role({ loading: needLoading });
 			if (res.code == 1) {
 				this.role = res.role
+			}
+		},
+		async getSubAccData(needLoading = false) {
+			const res = await apis.sub_account({ params: {all: 1},loading: needLoading });
+			if (res.code == 1) {
+				this.subAccount = res.list
 			}
 		},
 		async getUserData(needLoading = false) {
