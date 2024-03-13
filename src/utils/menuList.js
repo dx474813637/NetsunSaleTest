@@ -42,11 +42,19 @@ export default [
 				}
 			},
 			{
-				label: '供应商结算', 
+				label: '提现申请', 
 				icon: '',
 				index: 'out_pay_apply', 
 				route: {
 					name: 'out_pay_apply'
+				}
+			},
+			{
+				label: '提现列表', 
+				icon: '',
+				index: 'statement_list', 
+				route: {
+					name: 'statement_list'
 				}
 			},
 		]

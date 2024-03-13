@@ -151,23 +151,3 @@ export const edit_sub_account = (data) => axios.get('Userapi/edit_sub_account', 
 
 // save_product_ewm这个原来修改二维码的接口变成关联子账号的接口。参数不变。 参数id ewm 保存商品二维码
 export const save_product_ewm = (data) => axios.get('Userapi/save_product_ewm', data)
-
-// sinopay 供应商结算接口 参数action 接口名
-// action有下列值：
-// BA_QUERY余额查询 无参数
-// GET_BANK_CODE获取银行编码 无参数
-// GET_BANK_NAME获取开户行列表 terms搜索关键字
-// OUT_QUERY转账查询 order_id 订单id（出金订单）
-// CITIC_BA_RECONCILE_DL历史明细查询 datea开始日期 dateb结束日期
-// OUT_PAY_APPLY出金申请 
-    // rec_bank_account_name银行账户名称 
-    // rec_bank_code银行编码 
-    // rec_bank_no银行行号	
-    // rec_bank_account银行卡号
-    // rec_bank_name银行支行名称
-    // amount提现金额(元)
-    // memo备注
-export const sinopay = (data, config) => axios.post('Userapi/sinopay', data, config) 
-
-// pay_info 出金资料 不用参数，返回auth=1有资料，不需要去获取银行等信息，只要填写一个提现金额和备注（备注不必填） =0没资料 那就要获取出金申请所需的所有资料。
-export const pay_info = (data) => axios.get('Userapi/pay_info', data)

@@ -17,6 +17,14 @@
                 style="max-width: 400px;"
             />
         </el-form-item>
+            <el-form-item label="公司名称" prop="name" v-if="mode == 'add'">
+                <el-input 
+                    v-model="dynamicValidateForm.name"  
+                    autocomplete="off" 
+                    clearable 
+                    style="max-width: 400px;"
+                />
+            </el-form-item>
         <template  v-if="mode == 'edit'">
             <el-form-item label="id" prop="id">
                 <el-input 
@@ -67,10 +75,12 @@ const dynamicValidateForm = reactive<{
     id: string 
     phone: string
     psw: string  
+    name: string  
 }>({ 
     id: '', 
     phone: '', 
     psw: '',  
+    name: '',  
 }) 
 watch(
     () => router.currentRoute.value.name,

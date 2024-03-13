@@ -1,4 +1,15 @@
-<template>
+<template> 
+    <el-row :gutter="20" class="u-m-b-10">
+        <el-col :span="16" :xs="24">
+            <el-input 
+                v-model="terms"   
+                clearable 
+            />
+        </el-col>
+        <el-col :span="8" :xs="24">
+            <el-button type="primary" @click="refreshData">搜索</el-button>
+        </el-col>
+    </el-row>
     <el-table 
         v-loading="loading" 
         :data="dataList" 
@@ -7,29 +18,32 @@
         :highlight-current-row="isRadioGroup"
         @current-change="handleCurrentTableChange"
         > 
-        <el-table-column label="ID" >
+        <el-table-column label="ID" :width="120" >
             <template #default="{ row }">
                 <div class="u-flex">
-                    <span>{{ row.id }}</span>  
+                    <span>{{ row.id }}</span> 
+                    <span class="u-m-l-10" v-if="isRadioGroup && currentRow && currentRow.id == row.id ">
+                        <el-Icon color="#ff0000">
+                            <i-ep-CircleCheck></i-ep-CircleCheck>
+                        </el-Icon>
+                    </span>
                 </div>
                 
             </template>
         </el-table-column>
-        <el-table-column prop="name" label="公司名称" /> 
-        <el-table-column prop="phone" label="子账户" /> 
-        <!-- <el-table-column prop="status" label="status" />  -->
-        <el-table-column prop="ctime" label="创建时间" />
-        <el-table-column label="操作" align="center" v-if="isEditBtn"> 
+        <el-table-column prop="bank_name" label="银行名称" /> 
+        <el-table-column prop="bank_no" label="银行行号" />   
+        <el-table-column label="操作" width="90" align="center" v-if="isEditBtn"> 
             <template #default="{row}">
                 <div class="u-flex u-flex-center">
-                    <el-button 
+                    <!-- <el-button 
                     link 
                     type="primary" 
                     size="small" 
-                    @click="router.push({name: 'sub_acc_edit', params: {id: row.id}})"
-                    >编辑</el-button>  
+                    @click="router.push({name: 'sku_edit', params: {id: row.id}})"
+                    >编辑</el-button>   -->
 
-                    <!-- <el-popconfirm 
+                    <el-popconfirm 
                         title="移除确认" 
                         @confirm="deleteSku(row.id)"
                         confirm-button-text="确认"
@@ -43,7 +57,7 @@
                                 >删除</el-button> 
                         </template>
                     </el-popconfirm>
- -->
+
 
                 
                 </div>
@@ -83,6 +97,10 @@ const {
     sku2treeData
 } = useProductSku()
 const props = defineProps({
+    isSearchBar: {
+        type: Boolean,
+        default: false
+    },
     isRadioGroup: {
         type: Boolean,
         default: false
@@ -94,6 +112,10 @@ const props = defineProps({
     maxHeight: {
         type: [String, Number],
         default: 'auto'
+    },
+    terms: {
+        type: String,
+        default: ''
     }
 });
 const emit = defineEmits(["setCurrentRow"]);
@@ -103,12 +125,14 @@ const dataList = ref([])
 const loading = ref(false)
 const curP = ref(1)
 const total = ref(0)
-const pageSize = ref(20)
+const pageSize = ref(15)
 const paramsObj = computed(() => {
     return {
-        p: curP.value
+        p: curP.value,
+        terms: terms.value
     }
 })
+const terms = ref('')
 const defaultProps = {
   children: 'children',
   label: 'label',
@@ -117,15 +141,16 @@ onMounted(async () => {
     refreshData()
 })
 async function refreshData() {
-    
+    dataList.value = []
     loading.value = true; 
     await getData()
     loading.value = false;
 }
 const getData = async () => { 
-    const res = await $api.sub_account({params: paramsObj.value, loading: false}) 
-    dataList.value = res.list 
-    total.value = +res.total
+    if(!paramsObj.value.terms) return
+    const res = await $api.sinopay({action: 'GET_BANK_NAME', ...paramsObj.value},{ loading: false}) 
+    dataList.value = res.list.list_bank_no.pw_rec_list
+    total.value = +res.list.list_bank_no.pw_rec_total
 }
  
 const handleSizeChange = (val: number) => {

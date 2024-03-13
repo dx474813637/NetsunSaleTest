@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/Table/TableSku copy.vue')['default']
     Editor: typeof import('./src/components/Editor/Editor.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAlert: typeof import('element-plus/es')['ElAlert']
@@ -74,6 +73,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TableAddress: typeof import('./src/components/Table/TableAddress.vue')['default']
+    TableBankList: typeof import('./src/components/Table/TableBankList.vue')['default']
     TableOrder: typeof import('./src/components/Table/TableOrder.vue')['default']
     TableOrderBank: typeof import('./src/components/Table/TableOrderBank.vue')['default']
     TableOrderNew: typeof import('./src/components/Table/TableOrderNew.vue')['default']
@@ -86,6 +86,7 @@ declare module '@vue/runtime-core' {
     TableShop: typeof import('./src/components/Table/TableShop.vue')['default']
     TableShopOrder: typeof import('./src/components/Table/TableShopOrder.vue')['default']
     TableSku: typeof import('./src/components/Table/TableSku.vue')['default']
+    TableStatement: typeof import('./src/components/Table/TableStatement.vue')['default']
     TableSubAcc: typeof import('./src/components/Table/TableSubAcc.vue')['default']
     TableWhiteSeller: typeof import('./src/components/Table/TableWhiteSeller.vue')['default']
     TableWorkers: typeof import('./src/components/Table/TableWorkers.vue')['default']

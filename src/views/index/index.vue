@@ -113,6 +113,13 @@ const addBtnList = [
 			name: 'sub_acc_add'
 		}
 	},
+	{
+		name: 'statement_list',
+		title: '新增提现',
+		to: {
+			name: 'out_pay_apply'
+		}
+	},
 ]
 onMounted(async () => {
 	// cate.getWarehouseData() 

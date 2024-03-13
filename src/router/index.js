@@ -164,9 +164,17 @@ const routes = [
                 path: 'out_pay_apply',
                 name: 'out_pay_apply',
                 meta: {
-                    title: '供应商结算', 
+                    title: '提现申请', 
                 },
                 component: () => import('@/views/index/out_pay_apply/out_pay_apply.vue'),
+            },
+            {
+                path: 'statement_list',
+                name: 'statement_list',
+                meta: {
+                    title: '提现列表', 
+                },
+                component: () => import('@/views/index/statement_list/statement_list.vue'),
             },
         ]
     },

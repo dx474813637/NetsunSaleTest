@@ -52,9 +52,9 @@
             </template> 
         </el-table-column>  
         <!-- <el-table-column prop="ctime" label="创建时间" width="200" /> -->
-        <el-table-column label="操作" width="100" align="center" > 
+        <el-table-column label="操作" width="120" align="center" > 
             <template #default="{row}">
-                <div class="u-felx" v-if="row.status == '1'">
+                <div class="u-p-5" v-if="row.status == '1'">
                     <el-popconfirm 
 						title="发货确认" 
 						@confirm="confirmSendBtn(row.id)"
@@ -62,12 +62,24 @@
 						cancel-button-text="取消"
 						>
 						<template #reference>
-							<el-button plain type="primary" size="small">发货</el-button>	
-							<!-- <el-button plain type="primary" size="small">发货</el-button>	 -->
+							<el-button plain type="primary" size="small">发货</el-button>	 
 						</template>
 					</el-popconfirm>
                 </div>
-                <div  v-if="row.status == '5'">
+                <div class="u-p-5" v-if="row.status == '1'">
+                    <el-popconfirm 
+                        v-if="ziti == '1'"
+						title="自提确认" 
+						@confirm="selfPickupBtn(row.id)"
+						confirm-button-text="确认"
+						cancel-button-text="取消"
+						>
+						<template #reference>
+							<el-button plain type="primary" size="small">自提</el-button>	 
+						</template>
+					</el-popconfirm>
+                </div> 
+                <div class="u-p-5" v-if="row.status == '5'">
                     <el-popconfirm 
 						title="同意退款确认" 
 						@confirm="checkRefundBtn({sh: 1, order_id: row.id})"
@@ -79,6 +91,8 @@
 							<!-- <el-button plain type="primary" size="small">发货</el-button>	 -->
 						</template>
 					</el-popconfirm>
+                </div>
+                <div class="u-p-5" v-if="row.status == '5'">
                     <el-popconfirm 
 						title="拒绝退款确认" 
 						@confirm="checkRefundBtn({sh: 0, order_id: row.id})"
@@ -178,6 +192,7 @@ const dialogVisible = ref(false)
 const $api = inject('$api')
 const list = ref([])
 const loading = ref(false)
+const ziti = ref('')
 const curP = ref(1)
 const total = ref(0)
 const pageSize = ref(20) 
@@ -235,12 +250,22 @@ const getData = async () => {
     if(res.code == 1) {
         list.value = res.list
         total.value = +res.total 
+        ziti.value = res.ziti || ''
     }
 }
 async function confirmSendBtn (id) {
 	dialogVisible.value = true 
     curRowId.value = id
     // emit('sendExpress', id)
+}
+async function selfPickupBtn(id) {
+    const res = await $api.change_order_status4({params: {
+		order_id: id, 
+	}})
+	if(res.code == 1) {
+		ElMessage.success(res.msg)
+        await getData()
+	}
 }
 async function submitForm (formName) {
     formName.validate(async (valid) => {
