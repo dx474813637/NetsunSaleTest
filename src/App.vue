@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { watch, computed } from 'vue'
+import { watch, computed, onMounted, onBeforeMount } from 'vue'
 import router from '@/router/guard'
+import {cateStore} from '@/stores/cate'
+import {userStore} from '@/stores/user'  
+const cate = cateStore() 
+const {menuListAll, menuList, menus,  router_mode} = toRefs(cate) 
 // import {
 //   baseStore
 // } from '@/stores/main.js';
@@ -15,6 +19,9 @@ watch(
 		deep: true
 	}
 ) 
+onMounted(() => {
+	
+})
 const isOperate = computed(() => router.currentRoute.value.matched.some(ele => ele.name == 'operate'))
 
 </script>

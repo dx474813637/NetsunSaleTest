@@ -14,15 +14,17 @@ router.beforeEach(async (to, from, next) => {
     const finance = useFinanceStore(pinia)
     const cate = cateStore(pinia)
     const {account_info} = toRefs(finance)
-    const {cpy_info} = toRefs(user)
-    const {role} = toRefs(cate)
+    const {cpy_info, role} = toRefs(user)
+    const { router_mode, menus } = toRefs(cate)
     
-    start() 
-
-    if(to?.meta?.rz && cpy_info.value.rz == 0) {
-        // console.log(router)
-        // router.back()
+    start()
+    let getCpy = false
+    if(!cpy_info.value.hasOwnProperty('id')) {
         await user.getCpyData();
+        getCpy = true
+    }
+    if(to?.meta?.rz && cpy_info.value.rz == 0) { 
+        if(!getCpy) await user.getCpyData(); 
         if(cpy_info.value.rz == 0) {
             ElMessageBox.confirm(
                 '该功能需要认证旺铺信息，请先完成认证',
@@ -40,10 +42,31 @@ router.beforeEach(async (to, from, next) => {
             return  
         }
         
-    } 
-    if(role.value === '') { 
-        await cate.getMenusData();
     }
+    let router_all_mode = ['index', 'operate']
+    if(role.value === '') { 
+        // console.log(2)
+        await user.getRoleData();
+        to.matched.some(ele => {
+            if(router_all_mode.includes(ele.name)) { 
+                router_mode.value = ele.name
+                return true
+            }
+            return false
+        })
+        cate.getMenusData()
+    }
+    else {
+        to.matched.some(ele => {
+            if(router_all_mode.includes(ele.name)) { 
+                router_mode.value = ele.name
+                return true
+            }
+            return false
+        })
+    }
+    
+    
     if(to?.meta?.role && !to.meta.role.includes(role.value) ) {
         next(from)
         return

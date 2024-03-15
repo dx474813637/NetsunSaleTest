@@ -50,9 +50,9 @@
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, toRefs  } from "vue";
 import router from "@/router/guard" 
-import { cateStore } from '@/stores/cate'
-const cate = cateStore()
-const { role } = toRefs(cate)
+import { userStore } from '@/stores/user'
+const user = userStore()
+const { role } = toRefs(user)
 const routerName = computed(() => { 
 	return router.currentRoute.value.name
 })

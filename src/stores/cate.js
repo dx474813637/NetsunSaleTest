@@ -1,11 +1,16 @@
+
+import pinia from '@/stores/index';  
 import {
 	defineStore
 } from 'pinia';
 import apis from '@/apis/index'
-import menuList from '@/utils/menuList' 
-import menuList2 from '@/utils/menuList_operate' 
+// import menuList from '@/utils/menuList' 
+// import menuList2 from '@/utils/menuList_operate' 
 import {deepClone, initAddressData} from '@/utils/index' 
 import router from '@/router/guard'
+import {userStore} from '@/stores/user'
+const user = userStore(pinia)
+const { roleApiName, role } = toRefs(user)
 // import {
 // 	User, Setting, Handbag, Pointer, Postcard, Files, Box
 // } from "@element-plus/icons-vue";  
@@ -27,24 +32,10 @@ export const cateStore = defineStore('cate', {
 			freight_loading: false,
 			regional_list: initAddressData(),
 			regional_loading: false,
-			menuList: menuList,
+			menuList: [],
 			warehouse_list: [],
-			menus: [],
-			role: '',
-			roleStr: [
-				{
-					role: '1',
-					name: '商家'
-				},
-				{
-					role: '2',
-					name: '运营商'
-				},
-				{
-					role: '3',
-					name: 'MCN机构'
-				},
-			],
+			menus: [], 
+			router_mode: ''
 		};
 	},
 	getters: {
@@ -63,33 +54,7 @@ export const cateStore = defineStore('cate', {
 			return cate
 		},
 		menuListAll: (state) => {
-			// console.log(state)
-			let menus = deepClone(state.menus).map((ele, index) => {
-				return {
-					...ele,
-					label: ele.name,
-					type: 'title',
-					index: `api_${index}`,
-					icon: 'icon-xitongguanli',
-					children: ele.list.map(item => {
-						return {
-							label: item.name,
-							icon: 'icon-xitongguanli',
-							url: item.url
-						}
-					})
-				}
-			})
-			// console.log(1, router.currentRoute.value)
-			if(router.currentRoute.value.matched.some(ele => ele.name == 'operate')) {
-				let menus = menuList2.map(ele => {
-					ele.children = ele.children.filter(item => item.role.includes(state.role))
-					return {...ele}
-				}) 
-				console.log(2,menus)
-				return [...menus]
-			}
-			return [...state.menuList, ...menus]
+			return filterMenusData(state.menus)
 		},
 	},
 	// 也可以这样定义
@@ -110,11 +75,13 @@ export const cateStore = defineStore('cate', {
 				this.warehouse_list = res.list
 			}
 		},
-		async getMenusData(needLoading = false) {
-			const res = await apis.memu({ needLoading });
+		async getMenusData(needLoading = false ) { 
+			if(!this.router_mode) return
+			let name = roleApiName.value[this.router_mode]
+			const res = await apis.memu({ params: { name }, needLoading });
 			if (res.code == 1) {
 				this.menus = res.list
-				this.role = res.role
+				role.value = res.role
 			}
 		},
 		async getFreightData() {
@@ -136,3 +103,16 @@ export const cateStore = defineStore('cate', {
 		},
 	},
 });
+
+function filterMenusData(data) {
+	let list = [];
+	data.forEach(ele => {
+		if(ele.role.includes(role.value)) {
+			if(ele.hasOwnProperty('children')) {
+				ele.children = filterMenusData(ele.children)
+			} 
+			list.push(ele)
+		}
+	}) 
+	return list 
+}

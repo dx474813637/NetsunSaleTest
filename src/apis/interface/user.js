@@ -2,7 +2,9 @@ import axios from '@/request/index';
 
 
 // `memu` 菜单
-export const memu = (data) => axios.get('Userapi/memu', data) 
+export const memu = (data) => axios.get('Userapi/memu1', data) 
+// `memu2` 获取账户权限
+export const getAccRole = (data) => axios.get('Userapi/memu2', data) 
 // `my_card` 买卖方名片
 export const my_card = (data) => axios.get('Userapi/my_card', data)  
 // `change_psw` 修改密码 参数password  passworda

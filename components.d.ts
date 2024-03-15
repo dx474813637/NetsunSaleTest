@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/Table/TableStatement copy.vue')['default']
     Editor: typeof import('./src/components/Editor/Editor.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAlert: typeof import('element-plus/es')['ElAlert']
@@ -87,6 +88,8 @@ declare module '@vue/runtime-core' {
     TableShopOrder: typeof import('./src/components/Table/TableShopOrder.vue')['default']
     TableSku: typeof import('./src/components/Table/TableSku.vue')['default']
     TableStatement: typeof import('./src/components/Table/TableStatement.vue')['default']
+    TableStatementList: typeof import('./src/components/Table/TableStatementList.vue')['default']
+    TableStateMentList: typeof import('./src/components/Table/TableStateMentList.vue')['default']
     TableSubAcc: typeof import('./src/components/Table/TableSubAcc.vue')['default']
     TableWhiteSeller: typeof import('./src/components/Table/TableWhiteSeller.vue')['default']
     TableWorkers: typeof import('./src/components/Table/TableWorkers.vue')['default']

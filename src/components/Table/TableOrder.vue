@@ -42,7 +42,16 @@
                 <el-statistic :precision="2" :value="row.total_fee" value-style="font-size: 14px; color: #f00" />
             </template>
         </el-table-column>
-        <el-table-column prop="company" :label="props.customParams.role == '1'? '卖家' : '买家'" width="220" />
+        <el-table-column :label="props.customParams.role == '1'? '卖家' : '买家'" width="220"  >
+            <template #default="{row}">
+                <div>
+                    <el-text type="info" >{{ row.company }}</el-text>  
+                </div> 
+                <div v-if="row.info" class="u-m-t-5">
+                    <el-text type="error" >备注：{{ row.info }}</el-text>  
+                </div> 
+            </template>
+        </el-table-column>
         
         <el-table-column label="订单状态" width="120" >
             <template #default="{row}">

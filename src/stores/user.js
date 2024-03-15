@@ -27,24 +27,47 @@ export const userStore = defineStore('user', {
 			user_loading: false,
 			cpy_info: {},
 			cpy_loading: false,
-			role: '13',
+			role: '',
 			roleStr: [
 				{
-					role: '13',
-					name: '供应商'
+					role: '1',
+					name: '商家',
+					api_name: { 
+						index: 'menuList'
+					}
 				},
 				{
-					role: '14',
-					name: '采购商'
+					role: '2',
+					name: '运营商',
+					api_name: {
+						operate: 'menuList_operate',
+						index: 'menuList'
+					}
+				},
+				{
+					role: '3',
+					name: 'MCN机构',
+					api_name: {
+						operate: 'menuList_operate',
+						index: 'menuList'
+					} 
+				},
+				{
+					role: '4',
+					name: '子账户',
+					api_name: { 
+						index: 'menuList'
+					}  
 				},
 			],
-			subAccount: []
+			subAccount: [],
 		};
 	},
 	getters: {
 		login: (state) => state.user_info.poster || localStorage.getItem('login'),
-		roleName:  (state) => state.roleStr.filter(ele => ele.role == state.role)[0].name,
-		roleName2:  (state) => state.roleStr.filter(ele => ele.role != state.role)[0].name,
+		roleName:  (state) => state.roleStr.filter(ele => ele.role == state.role)[0]?.name,
+		roleName2:  (state) => state.roleStr.filter(ele => ele.role != state.role)[0]?.name,
+		roleApiName: (state) => state.roleStr.filter(ele => ele.role == state.role)[0]?.api_name, 
 	},
 	// 也可以这样定义
 	// state: () => ({ count: 0 })
@@ -57,7 +80,7 @@ export const userStore = defineStore('user', {
 			localStorage.removeItem('login')
 		},
 		async getRoleData(needLoading = false) {
-			const res = await apis.login_role({ loading: needLoading });
+			const res = await apis.getAccRole({ loading: needLoading });
 			if (res.code == 1) {
 				this.role = res.role
 			}

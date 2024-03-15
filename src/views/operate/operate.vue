@@ -186,7 +186,7 @@ const subTitle = computed(() => {
 watch(
 	() => router.currentRoute.value,
 	(newValue:any) => {
-		console.log(newValue.name) 
+		// console.log(newValue.name) 
 		menuActive.value = newValue.name
 	},
 	{immediate: true, deep: true}

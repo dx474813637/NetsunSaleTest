@@ -178,7 +178,7 @@
                     v-model:file-list="dynamicValidateForm.pic"
                     list-type="picture-card" 
                     :headers="configHeader"  
-                    :http-request="(options) => upload(options, dynamicValidateForm.pic) "
+                    :http-request="(options) => upload({...options, api: 'upimg1'}, dynamicValidateForm.pic) "
                     :before-upload="beforeUpload">
                     <el-icon>
                         <Plus />
@@ -215,7 +215,7 @@
                     v-model:file-list="dynamicValidateForm.description"
                     list-type="picture-card" 
                     :headers="configHeader"  
-                    :http-request="(options) => upload(options, dynamicValidateForm.description) "
+                    :http-request="(options) => upload({...options, api: 'upimg1'}, dynamicValidateForm.description) "
                     :before-upload="beforeUpload">
                     <el-icon>
                         <Plus />
@@ -411,7 +411,7 @@
                                     :headers="configHeader" 
                                     :limit="1"
                                     :on-exceed="(files, uploadFiles) => handlePictureExceed(files, uploadFiles, domainValue.filesList) "
-                                    :http-request="(options) => upload(options, domainValue.filesList, i)"
+                                    :http-request="(options) => upload({...options, api: 'upimg2'}, domainValue.filesList, i)"
                                     :before-upload="beforeUpload"> 
                                     <el-icon size="16">
                                         <Plus />
@@ -475,7 +475,7 @@
                                 :headers="configHeader" 
                                 :limit="1"
                                 :on-exceed="(files, uploadFiles) => handlePictureExceed(files, uploadFiles, row.filesList)"
-                                :http-request="(options) => upload(options, row.filesList) "
+                                :http-request="(options) => upload({...options, api: 'upimg2'}, row.filesList) "
                                 :before-upload="beforeUpload">
                                 <el-icon>
                                     <Plus />
@@ -1101,7 +1101,7 @@ async function upload(param: any , propName, index:any) {
     // console.log(propName) 
     const formData = new FormData()
     formData.append('file', param.file)
-    const res = await $api.upimg(formData)
+    const res = await $api[param.api](formData)
     // console.log(res)
     if (res.code == 1) {
         if(typeof index != 'undefined') {
@@ -1136,7 +1136,7 @@ const handlePictureCardPreview = (file: UploadFile) => {
 }
 async function handlePictureExceed(files: UploadFile, uploadFiles, propName) {
     console.log('handlePictureExceed')
-    const res = await upload({ file: files[0] }, propName)
+    const res = await upload({ file: files[0], api: 'upimg' }, propName)
     if (res) {
         // console.log(uploadRefs)
         uploadRefs[index].clearFiles()

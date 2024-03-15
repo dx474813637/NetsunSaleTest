@@ -10,126 +10,134 @@
         scroll-to-error
         inline-message
         > 
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <el-form-item label="银行账户名称" prop="rec_bank_account_name">
-                    <el-input 
-                        v-model="dynamicValidateForm.rec_bank_account_name"  
-                        autocomplete="off" 
-                        clearable 
-                    />
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <el-form-item label="银行编码" prop="rec_bank_code">
-                    <el-select
-                        style="width: 100%"
-                        v-model="dynamicValidateForm.rec_bank_code"
-                        filterable
-                        placeholder="银行编码"  
-                        clearable 
-                    >
-                        <el-option
-                            v-for="item in bank_code_list"
-                            :key="item.id"
-                            :label="`${item.name} - ${item.code}`"
-                            :value="item.code"
-                        />
-                    </el-select>
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <el-form-item label="银行支行名称" prop="rec_bank_name">
-                    <div class="u-flex" style="width: 100%">
+        <template v-if="mode == 'bind'">
+            <el-row>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="开户名" prop="rec_bank_account_name">
                         <el-input 
-                            v-model="dynamicValidateForm.rec_bank_name"   
+                            v-model="dynamicValidateForm.rec_bank_account_name"  
                             autocomplete="off" 
-                            readonly 
-                            class="u-flex-1" 
-                        />
-                        <el-button type="warning" plain class="u-m-l-20" @click.prevent="dialogVisible = true">点击查询</el-button>
-                    </div>
-                    
-                    <!-- <el-select
-                            class="u-flex-1 more-select" 
-                            popper-class="more_select_dropdown"
-                            v-model="dynamicValidateForm.rec_bank_name"
-                            filterable
-                            remote
-                            reserve-keyword 
-                            :remote-method="bankNameRemoteMethod" 
-                            placeholder="输入银行关键字([地区]+[银行]组合如“杭州 平安”)搜索银行支行名称以及行号"  
-                            :loading="bank_name_loading"
                             clearable 
-                            @change="bankChange"
-                            @clear="bankClear"
-                            v-loadmore="loadmore"
+                        />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="开户银行" prop="rec_bank_code">
+                        <el-select
+                            style="width: 100%"
+                            v-model="dynamicValidateForm.rec_bank_code"
+                            filterable
+                            placeholder="可输入关键字筛选"  
+                            clearable 
                         >
                             <el-option
-                                v-for="item in bank_name_list"
+                                v-for="item in bank_code_list"
                                 :key="item.id"
-                                :label="`${item.bank_name} - ${item.bank_no}`"
-                                :value="`${item.bank_name},${item.bank_no}`"
+                                :label="`${item.name} - ${item.code}`"
+                                :value="item.code"
                             />
-                        </el-select> -->
-                </el-form-item>
-            </el-col>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="银行支行名称" prop="rec_bank_name">
+                        <div class="u-flex" style="width: 100%">
+                            <el-input 
+                                v-model="dynamicValidateForm.rec_bank_name"   
+                                autocomplete="off" 
+                                readonly 
+                                class="u-flex-1" 
+                            />
+                            <el-button type="warning" plain class="u-m-l-20" @click.prevent="dialogVisible = true">点击查询</el-button>
+                        </div>
+                        
+                        <!-- <el-select
+                                class="u-flex-1 more-select" 
+                                popper-class="more_select_dropdown"
+                                v-model="dynamicValidateForm.rec_bank_name"
+                                filterable
+                                remote
+                                reserve-keyword 
+                                :remote-method="bankNameRemoteMethod" 
+                                placeholder="输入银行关键字([地区]+[银行]组合如“杭州 平安”)搜索银行支行名称以及行号"  
+                                :loading="bank_name_loading"
+                                clearable 
+                                @change="bankChange"
+                                @clear="bankClear"
+                                v-loadmore="loadmore"
+                            >
+                                <el-option
+                                    v-for="item in bank_name_list"
+                                    :key="item.id"
+                                    :label="`${item.bank_name} - ${item.bank_no}`"
+                                    :value="`${item.bank_name},${item.bank_no}`"
+                                />
+                            </el-select> -->
+                    </el-form-item>
+                </el-col>
 
-        </el-row>
-        <el-row v-show="dynamicValidateForm.rec_bank_no">
-            <el-col :span="12" :xs="24">
-                <el-form-item label="银行行号" prop="rec_bank_no">
-                    <el-input 
-                        v-model="dynamicValidateForm.rec_bank_no"   
-                        autocomplete="off" 
-                        readonly 
-                    />
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <el-form-item label="银行卡号" prop="rec_bank_account">
-                    <el-input 
-                        v-model="dynamicValidateForm.rec_bank_account"  
-                        autocomplete="off" 
-                        clearable 
-                    />
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <el-form-item label="提现金额(元)" prop="amount">
-                    <el-input 
-                        v-model="dynamicValidateForm.amount"  
-                        autocomplete="off" 
-                        clearable 
-                    />
-                </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="12" :xs="24">
-                <el-form-item label="备注" prop="memo">
-                    <el-input 
-                        v-model="dynamicValidateForm.memo"  
-                        autocomplete="off" 
-                        clearable 
-                    />
-                </el-form-item>
-            </el-col>
-        </el-row>
+            </el-row>
+            <el-row v-show="dynamicValidateForm.rec_bank_no">
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="银行行号" prop="rec_bank_no">
+                        <el-input 
+                            v-model="dynamicValidateForm.rec_bank_no"   
+                            autocomplete="off" 
+                            readonly 
+                        />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="银行账号" prop="rec_bank_account">
+                        <el-input 
+                            v-model="dynamicValidateForm.rec_bank_account"  
+                            autocomplete="off" 
+                            clearable 
+                        />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </template>
+        
+        <template v-if="mode == 'apply'">
+            <el-row>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="提现金额(元)" prop="amount">
+                        <el-input 
+                            v-model="dynamicValidateForm.amount"  
+                            autocomplete="off" 
+                            clearable 
+                        />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12" :xs="24">
+                    <el-form-item label="备注" prop="memo">
+                        <el-input 
+                            v-model="dynamicValidateForm.memo"  
+                            autocomplete="off" 
+                            clearable 
+                        />
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </template>
+        
          
         <el-row>
             <el-col :span="12" :xs="24">
                 <el-form-item class="u-flex">
                     <el-button type="primary" class="u-flex-1" @click="submitForm(formRef)">提交</el-button> 
-                    <el-button type="primary" plain @click="router.push({name: 'statement_list'})">申请列表</el-button> 
+                    <!-- <el-button type="primary" plain @click="router.push({name: 'statement_list'})">提现申请列表</el-button> 
+                    <el-button type="success" plain v-if="mode == 'bind'" @click="router.push({name: 'out_pay_apply'})">提现申请</el-button> 
+                    <el-button type="success" plain v-if="mode == 'apply'" @click="router.push({name: 'out_pay_bind'})">绑定资料</el-button>  -->
                 </el-form-item>
             </el-col>
         </el-row>
@@ -159,9 +167,9 @@
 </template>
   
 <script lang="ts" setup>
-import { reactive, ref, inject, onMounted } from 'vue'
+import { reactive, ref, inject, onMounted, watch } from 'vue'
 import router from '@/router/guard'
-import { genFileId, ElMessage } from 'element-plus'
+import { genFileId, ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
 import { deepClone } from '@/utils' 
 
@@ -175,6 +183,7 @@ const dynamicValidateForm = reactive<{
     rec_bank_name: string
     amount: string
     memo: string
+    bd: string
 }>({ 
     rec_bank_account_name: '', 
     rec_bank_code: '', 
@@ -182,11 +191,13 @@ const dynamicValidateForm = reactive<{
     rec_bank_account: '', 
     rec_bank_name: '', 
     amount: '', 
-    memo: ''
+    memo: '',
+    bd: ''
 }) 
 const dialogVisible = ref(false)
 const auth = ref('') 
 const terms = ref('')
+const mode = ref('')
 const pay_info_list = ref([])
 const bank_code_list = ref([])
 const rec_bank_no_loading = ref(false)
@@ -230,6 +241,16 @@ const rules = reactive<FormRules<typeof ruleForm>>({
     }],
 })  
 
+watch(
+    () => router.currentRoute.value.meta.mode,
+    (newVal:any ) => { 
+        mode.value = newVal || 'bind'
+        if(mode.value == 'bind') {
+            dynamicValidateForm.bd = '1'
+        }
+    },
+    {immediate: true}
+) 
 function setCurrentRow({value}) {
     currentRow.value = value
 }
@@ -281,7 +302,15 @@ async function getPayInfoData() {
     const res = await $api.pay_info({loading: true})
     if(res.code == 1) {
         auth.value = res.auth
-        pay_info_list.value = res.list || []
+        pay_info_list.value = res.list || {}
+        dynamicValidateForm.rec_bank_account_name = pay_info_list.value.rec_bank_account_name
+        dynamicValidateForm.rec_bank_code = pay_info_list.value.rec_bank_code
+        dynamicValidateForm.rec_bank_no = pay_info_list.value.rec_bank_no
+        dynamicValidateForm.rec_bank_account = pay_info_list.value.rec_bank_account
+        dynamicValidateForm.rec_bank_name = pay_info_list.value.rec_bank_name
+        if(!pay_info_list.value.hasOwnProperty('id') && mode.vlaue == 'apply') {
+            router.push({name: 'out_pay_bind'})
+        }
     }
 }
 
@@ -317,7 +346,27 @@ async function submitApi(data) {
         ...data
     })
     if(res.code == 1) {
-        ElMessage.success(res.msg)
+        if( mode.value == 'bind' ) {
+            
+            ElMessageBox.confirm(
+                '绑定申请成功',
+                '提示',
+                {
+                    confirmButtonText: '去申请提现',
+                    cancelButtonText: '取消',
+                    type: 'success',
+                }
+            )
+            .then(() => {
+                router.push({name: 'out_pay_apply'})
+            })
+            .catch(() => {
+                
+            }) 
+        }
+        else { 
+            ElMessage.success(res.msg)
+        }
         // router.push({
         //     name: 'product_list'
         // })

@@ -85,7 +85,7 @@ import {cateStore} from '@/stores/cate'
 import {userStore} from '@/stores/user' 
 const useSettings = useSettingsStore()
 const cate = cateStore() 
-const {menuListAll, menuList} = toRefs(cate) 
+const {menuListAll, menuList, menus,  router_mode} = toRefs(cate) 
 const { webview } = toRefs(useSettings)
 const user = userStore() 
 const {cpy_info} = toRefs(user)
@@ -97,8 +97,7 @@ const props = defineProps({
 	}
 })
 onMounted(async () => { 
-	cate.getMenusData()
-	await user.getCpyData(true) 
+	// user.getCpyData(true) 
 })
   
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -110,30 +109,41 @@ const handleClose = (key: string, keyPath: string[]) => {
 watch(
 	() => router.currentRoute.value,
 	(newValue:any) => {
-		console.log(newValue.name) 
+		// console.log(newValue.name) 
 		menuActive.value = newValue.name
 	},
 	{immediate: true, deep: true}
 )
 watch(
-	() => cpy_info.value,
+	() => [cpy_info.value, menus.value, router_mode.value],
 	(newValue:any) => { 
-		menuList.value.some(ele => {
-			if(ele.index == 1) {
-				ele.children.forEach(item => {
-					if(item.index == 'shop_info' ) {
-						item.tag = newValue.rz == 1? 'success': 'error'
-						item.msg = newValue.rz == 1? '已认证': '未认证'
-					}
-				})
-				return true
-			}
-			return false
-		})
+		if(router_mode.value == 'index') {
+			menus.value.some(ele => {
+				if(ele.index == 1) {
+					ele.children.forEach(item => {
+						if(item.index == 'shop_info' ) {
+							item.tag = cpy_info.value.rz == 1? 'success': 'error'
+							item.msg = cpy_info.value.rz == 1? '已认证': '未认证'
+						}
+					})
+					return true
+				}
+				return false
+			})
+		}
+		
 	},
 	{immediate: true, deep: true}
 )
 
+watch(
+	() => router_mode.value,
+	(n) => {
+		console.log(n)
+		menus.value = []
+		cate.getMenusData()
+	} 
+)
 const funcClick = (item) => {
 	if(item.index == 'logout') {
 		user.logout()

@@ -99,6 +99,7 @@
                     inline-prompt
                     v-model="row.on" 
                     active-value="1" 
+                    disabled
                     inactive-value="0"
                     active-text="上架中"
                     inactive-text="未上架" 
@@ -150,19 +151,45 @@
         </el-table-column> -->
         <el-table-column label="操作"  :fixed="isH5? false :'right'" width="140" align="center" v-if="isEditBtn"> 
             <template #default="{row}">
-
-                <el-button 
-                    link 
-                    type="primary" 
-                    size="small" 
-                    @click="router.push({name: 'product_edit', params: {id: row.id}})"
-                    >编辑</el-button>  
-                <el-button 
-                    link 
-                    type="primary" 
-                    size="small" 
-                    @click="router.push({name: 'product_edit', params: {id: row.id},query:{mode: '1'}})"
-                    >批发编辑</el-button>  
+                
+                <div class="u-flex-column u-flex-center" >
+                    <div class="u-p-5">
+                        <el-button 
+                            link 
+                            type="primary" 
+                            size="small" 
+                            @click="router.push({name: 'product_edit', params: {id: row.id}})"
+                            >编辑</el-button> 
+                    </div>
+                    <div class="u-p-5">
+                        <el-button 
+                            link  
+                            type="primary" 
+                            size="small" 
+                            @click="router.push({name: 'product_edit', params: {id: row.id},query:{mode: '1'}})"
+                            >批发编辑</el-button> 
+                    </div>
+                    <div class="u-p-5">
+                        <el-popconfirm 
+                            title="移除确认" 
+                            @confirm="deleteProd(row.id)"
+                            confirm-button-text="确认"
+                            cancel-button-text="取消"
+                            >
+                            <template #reference>
+                                <el-button  
+                                    link  
+                                    type="danger" 
+                                    size="small"  
+                                    >删除</el-button> 
+                            </template>
+                        </el-popconfirm>
+                    </div>
+                     
+                    
+                    
+                </div>
+                 
             </template>
             
         </el-table-column>
@@ -241,10 +268,8 @@ const defaultProps = {
   children: 'children',
   label: 'label',
 }
-onMounted(async () => {
-    loading.value = true; 
-    await getData()
-    loading.value = false;
+onMounted(async () => { 
+    await refreshData() 
     user.getSubAccData()
 })
 watch(
@@ -261,6 +286,12 @@ const setUploadRef = (el: any, index: string, prop) => {
     if (el) { 
         prop[index] = el 
     }
+}
+async function refreshData() {
+    
+    loading.value = true; 
+    await getData()
+    loading.value = false;
 }
 const handlePictureCardPreview = (file: UploadFile) => {
     dialogImageUrl.value = file.url!
@@ -389,6 +420,13 @@ async function accChangeEvent(value, row) {
     row.ewm_loading = false;
 }
 
+const deleteProd = async (id) => {
+    const res = await $api.del_product({params: {id}});
+    if(res.code == 1){
+        ElMessage.success(res.msg)
+        refreshData()
+    }
+}
 </script>
 <style lang='scss' scoped>
 @import "@/styles/table.scss";

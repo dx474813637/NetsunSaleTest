@@ -29,11 +29,18 @@ export const web_pid_sku = (data) => axios.get('Userapi/web_pid_sku', data)
 export const web_pid_sku1 = (data) => axios.get('Userapi/web_pid_sku1', data) 
 // upimg 上传图片
 export const upimg = (data, config) => axios.post('Userapi/upimg', data, config) 
+// upimg 上传图片 edit
+export const upimg1 = (data, config) => axios.post('Userapi/upimg1', data, config) 
+// upimg 上传图片 sku
+export const upimg2 = (data, config) => axios.post('Userapi/upimg2', data, config) 
 // cate_list 分类
 export const cate_list = (data) => axios.get('Userapi/cate_list', data) 
 
 // change_product_status 商品上下架 参数id  商品id
 export const change_product_status = (data) => axios.get('Userapi/change_product_status', data) 
+
+// del_product 删除商品 参数id 商品id
+export const del_product = (data) => axios.get('Userapi/del_product', data)
 
 // save_product 保存商品 
     // 参数：`id 有id更新没有id新增`,`name`, `cate分类id`, `price`, `pic`商品轮播图, `description商品描述，目前只支持图片。多张图片用|分开。
@@ -151,3 +158,21 @@ export const edit_sub_account = (data) => axios.get('Userapi/edit_sub_account', 
 
 // save_product_ewm这个原来修改二维码的接口变成关联子账号的接口。参数不变。 参数id ewm 保存商品二维码
 export const save_product_ewm = (data) => axios.get('Userapi/save_product_ewm', data)
+
+
+// order_statement_num1 待结算金额
+export const order_statement_num1 = (data) => axios.get('Userapi/order_statement_num1', data)
+// order_statement_num2 已结算金额
+export const order_statement_num2 = (data) => axios.get('Userapi/order_statement_num2', data)
+
+// order_statement_cash 提现记录 参数p
+export const order_statement_cash = (data) => axios.get('Userapi/order_statement_cash', data)
+// order_statement_draw 提现 参数idarr statement total_fee refund_fee jy 从已结算金额接口里获取
+export const order_statement_draw = (data) => axios.get('Userapi/order_statement_draw', data)
+
+// order_statement_list1 待结算列表 参数p
+export const order_statement_list1 = (data) => axios.get('Userapi/order_statement_list1', data)
+// order_statement_list2 已结算列表 参数p
+export const order_statement_list2 = (data) => axios.get('Userapi/order_statement_list2', data)
+// order_statement_list3 已提现列表 参数p sid=提现记录接口里的id
+export const order_statement_list3 = (data) => axios.get('Userapi/order_statement_list3', data)
