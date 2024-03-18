@@ -64,7 +64,7 @@ const customParams = computed(() => {
 		// type: value.value,
 		// role: role.value
 	}
-})
+}) 
 const detail_id = ref('');
 const dialogTableVisible = ref(false);
 function detailEvent(data) {
