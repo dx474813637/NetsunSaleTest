@@ -6,7 +6,7 @@
         :maxHeight="maxHeight"  
         > 
         <!-- <el-table-column prop="id" label="ID" width="70" align="center"  /> -->
-        <el-table-column label="商品信息" :width="isH5? '320' :'auto'"  >
+        <el-table-column label="商品信息" :width="isH5? '300' :'auto'"  >
             <template #default="{row}">  
                 <div class="u-m-b-10 u-flex text-nowrap">
                     <div>
@@ -42,8 +42,11 @@
                 <el-statistic :precision="2" :value="row.total_fee" value-style="font-size: 14px; color: #f00" />
             </template>
         </el-table-column>
-        <el-table-column :label="props.customParams.role == '1'? '卖家' : '买家'" width="220"  >
+        <el-table-column label="订单信息" width="250"  >
             <template #default="{row}">
+                <div v-if="row.express" class="u-m-b-5">
+                    <el-text type="success" >物流单号:{{ row.express }}</el-text>  
+                </div> 
                 <div>
                     <el-text type="info" >{{ row.company }}</el-text>  
                 </div> 

@@ -15,8 +15,8 @@
 			<el-col :span="12" :xs="24">
 				<div class="u-radius-8 card u-flex-column u-flex-items-center u-flex-center u-p-10 box-border">
 					<div class="card-header u-flex u-flex-between u-flex-items-center">
-						<el-text tag="b" class="u-font-16 text-white">已结算金额</el-text>
-						<el-button size="small" v-if="initData.order_statement_num2 > 0" @click="tixianBtn">提现</el-button>
+						<el-text tag="b" class="u-font-16 text-white">可提现金额</el-text>
+						<el-button type="danger" plain size="small" v-if="initData.order_statement_num2 > 0" @click="tixianBtn">提现</el-button>
 					</div>
 					<div class="u-flex-1 u-flex u-flex-center">
 						<el-statistic :precision="2" :value="initData.order_statement_num2" value-style="font-size: 30px; color: #fff" />

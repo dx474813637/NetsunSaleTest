@@ -16,7 +16,7 @@
                     <el-form-item label="开户名" prop="rec_bank_account_name">
                         <el-input 
                             v-model="dynamicValidateForm.rec_bank_account_name"  
-                            autocomplete="off" 
+                            disabled 
                             clearable 
                         />
                     </el-form-item>
@@ -81,7 +81,7 @@
                 </el-col>
 
             </el-row>
-            <el-row v-show="dynamicValidateForm.rec_bank_no">
+            <!-- <el-row v-show="dynamicValidateForm.rec_bank_no">
                 <el-col :span="12" :xs="24">
                     <el-form-item label="银行行号" prop="rec_bank_no">
                         <el-input 
@@ -91,7 +91,7 @@
                         />
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-row>
                 <el-col :span="12" :xs="24">
                     <el-form-item label="银行账号" prop="rec_bank_account">
@@ -346,30 +346,28 @@ async function submitApi(data) {
         ...data
     })
     if(res.code == 1) {
-        if( mode.value == 'bind' ) {
+        ElMessage.success(res.msg)
+        // if( mode.value == 'bind' ) {
             
-            ElMessageBox.confirm(
-                '绑定申请成功',
-                '提示',
-                {
-                    confirmButtonText: '去申请提现',
-                    cancelButtonText: '取消',
-                    type: 'success',
-                }
-            )
-            .then(() => {
-                router.push({name: 'out_pay_apply'})
-            })
-            .catch(() => {
+        //     ElMessageBox.confirm(
+        //         '绑定申请成功',
+        //         '提示',
+        //         {
+        //             confirmButtonText: '去申请提现',
+        //             cancelButtonText: '取消',
+        //             type: 'success',
+        //         }
+        //     )
+        //     .then(() => {
+        //         router.push({name: 'out_pay_apply'})
+        //     })
+        //     .catch(() => {
                 
-            }) 
-        }
-        else { 
-            ElMessage.success(res.msg)
-        }
-        // router.push({
-        //     name: 'product_list'
-        // })
+        //     }) 
+        // }
+        // else { 
+        //     ElMessage.success(res.msg)
+        // } 
     }
 }
  

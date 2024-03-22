@@ -12,6 +12,8 @@ export const msgcode = (data) => axios.get('Userapi/msgcode', data)
 
 // product 商品列表 参数p  num默认20 cate
 export const product = (data) => axios.get('Userapi/product', data) 
+// product2 运营商  商家商品列表  参数p和on=1 上架 =2下架
+export const product2 = (data) => axios.get('Userapi/product2', data) 
 // product_detail 商品详情 参数id
 export const product_detail = (data) => axios.get('Userapi/product_detail', data) 
 // login_sku sku列表

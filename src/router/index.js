@@ -185,7 +185,8 @@ const routes = [
                 path: 'out_pay_bind',
                 name: 'out_pay_bind', 
                 meta: {
-                    title: '结算账户绑定', 
+                    title: '提现账户绑定',
+                    rz: true,
                     role: [1, 2, 3], 
                     mode: 'bind'
                 },
@@ -274,6 +275,15 @@ const routes = [
                     role: [2],
                 }, 
                 component: () => import('@/views/operate/shop_order_list/shop_order_list.vue'),
+            },
+            {
+                path: 'om_product_list',
+                name: 'om_product_list', 
+                meta: {
+                    title: '商品列表',  
+                    role: [2],
+                }, 
+                component: () => import('@/views/operate/om_product_list/om_product_list.vue'),
             },
         ]
     },

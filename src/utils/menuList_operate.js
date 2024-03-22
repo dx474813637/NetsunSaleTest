@@ -50,6 +50,15 @@
 				"route": {
 					"name": "shop_order_list"
 				}
+			},
+			{
+				"label": "商品列表", 
+				"icon": "",
+				"index": "om_product_list", 
+				"role": "[ 2 ]",
+				"route": {
+					"name": "om_product_list"
+				}
 			}
 		]
 	}

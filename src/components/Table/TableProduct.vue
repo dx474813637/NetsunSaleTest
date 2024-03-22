@@ -92,9 +92,15 @@
                 </div>
             </template>
         </el-table-column>
-        <el-table-column label="上架状态" :fixed="isH5? false :'right'" width="100"> 
+        <el-table-column label="上架状态" :fixed="isH5? false :'right'" width="100" align="center"> 
             <template #default="{row}">
-                <el-switch 
+                <el-text type="success"  v-if="row.on == '1'">
+                    上架中
+                </el-text>
+                <el-text type="danger" v-else>
+                    未上架
+                </el-text>
+                <!-- <el-switch 
                     size="large"
                     inline-prompt
                     v-model="row.on" 
@@ -105,7 +111,7 @@
                     inactive-text="未上架" 
                     :loading="row.switchLoading" 
                     :before-change="() => beforeProdOnChange(row)"
-                    /> 
+                    />  -->
             </template>
             
         </el-table-column>
@@ -362,37 +368,37 @@ const handleCurrentTableChange = (val: User | undefined) => {
     currentRow.value = val
 }
 
-const beforeProdOnChange = async (item) => {
-    item.switchLoading = true  
-    return new Promise(async (resolve, reject)=>{
+// const beforeProdOnChange = async (item) => {
+//     item.switchLoading = true  
+//     return new Promise(async (resolve, reject)=>{
         
-        let res = await changeProductOnStatus(item) 
-        item.switchLoading = false
-        if(res.code == 1) { 
-            ElNotification({
-                title: '系统消息',
-                message: res.msg,
-                type: 'success',
-                position: 'bottom-right',
-            })
-            return resolve(true)
-        }else { 
-            ElNotification({
-                title: '系统消息',
-                message: res.msg,
-                type: 'success',
-                position: 'bottom-right',
-            })
-            return resolve(false)
-        } 
-    })
+//         let res = await changeProductOnStatus(item) 
+//         item.switchLoading = false
+//         if(res.code == 1) { 
+//             ElNotification({
+//                 title: '系统消息',
+//                 message: res.msg,
+//                 type: 'success',
+//                 position: 'bottom-right',
+//             })
+//             return resolve(true)
+//         }else { 
+//             ElNotification({
+//                 title: '系统消息',
+//                 message: res.msg,
+//                 type: 'success',
+//                 position: 'bottom-right',
+//             })
+//             return resolve(false)
+//         } 
+//     })
     
-}
+// }
 
-const changeProductOnStatus = async (prod) => { 
-    const res = await $api.change_product_status({params: {id: prod.id}}); 
-    return res
-}
+// const changeProductOnStatus = async (prod) => { 
+//     const res = await $api.change_product_status({params: {id: prod.id}}); 
+//     return res
+// }
 
 async function accChangeEvent(value, row) {
     console.log(value, row)

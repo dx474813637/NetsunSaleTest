@@ -91,7 +91,7 @@
 				"label": "待发货订单",
 				"icon": "", 
 				"role": "[1, 2, 3]",
-				"url": "https://www.sunmaxx.cn/User/order_statement"
+				"url": "https://www.sunmaxx.cn/User/down_order"
 			}
 		]
 	}, 
@@ -130,7 +130,7 @@
 		"role": "[1, 2, 3]", 
 		"children": [
 			{
-				"label": "结算账户绑定", 
+				"label": "提现账户绑定", 
 				"icon": "",
 				"index": "out_pay_bind", 
 				"role": "[1, 2, 3]", 

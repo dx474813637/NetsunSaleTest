@@ -30,6 +30,7 @@
     "@types/node": "^20.2.3",
     "@types/nprogress": "^0.2.0",
     "@vitejs/plugin-vue": "^4.1.0",
+    "terser": "^5.26.0",
     "typescript": "^5.0.2",
     "unplugin-auto-import": "^0.16.1",
     "unplugin-icons": "^0.16.1",

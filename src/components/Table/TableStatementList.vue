@@ -30,7 +30,12 @@
                     <el-statistic :precision="2" :value="row.sale_money" value-style="font-size: 14px; color: #f00" />
                 </template>
             </el-table-column> 
-            <el-table-column prop="money" label="提现金额"  > 
+            <el-table-column prop="money2" label="平台服务费"  > 
+                <template #default="{ row }">
+                    <el-statistic :precision="2" :value="row.money2" value-style="font-size: 14px; color: #f00" />
+                </template>
+            </el-table-column> 
+            <el-table-column prop="money" label="已提现金额"  > 
                 <template #default="{ row }">
                     <el-statistic :precision="2" :value="row.money" value-style="font-size: 14px; color: #f00" />
                 </template>
@@ -132,8 +137,9 @@ onMounted(async () => {
     refreshData()
 })
 watch(
-    () => [curP.value, props.api],
+    () => props.api,
     async (val) => {
+        curP.value = 1
         refreshData()
     },
     {deep: true}

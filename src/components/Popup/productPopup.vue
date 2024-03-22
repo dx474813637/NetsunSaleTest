@@ -1,8 +1,8 @@
 <template>
-    <el-dialog v-model="dialogTableVisible" width="1000px" title="商品详情" @open="open" :close-on-press-escape="false" >
+    <el-dialog customClass="cusTomClass" v-model="dialogTableVisible" width="1000px" title="商品详情" @open="open" :close-on-press-escape="false" >
         <div class="home-w">
             <el-row :gutter="30" class="u-m-b-40">
-                <el-col :span="9"> 
+                <el-col :span="9" :xs="24"> 
 					<div class="u-m-b-15">
 						<product-focusing :imgs="picArr" :index="activeIndex"></product-focusing>
 					</div>
@@ -17,7 +17,7 @@
 						</el-tabs>
 					</div>  
                 </el-col>
-                <el-col :span="15">
+                <el-col :span="15" :xs="24">
                     <div class="main-center u-p-r-30">
                         <div class="product-title u-m-b-10">
                             <el-text class="u-font-20">{{ product_base_data.name }}</el-text>
@@ -30,6 +30,15 @@
                                     <el-text type="danger" tag="b">￥</el-text>
                                     <el-statistic :value="skuPrice" :precision="2"
                                         value-style="color: #ff0000; font-size: 22px; font-weight: bold"></el-statistic>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-fahuo u-m-b-5">
+                            <div class="u-flex u-flex-items-start info-row">
+                                <div class="info-row-item info-row-item-label">商家：</div>
+                                <div
+                                    class="info-row-item info-row-item-content u-flex u-flex-items-start u-flex-wrap u-m-l-5">
+                                    <el-text>{{ product_shop_data.company }}</el-text>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +120,22 @@
 					</div>
                 </el-col>
             </el-row>
+			<el-row>
+				<el-col :span="24"> 
+					<el-tabs v-model="detailActive" type="border-card">
+						<el-tab-pane label="商品详情" name="description">
+							<div class="u-p-10">
+								<el-image v-for="(item, index) in descriptionArr" :key="index"
+									:src="item"
+									lazy
+									style="width: 100%;"
+								></el-image>
+							</div>  
+
+						</el-tab-pane> 
+					</el-tabs>
+				</el-col>
+			</el-row>
         </div>
     </el-dialog>
 </template>
@@ -154,6 +179,7 @@ const product_sku = reactive<any>({
 	data: {},
 	form: {}
 })     
+const detailActive = ref('description')
 const activeIndex = ref(0)
 watch(
 	() => product_base_data.value.sku,
@@ -172,6 +198,7 @@ const skuCheck = computed(() => !Object.values(product_sku.form).some(ele => !el
 const product_num_max = ref(0)
 const active_sku_preview_img = ref('')
 const freight_name = computed(() => freight_list.value.filter(ele => ele.value == product_base_data.value?.freight_id)[0]?.label)
+const descriptionArr = computed(() => product_base_data.value.description?.split('|'))
  
 const skuPrice = computed(() => {
 	let price = 0;
@@ -245,12 +272,18 @@ function setMaxCount() {
 	}
 } 
 </script>
+<!-- <style lang="scss">
+	.cusTomClass {
+		border-radius: 20px!important;
+	}
+</style> -->
 <style lang='scss' scoped>
 .main {
 	.el-image {
 		display: block;
 	}
 }
+
 .shop-card {
 	position: relative;
 	overflow: hidden;
