@@ -12,7 +12,7 @@ export const msgcode = (data) => axios.get('Userapi/msgcode', data)
 
 // product 商品列表 参数p  num默认20 cate
 export const product = (data) => axios.get('Userapi/product', data) 
-// product2 运营商  商家商品列表  参数p和on=1 上架 =2下架
+// product2 运营商  商家商品列表  参数login,p和on=1 上架 =2下架
 export const product2 = (data) => axios.get('Userapi/product2', data) 
 // product_detail 商品详情 参数id
 export const product_detail = (data) => axios.get('Userapi/product_detail', data) 
@@ -170,7 +170,7 @@ export const order_statement_num2 = (data) => axios.get('Userapi/order_statement
 // order_statement_cash 提现记录 参数p
 export const order_statement_cash = (data) => axios.get('Userapi/order_statement_cash', data)
 // order_statement_draw 提现 参数idarr statement total_fee refund_fee jy 从已结算金额接口里获取
-export const order_statement_draw = (data) => axios.get('Userapi/order_statement_draw', data)
+export const order_statement_draw = (data, config) => axios.post('Userapi/order_statement_draw', data, config)  
 
 // order_statement_list1 待结算列表 参数p
 export const order_statement_list1 = (data) => axios.get('Userapi/order_statement_list1', data)
@@ -178,3 +178,23 @@ export const order_statement_list1 = (data) => axios.get('Userapi/order_statemen
 export const order_statement_list2 = (data) => axios.get('Userapi/order_statement_list2', data)
 // order_statement_list3 已提现列表 参数p sid=提现记录接口里的id
 export const order_statement_list3 = (data) => axios.get('Userapi/order_statement_list3', data)
+
+// my_express  我的物流配置列表
+export const my_express = (data) => axios.get('Userapi/my_express', data)
+// express_dictionary 配置信息，在添加、编辑物流配置时用到
+export const express_dictionary = (data) => axios.get('Userapi/express_dictionary', data)
+// express_detail 配置详情 参数id 物流配置列表里的id
+export const express_detail = (data) => axios.get('Userapi/express_detail', data)
+// express_save 保存物流配置 
+    // 参数 id,kuaidicom,name,partnerId,partnerKey,partnerSecret,partnerName,net,code,checkMan,payType,expType  
+    // 具体文字说明根据配置信息来显示，配置信息里为空的，就是提交内容直接为空就行，不用提交的内容。
+export const express_save = (data, config) => axios.post('Userapi/express_save', data, config)  
+
+// address_detail2 发货地址详情
+export const address_detail2 = (data) => axios.get('Userapi/address_detail2', data)
+// edit_address2 编辑发货地址 name收件人 tel手机 address详细地址 包括省市区的
+export const edit_address2 = (data, config) => axios.post('Userapi/edit_address2', data, config)  
+
+// order_express_create 生成电子面单 参数 id订单id wuliu物流配置里的id  
+// 订单状态为1付款成功和8发货中有这个按钮，现在就直接返回数据，没有真实提交，可以随便测试。
+export const order_express_create = (data) => axios.get('Userapi/order_express_create', data)

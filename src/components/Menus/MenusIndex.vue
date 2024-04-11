@@ -158,7 +158,13 @@ const funcClick = (item) => {
 } 
 function gotoOtherPage(ele) {
 	if(ele.hasOwnProperty('linkWay')) {
-		location.href = ele.url
+		if(ele.linkWay == 'open') {
+			window.open(ele.url)
+		}
+		else if(ele.linkWay == 'replace') {
+			location.href = ele.url
+		}
+		
 		return
 	}
 	localStorage.setItem('webview', JSON.stringify(ele))

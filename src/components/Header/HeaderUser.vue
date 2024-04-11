@@ -21,7 +21,7 @@
 								@click="router.push({name: 'workers_list'})"
 								>
 								<template v-if="role == 2">运营商管理中心</template> 
-								<template v-if="role == 3">MCN机构管理中心</template> 
+								<template v-if="role == 3">VIP商家管理中心</template> 
 								
 							</el-button> 
 						</div>

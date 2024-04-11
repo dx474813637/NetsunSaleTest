@@ -91,6 +91,20 @@
 						</template>
 					</el-popconfirm>
                 </div> 
+                <!-- <div class="u-p-5" v-if="row.status == '1' || row.status == '8'"> -->
+                <div class="u-p-5" >
+                    <el-popconfirm 
+                        v-if="ziti == '1'"
+						title="生成电子面单确认" 
+						@confirm="createExpressBtn(row.id)"
+						confirm-button-text="确认"
+						cancel-button-text="取消"
+						>
+						<template #reference>
+							<el-button plain type="primary" size="small">生成电子面单</el-button>	 
+						</template>
+					</el-popconfirm>
+                </div> 
                 <div class="u-p-5" v-if="row.status == '5'">
                     <el-popconfirm 
 						title="同意退款确认" 

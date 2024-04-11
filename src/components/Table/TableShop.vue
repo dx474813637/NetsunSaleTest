@@ -104,8 +104,15 @@
                         class="u-m-b-10"
                         v-if="row.uid != 0"
                     >发展人UID：{{ row.uid }}</el-tag>
-                    <el-button type="success" icon="DocumentChecked" round plain size="small" 
-                        @click="router.push({name: 'shop_order_list', query: {login: row.username}})" >商家订单</el-button>
+                    <div class="u-m-b-10">
+                        <el-button type="success" icon="DocumentChecked" round plain size="small" 
+                            @click="router.push({name: 'shop_order_list', query: {login: row.username}})" >商家订单</el-button>
+                    </div>
+                    <div v-if="row.info && row.info.rz == 1">
+                        <el-button type="warning" icon="Goods" round plain size="small" 
+                        @click="router.push({name: 'om_product_list', query: {login: row.username}})" >商品列表</el-button>
+                    </div>
+                   
                 </div> 
             </template>
         </el-table-column>  

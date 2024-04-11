@@ -9,7 +9,7 @@
         scroll-to-error
         inline-message
         > 
-        <el-form-item label="旧密码" prop="password">
+        <!-- <el-form-item label="旧密码" prop="password">
             <el-input 
                 v-model="dynamicValidateForm.password" 
                 type="password" 
@@ -17,7 +17,7 @@
                 clearable
                 style="max-width: 400px;"
             />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="新密码" prop="passworda">
             <el-input 
                 v-model="dynamicValidateForm.passworda" 

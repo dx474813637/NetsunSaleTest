@@ -89,7 +89,7 @@ function setShow(v) {
 	dialogTableVisible.value = v
 }
 async function tixianBtn() {
-    const res = await $api.order_statement_draw({params: {...initData.value.config}, loading: true}) 
+    const res = await $api.order_statement_draw({...initData.value.config, loading: true}) 
     if(res.code == 1) {
 		ElMessage.success(res.msg)
 		await getInitData()

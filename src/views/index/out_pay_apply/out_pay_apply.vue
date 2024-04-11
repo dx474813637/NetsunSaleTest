@@ -1,4 +1,4 @@
-<template> 
+<template>  
     <el-form
         style="width: 100%;" 
         ref="formRef" 
@@ -10,9 +10,20 @@
         scroll-to-error
         inline-message
         > 
+        <el-row>
+            <el-col :span="14" :xs="24">
+                <el-form-item >
+                    <el-alert 
+                        :title="rzConfig.title" 
+                        :type="rzConfig.type" 
+                        :closable="false"
+                    />
+                </el-form-item> 
+            </el-col>
+        </el-row>
         <template v-if="mode == 'bind'">
             <el-row>
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="开户名" prop="rec_bank_account_name">
                         <el-input 
                             v-model="dynamicValidateForm.rec_bank_account_name"  
@@ -23,7 +34,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="开户银行" prop="rec_bank_code">
                         <el-select
                             style="width: 100%"
@@ -31,6 +42,7 @@
                             filterable
                             placeholder="可输入关键字筛选"  
                             clearable 
+                            :readonly="rzConfig.zt == 1"
                         >
                             <el-option
                                 v-for="item in bank_code_list"
@@ -43,7 +55,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="银行支行名称" prop="rec_bank_name">
                         <div class="u-flex" style="width: 100%">
                             <el-input 
@@ -52,7 +64,7 @@
                                 readonly 
                                 class="u-flex-1" 
                             />
-                            <el-button type="warning" plain class="u-m-l-20" @click.prevent="dialogVisible = true">点击查询</el-button>
+                            <el-button type="warning" plain class="u-m-l-20" @click.prevent="dialogVisible = true" v-if="rzConfig.zt != 1">点击查询</el-button>
                         </div>
                         
                         <!-- <el-select
@@ -82,7 +94,7 @@
 
             </el-row>
             <!-- <el-row v-show="dynamicValidateForm.rec_bank_no">
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="银行行号" prop="rec_bank_no">
                         <el-input 
                             v-model="dynamicValidateForm.rec_bank_no"   
@@ -93,12 +105,13 @@
                 </el-col>
             </el-row> -->
             <el-row>
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="银行账号" prop="rec_bank_account">
                         <el-input 
                             v-model="dynamicValidateForm.rec_bank_account"  
                             autocomplete="off" 
                             clearable 
+                            :readonly="rzConfig.zt == 1"
                         />
                     </el-form-item>
                 </el-col>
@@ -107,7 +120,7 @@
         
         <template v-if="mode == 'apply'">
             <el-row>
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="提现金额(元)" prop="amount">
                         <el-input 
                             v-model="dynamicValidateForm.amount"  
@@ -118,7 +131,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12" :xs="24">
+                <el-col :span="14" :xs="24">
                     <el-form-item label="备注" prop="memo">
                         <el-input 
                             v-model="dynamicValidateForm.memo"  
@@ -131,8 +144,8 @@
         </template>
         
          
-        <el-row>
-            <el-col :span="12" :xs="24">
+        <el-row v-if="rzConfig.zt != 1">
+            <el-col :span="14" :xs="24">
                 <el-form-item class="u-flex">
                     <el-button type="primary" class="u-flex-1" @click="submitForm(formRef)">提交</el-button> 
                     <!-- <el-button type="primary" plain @click="router.push({name: 'statement_list'})">提现申请列表</el-button> 
@@ -167,7 +180,7 @@
 </template>
   
 <script lang="ts" setup>
-import { reactive, ref, inject, onMounted, watch } from 'vue'
+import { reactive, ref, inject, onMounted, watch, computed } from 'vue'
 import router from '@/router/guard'
 import { genFileId, ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -204,9 +217,26 @@ const rec_bank_no_loading = ref(false)
 const bank_name_list = ref([])
 const bank_name_loading = ref(false)
 const currentRow = ref()
+const statusText = ref('')
 onMounted(async () => {
     await getPayInfoData()
     getBankCodeData() 
+})
+const rzConfig = computed(() => {
+    let type = 'warning'
+    let title = statusText.value
+    let zt = pay_info_list.value?.zt
+    if(pay_info_list.value.zt == 1) { 
+        type = 'success' 
+    }
+    if(pay_info_list.value.zt == 2) { 
+        type = 'error' 
+    }
+    return {
+        zt,
+        type,
+        title
+    }
 })
 const rules = reactive<FormRules<typeof ruleForm>>({  
     rec_bank_account_name: [{
@@ -308,6 +338,7 @@ async function getPayInfoData() {
         dynamicValidateForm.rec_bank_no = pay_info_list.value.rec_bank_no
         dynamicValidateForm.rec_bank_account = pay_info_list.value.rec_bank_account
         dynamicValidateForm.rec_bank_name = pay_info_list.value.rec_bank_name
+        statusText.value = res.statusText
         if(!pay_info_list.value.hasOwnProperty('id') && mode.vlaue == 'apply') {
             router.push({name: 'out_pay_bind'})
         }

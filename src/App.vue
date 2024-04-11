@@ -20,7 +20,7 @@ watch(
 	}
 ) 
 onMounted(() => {
-	
+	document.body.style.setProperty("--el-color-danger", "#FF3B53");
 })
 const isOperate = computed(() => router.currentRoute.value.matched.some(ele => ele.name == 'operate'))
 

@@ -31,9 +31,13 @@
                 
             </template> 
         </el-table-column> 
-        <el-table-column label="订单" width="70" align="center"  >
+        <el-table-column label="订单ID" width="90" align="center"  >
             <template #default="{row}">
-                <el-link type="primary" size="small"  @click="emit('detailEvent', row.oid)">查看</el-link>
+                <div class="u-flex-column">
+                    <el-text>{{ row.oid }}</el-text>
+                    <el-link type="primary" size="small"  @click="emit('detailEvent', row.oid)">查看</el-link>
+                </div>
+                
             </template> 
         </el-table-column>
         <el-table-column label="快递单号" width="100"  >

@@ -624,13 +624,9 @@
                 </el-table-column>
                 <el-table-column prop="spec_no" label="规格编码" :fixed="isH5 ? false:'right'" width="150" > 
                     <template #default="{ row, $index }">
-                        <el-form-item :prop="'domains2Price.' + $index + '.spec_no'" :rules="{
-                                required: true,
-                                message: '规格编码不能为空',
-                                trigger: 'blur',
-                            }">
-                                <el-input v-model="row.spec_no" clearable placeholder="规格编码" />
-                            </el-form-item>
+                        <el-form-item :prop="'domains2Price.' + $index + '.spec_no'" >
+                            <el-input v-model="row.spec_no" clearable placeholder="规格编码" />
+                        </el-form-item>
                     </template>
 
                 </el-table-column>
@@ -638,6 +634,12 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm(formRef)">发布</el-button>
+            <template v-if="!id">
+                <el-button type="warning" plain @click="saveDraftsDataBtn">保存至草稿箱</el-button>
+                <!-- <el-button type="success" plain @click="getDraftsDataBtn">读取草稿箱</el-button> -->
+                <el-button type="danger" plain @click="removeDraftsDataBtn" v-show="drafts_flag">清空草稿箱</el-button>
+            </template>
+            
             <!-- <el-button @click="resetForm(formRef)">Reset</el-button> -->
         </el-form-item>
     </el-form>
@@ -668,13 +670,14 @@
   
 <script lang="ts" setup>
 import { reactive, ref, inject, toRefs, watch, nextTick, computed, onMounted  } from 'vue'
-import { genFileId, ElMessage } from 'element-plus'
+import { genFileId, ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, UploadFile, UploadRequestOptions, UploadRawFile, UploadProps, FormRules, TableColumnCtx  } from 'element-plus'
 import {
     Delete, Plus, ZoomIn, CirclePlus, FolderOpened 
 } from '@element-plus/icons-vue'
 import router from '@/router/guard'
 import { baseStore } from '@/stores/main'
+import { useDraftsStore } from '@/stores/drafts'
 import { cateStore } from '@/stores/cate'
 import toSpecPrices from '@/utils/toSpecPrices' 
 import { deepClone, isNumber } from '@/utils' 
@@ -690,6 +693,8 @@ const {
     sku2domains
 } = useProductSku()
 const { configHeader } = baseStore()
+const draftsStore = useDraftsStore()
+const { drafts_flag, drafts } = toRefs(draftsStore)
 const cate = cateStore()
 const { cate_list, freight_list, warehouse_list } = toRefs(cate)
 const $api: any = inject('$api')
@@ -996,6 +1001,20 @@ const domainsTabsValue = ref('')
 onMounted(async () => {
     cate.getCateData() 
 	cate.getWarehouseData() 
+    if(drafts_flag.value && !props.id) {
+        ElMessageBox.confirm(
+            '当前草稿箱已存在商品，是否继续编辑草稿箱商品',
+            '提示',
+            {
+                confirmButtonText: '读取数据继续编辑',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }
+        )
+        .then(() => {  
+            getDraftsData()
+        }) 
+    }
 })
 interface DomainItem {
     key: number | string
@@ -1013,6 +1032,45 @@ interface Domain2PricesItem {
     price: number
     price9: number
     spec_no: string
+}
+function removeDraftsDataBtn() {
+    draftsStore.removeDrafts()
+}
+function getDraftsData() {
+    dynamicValidateForm.name = drafts.value.name 
+    dynamicValidateForm.cate = drafts.value.cate 
+    dynamicValidateForm.delivery_delay_day = drafts.value.delivery_delay_day 
+    dynamicValidateForm.freight_id = drafts.value.freight_id 
+    dynamicValidateForm.on = drafts.value.on 
+    dynamicValidateForm.ewm = drafts.value.ewm 
+    dynamicValidateForm.price = drafts.value.price 
+    dynamicValidateForm.goods_no = drafts.value.goods_no 
+    dynamicValidateForm.recommend_remark = drafts.value.recommend_remark 
+    dynamicValidateForm.weight = drafts.value.weight 
+    dynamicValidateForm.price2 = +drafts.value.price2 
+    dynamicValidateForm.pprice = +drafts.value.pprice 
+    dynamicValidateForm.num = drafts.value.num 
+    dynamicValidateForm.warehouse = drafts.value.warehouse 
+    dynamicValidateForm.weight_unit = drafts.value.weight_unit  
+    dynamicValidateForm.attribute = drafts.value.attribute 
+    dynamicValidateForm.domains = drafts.value.domains
+    dynamicValidateForm.description = drafts.value.description 
+    dynamicValidateForm.pic = drafts.value.pic  
+    domainsTabsValue.value = drafts.value.domainsTabsValue;
+    domainIndex = drafts.value.domainsTabsValue
+    detail_spec_prices.value = drafts.value.spec_prices
+}
+function getDraftsDataBtn() {
+    getDraftsData()
+}
+function saveDraftsDataBtn() {
+    let formParams = deepClone(dynamicValidateForm); 
+    draftsStore.saveDraftsEvent({
+        ...formParams,
+        domains: dynamicValidateForm.domains, 
+        domainsTabsValue: domainsTabsValue.value,
+        spec_prices: detail_spec_prices.value 
+    })
 }
 const setUploadRef = (el: any, index: string, prop) => {
     if (el) { 
@@ -1098,9 +1156,8 @@ const removeTab = (targetName: string) => {
     dynamicValidateForm.domains = tabs.filter((tab) => tab.name !== targetName)
 }
 async function upload(param: any , propName, index:any) {
-    // console.log(propName) 
     const formData = new FormData()
-    formData.append('file', param.file)
+    formData.append('file', param.file) 
     const res = await $api[param.api](formData)
     // console.log(res)
     if (res.code == 1) {
@@ -1349,13 +1406,12 @@ function skuTableConfirm() {
     domainIndex = arr.length 
     dynamicValidateForm.domains = arr
     dialogVisible2.value = false;
-}
-
+} 
 async function getProductData () {
     const res = await $api.product_detail({params: {id: props.id, pf: editMode.value}})
-    if(res.code == 1) {
-        let {arr, newTabName} = sku2domains(res.list.sku);
-        let data = res.list 
+    if(res.code == 1) { 
+        let data = res.list
+        let {arr, newTabName} = sku2domains(data.sku);
         dynamicValidateForm.name = data.name 
         dynamicValidateForm.cate = data.cate 
         dynamicValidateForm.delivery_delay_day = data.delivery_delay_day 

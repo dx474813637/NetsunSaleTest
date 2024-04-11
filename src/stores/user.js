@@ -46,7 +46,7 @@ export const userStore = defineStore('user', {
 				},
 				{
 					role: '3',
-					name: 'MCN机构',
+					name: 'VIP商家',
 					api_name: {
 						operate: 'menuList_operate',
 						index: 'menuList'
@@ -64,7 +64,7 @@ export const userStore = defineStore('user', {
 		};
 	},
 	getters: {
-		login: (state) => state.user_info.poster || localStorage.getItem('login'),
+		login: (state) => state.cpy_info.login || localStorage.getItem('login'),
 		roleName:  (state) => state.roleStr.filter(ele => ele.role == state.role)[0]?.name,
 		roleName2:  (state) => state.roleStr.filter(ele => ele.role != state.role)[0]?.name,
 		roleApiName: (state) => state.roleStr.filter(ele => ele.role == state.role)[0]?.api_name, 

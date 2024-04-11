@@ -14,16 +14,7 @@
 				"route": {
 					"name": "workers_list"
 				}
-			},
-			{
-				"label": "绑定员工", 
-				"icon": "",
-				"index": "workers_add", 
-				"role": "[ 2, 3]",
-				"route": {
-					"name": "workers_add"
-				}
-			},
+			}, 
 			{
 				"label": "发展团长列表", 
 				"icon": "",

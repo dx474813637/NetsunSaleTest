@@ -107,6 +107,13 @@ const addBtnList = [
 		}
 	},
 	{
+		name: 'express_list',
+		title: '新增物流配置',
+		to: {
+			name: 'express_add'
+		}
+	},
+	{
 		name: 'sub_acc',
 		title: '新增子账户',
 		to: {

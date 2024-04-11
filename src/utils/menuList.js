@@ -25,6 +25,24 @@
 				}
 			},
 			{
+				"label": "发货地址", 
+				"icon": "",
+				"index": "send_address", 
+				"role": "[1, 2, 3]",
+				"route": {
+					"name": "send_address"
+				}
+			},
+			{
+				"label": "物流配置", 
+				"icon": "",
+				"index": "express_list", 
+				"role": "[1, 2, 3]",
+				"route": {
+					"name": "express_list"
+				}
+			},
+			{
 				"label": "资质证书", 
 				"icon": "",
 				"index": "qua_ce", 
@@ -92,6 +110,18 @@
 				"icon": "", 
 				"role": "[1, 2, 3]",
 				"url": "https://www.sunmaxx.cn/User/down_order"
+			},
+			{
+				"label": "快递单号上传",
+				"icon": "", 
+				"role": "[1, 2, 3]",
+				"url": "https://www.sunmaxx.cn/User/up_order"
+			},
+			{
+				"label": "销售明细下载",
+				"icon": "", 
+				"role": "[1, 2, 3]",
+				"url": "https://www.sunmaxx.cn/User/down_order2"
 			}
 		]
 	}, 
@@ -152,6 +182,12 @@
 				"icon": "",
 				"role": "[1, 2, 3]", 
 				"url": "https://www.sunmaxx.cn/User/kaipiao" 
+			}, 
+			{
+				"label": "结算下载", 
+				"icon": "",
+				"role": "[1, 2, 3]", 
+				"url": "https://www.sunmaxx.cn/User/down_statement" 
 			}
 		]
 	}, 
@@ -176,6 +212,12 @@
 				"role": "[1, 2, 3, 4]", 
 				"url": "https://www.sunmaxx.cn/Index/logout",
 				"linkWay": "replace"
+			},
+			{
+				"label": "旺铺协议", 
+				"role": "[1, 2, 3, 4]", 
+				"url": "https://www.sunmaxx.cn/Index/sh.html",
+				"linkWay": "open"
 			}
 		] 
 	}

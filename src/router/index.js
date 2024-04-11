@@ -32,6 +32,15 @@ const routes = [
                 component: () => import('@/views/index/product_list/product_list.vue'),
             },
             {
+                path: 'express_list',
+                name: 'express_list',
+                meta: {
+                    title: '物流配置管理',  
+                    role: [1, 2, 3], 
+                },
+                component: () => import('@/views/index/express_list/express_list.vue'),
+            },
+            {
                 path: 'shop_info',
                 name: 'shop_info',
                 meta: {
@@ -39,6 +48,15 @@ const routes = [
                     role: [1, 2, 3], 
                 },
                 component: () => import('@/views/index/shop_info/shop_info.vue'),
+            },
+            {
+                path: 'send_address',
+                name: 'send_address',
+                meta: {
+                    title: '发货地址', 
+                    role: [1, 2, 3], 
+                },
+                component: () => import('@/views/index/send_address/send_address.vue'),
             },
             {
                 path: 'return_add',
@@ -86,6 +104,27 @@ const routes = [
                 },
                 props:true, 
                 component: () => import('@/views/index/sub_acc_edit/sub_acc_edit.vue'),
+            },
+            {
+                path: 'express_edit/:id',
+                name: 'express_edit',
+                meta: {
+                    title: '编辑物流配置',  
+                    role: [1, 2, 3],
+                    rz: true
+                },
+                props:true, 
+                component: () => import('@/views/index/express_edit/express_edit.vue'),
+            },
+            {
+                path: 'express_add',
+                name: 'express_add',
+                meta: {
+                    title: '新增物流配置',   
+                    role: [1, 2, 3],
+                    rz: true
+                },
+                component: () => import('@/views/index/express_edit/express_edit.vue'),
             },
             {
                 path: 'product_edit/:id',
