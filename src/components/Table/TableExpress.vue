@@ -1,7 +1,7 @@
 <template>
     <el-table 
         v-loading="loading" 
-        :data="skuList" 
+        :data="dataList" 
         style="width: 100%"  
         :highlight-current-row="isRadioGroup"
         @current-change="handleCurrentTableChange"
@@ -107,7 +107,7 @@ const props = defineProps({
 });
 const currentRow = ref()
 const $api:any = inject('$api')
-const skuList = ref([])
+const dataList = ref([])
 const loading = ref(false)
 const curP = ref(1)
 const total = ref(0)
@@ -145,7 +145,7 @@ async function refreshData() {
 } 
 const getData = async () => { 
     const res = await $api.my_express({params: paramsObj.value, loading: false}) 
-    skuList.value = res.list.map(ele => ({
+    dataList.value = res.list.map(ele => ({
         ...ele, 
         // switchLoading: false, 
         // sku: sku2treeData(ele.sku), 

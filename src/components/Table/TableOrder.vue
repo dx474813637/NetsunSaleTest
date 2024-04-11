@@ -91,8 +91,8 @@
 						</template>
 					</el-popconfirm>
                 </div> 
-                <!-- <div class="u-p-5" v-if="row.status == '1' || row.status == '8'"> -->
-                <div class="u-p-5" >
+                <div class="u-p-5" v-if="row.status == '1' || row.status == '8'">
+                <!-- <div class="u-p-5" > -->
                     <el-popconfirm 
                         v-if="ziti == '1'"
 						title="生成电子面单确认" 
@@ -101,7 +101,7 @@
 						cancel-button-text="取消"
 						>
 						<template #reference>
-							<el-button plain type="primary" size="small">生成电子面单</el-button>	 
+							<el-button plain type="primary" size="small">电子面单</el-button>	 
 						</template>
 					</el-popconfirm>
                 </div> 
@@ -187,6 +187,39 @@
         </span>
         </template>
     </el-dialog>
+    <el-dialog
+        v-model="dialogVisible2"
+        title="电子面单-选择物流"
+        :width="isH5? '90vw' :'800px'" 
+        @close="close2"
+        :close-on-click-modal="false"
+        draggable
+    >
+        <!-- <div class="u-flex u-flex-items-center">
+            <el-input v-model="express" placeholder="输入发货的快递单号" />
+        </div> -->
+        <el-form :model="eExpressForm" :rules="rules" ref="eExpressRef" label-width="100px">
+			<el-form-item label="当前订单号" >
+				<el-input v-model="curRowId" readonly ></el-input>
+			</el-form-item>
+			<el-form-item label="物流" prop="wuliu">
+				<el-select v-model="eExpressForm.wuliu" placeholder="物流" style="width: 100%;" >
+                    <el-option
+                        v-for="item in express_list"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    />
+                </el-select>
+			</el-form-item> 
+        </el-form>
+        <template #footer>
+        <span class="dialog-footer">
+            <el-button @click="dialogVisible2 = false">取消</el-button>
+            <el-button type="primary" @click="submitForm2(eExpressRef)">提交表单</el-button>
+        </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script setup lang='ts'>
@@ -215,8 +248,10 @@ const props = defineProps({
     },
 }); 
 const dialogVisible = ref(false)
+const dialogVisible2 = ref(false)
 const $api = inject('$api')
 const list = ref([])
+const express_list = ref([])
 const loading = ref(false)
 const ziti = ref('')
 const curP = ref(1)
@@ -224,6 +259,7 @@ const total = ref(0)
 const pageSize = ref(20) 
 const curRowId = ref('')
 const expressRef = ref()
+const eExpressRef = ref()
 const paramsObj = computed(() => {
     return {
         p: curP.value,
@@ -234,6 +270,9 @@ const deliveryList = ref([])
 const expressForm = ref({
     express: '',
     delivery_id: ''
+})
+const eExpressForm = ref({
+    wuliu: '', 
 })
 
 const rules = {
@@ -251,6 +290,7 @@ const rules = {
 const emit = defineEmits(["detailEvent"]);
 onMounted(async () => {
 	getDeliveryListData()
+    getMyExpressData()
     loading.value = true; 
     await getData()
     loading.value = false;
@@ -271,6 +311,13 @@ watch(
     },
     {deep: true}
 )
+const getMyExpressData = async () => { 
+    const res = await $api.my_express() 
+    if(res.code == 1) {
+        express_list.value = res.list || []
+    }
+    
+}
 const getData = async () => { 
     const res = await $api.order_list({params: paramsObj.value, loading: false}) 
     if(res.code == 1) {
@@ -283,6 +330,10 @@ async function confirmSendBtn (id) {
 	dialogVisible.value = true 
     curRowId.value = id
     // emit('sendExpress', id)
+}
+async function createExpressBtn(id) {
+	dialogVisible2.value = true 
+    curRowId.value = id
 }
 async function selfPickupBtn(id) {
     const res = await $api.change_order_status4({params: {
@@ -299,6 +350,22 @@ async function submitForm (formName) {
 	        const res = await changeStatus({...expressForm.value})
 			if(res.code != 1) return; 
 			dialogVisible.value = false
+			await getData()
+		} else {
+			console.log('error submit!!');
+			return false;
+		}
+	});
+     
+	
+}
+async function submitForm2 (formName) {
+    formName.validate(async (valid) => {
+		if (valid) { 
+	        const res = await $api.order_express_create({params: {id: curRowId.value, ...eExpressForm.value}})
+			if(res.code != 1) return; 
+            ElMessage.success(res.msg)
+			dialogVisible2.value = false
 			await getData()
 		} else {
 			console.log('error submit!!');
@@ -326,6 +393,10 @@ function close() {
     expressForm.value.delivery_id = ''
     expressForm.value.express = ''
     expressRef.value.resetFields()
+}
+function close2() {
+    eExpressForm.value.wuliu = '' 
+    eExpressRef.value.resetFields()
 }
 </script>
 <style lang='scss' scoped>
