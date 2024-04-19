@@ -91,7 +91,7 @@
 						</template>
 					</el-popconfirm>
                 </div> 
-                <div class="u-p-5" v-if="row.status == '1' || row.status == '8'">
+                <div class="u-p-5" v-if="(row.status == '1' || row.status == '8') && express == '1'">
                 <!-- <div class="u-p-5" > -->
                     <el-popconfirm 
                         v-if="ziti == '1'"
@@ -191,16 +191,16 @@
         v-model="dialogVisible2"
         title="电子面单-选择物流"
         :width="isH5? '90vw' :'800px'" 
-        @close="close2"
+        @close="close2" 
         :close-on-click-modal="false"
         draggable
     >
         <!-- <div class="u-flex u-flex-items-center">
             <el-input v-model="express" placeholder="输入发货的快递单号" />
         </div> -->
-        <el-form :model="eExpressForm" :rules="rules" ref="eExpressRef" label-width="100px">
+        <el-form :model="eExpressForm" :rules="rules" ref="eExpressRef" label-width="100px" label-position="top">
 			<el-form-item label="当前订单号" >
-				<el-input v-model="curRowId" readonly ></el-input>
+				<el-input v-model="curRowId" disabled ></el-input>
 			</el-form-item>
 			<el-form-item label="物流" prop="wuliu">
 				<el-select v-model="eExpressForm.wuliu" placeholder="物流" style="width: 100%;" >
@@ -211,6 +211,13 @@
                         :value="item.id"
                     />
                 </el-select>
+			</el-form-item> 
+			<el-form-item label="物品重量/KG" prop="weight"  :rules="{
+                    required: weightRequired,
+                    message: `物品重量不能为空`,
+                    trigger: ['blur', 'change'],
+                }">
+				<el-input v-model="eExpressForm.weight" clearable placeholder="物品重量(单位：千克)" />
 			</el-form-item> 
         </el-form>
         <template #footer>
@@ -254,6 +261,7 @@ const list = ref([])
 const express_list = ref([])
 const loading = ref(false)
 const ziti = ref('')
+const express = ref('')
 const curP = ref(1)
 const total = ref(0)
 const pageSize = ref(20) 
@@ -273,8 +281,16 @@ const expressForm = ref({
 })
 const eExpressForm = ref({
     wuliu: '', 
+    weight: ''
 })
-
+const weightRequired = computed(() => {
+    let wuliu = eExpressForm.value.wuliu;
+    let jitu_id = express_list.value.filter(ele => ele.name == '极兔速递')[0]?.id || ''
+    // console.log(wuliu, jitu_id)
+    eExpressRef.value?.clearValidate('weight')
+    if(jitu_id == wuliu) return true
+    return false
+})
 const rules = {
 	express: [{
 		required: true,
@@ -324,6 +340,7 @@ const getData = async () => {
         list.value = res.list
         total.value = +res.total 
         ziti.value = res.ziti || ''
+        express.value = res.express || ''
     }
 }
 async function confirmSendBtn (id) {
@@ -334,6 +351,7 @@ async function confirmSendBtn (id) {
 async function createExpressBtn(id) {
 	dialogVisible2.value = true 
     curRowId.value = id
+    eExpressForm.value.wuliu = express_list.value[0].id
 }
 async function selfPickupBtn(id) {
     const res = await $api.change_order_status4({params: {

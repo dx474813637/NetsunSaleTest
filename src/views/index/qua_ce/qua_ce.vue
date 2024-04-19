@@ -5,6 +5,7 @@
             class="demo-dynamic u-p-20 box-border" label-position="top" scroll-to-error inline-message> 
             <el-form-item label="资质证书" prop="pic">
                 <!-- <el-input v-model="dynamicValidateForm.pic" /> -->
+                <el-button type="primary" plain class="u-m-r-10" @click="showPopup">编辑</el-button>
                 <el-upload 
                     ref="pic" 
                     action="" 
@@ -45,6 +46,14 @@
             <img w-full style="width: 100%" :src="dialogImageUrl" alt="Preview Image" />
         </el-dialog>
     </div>
+    <div>
+        <upload-popup
+            :show="uploadShow"  
+            title="资质证书图片编辑"
+            :list="dynamicValidateForm.pic"
+            @setShow="setShow"
+        ></upload-popup>
+    </div>
 </template>
   
 <script lang="ts" setup>
@@ -64,8 +73,7 @@ import {
 const dialogImageUrl = ref('')
 const disabled = ref(false)
 const dialogVisible = ref(false)
-const editor = ref() 
-const initInfo = ref(false)
+const uploadShow = ref(false) 
 const $api: any = inject('$api')
 const formRef = ref<FormInstance>()
 const dynamicValidateForm = reactive<{ 
@@ -170,6 +178,12 @@ async function handlePictureExceed(files: UploadFile, uploadFiles, propName) {
     }
 }
 
+function setShow(v) {
+	uploadShow.value = v
+}
+function showPopup() {
+    setShow(true)
+}
 </script>
   
 <style lang='scss' scoped>

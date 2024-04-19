@@ -203,6 +203,19 @@ const deleteProd = async (id) => {
 <style lang='scss' scoped>
 @import "@/styles/table.scss";
 // 
+.el-table {
+    ::v-deep {
+        .el-table__body {
+            border-spacing:0px 5px;
+            .el-table__row {   
+                td {
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+                }
+            }
+        }
+    }
+}
 .el-tree {
     background-color: transparent;
 }

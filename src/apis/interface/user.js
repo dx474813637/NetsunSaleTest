@@ -44,6 +44,7 @@ export const address_change = (data) => axios.get('Userapi/address_change', data
 // json格式，每一条记录包含： cid表示旺铺ID，pid商品ID，num表示购买的商品数量
 export const create_order = (data) => axios.get('Userapi/create_order', data) 
 // `order_list` 订单列表  参数type 1待付款 2待收货 3已完成 role=1 买家的订单列表 不传或传其他值 卖家的订单列表 p页数  ziti=1时出现自提按钮
+// express=1时显示电子面单按钮，如果选择极兔速递的，输入框物品总重量KG 参数weight必填
 export const order_list = (data) => axios.get('Userapi/order_list', data) 
 // change_order_status4 自提接口，参数order_id订单ID
 export const change_order_status4 = (data) => axios.get('Userapi/change_order_status4', data)
