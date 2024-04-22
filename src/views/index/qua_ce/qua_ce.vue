@@ -4,37 +4,44 @@
         <el-form ref="formRef" :model="dynamicValidateForm" label-width="120px" :rules="rules"
             class="demo-dynamic u-p-20 box-border" label-position="top" scroll-to-error inline-message> 
             <el-form-item label="资质证书" prop="pic">
-                <!-- <el-input v-model="dynamicValidateForm.pic" /> -->
-                <el-button type="primary" plain class="u-m-r-10" @click="showPopup">编辑</el-button>
-                <el-upload 
-                    ref="pic" 
-                    action="" 
-                    v-model:file-list="dynamicValidateForm.pic"
-                    list-type="picture-card"  
-                    :headers="configHeader"  
-                    :http-request="(options) => upload(options, dynamicValidateForm.pic) "
-                    :before-upload="beforeUpload">
-                    <el-icon>
-                        <Plus />
-                    </el-icon>
+                <div class="u-flex u-flex-wrap u-flex-items-start">
+                    <div class="el-upload el-upload--picture-card u-m-r-8 u-m-b-8" @click="showPopup" >
+                        <el-icon>
+                            <Plus />
+                        </el-icon> 
+                    </div>
+                    <el-upload 
+                        ref="pic" 
+                        action="" 
+                        class="draggable-mode u-flex-1"
+                        v-model:file-list="dynamicValidateForm.pic"
+                        list-type="picture-card"  
+                        :headers="configHeader"  
+                        :http-request="(options) => upload(options, dynamicValidateForm.pic) "
+                        :before-upload="beforeUpload" 
+                        > 
+                        <el-icon>
+                            <Plus />
+                        </el-icon> 
 
-                    <template #file="{ file }"> 
-                        <div>
-                            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                            <span class="el-upload-list__item-actions">
-                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                    <el-icon><zoom-in /></el-icon>
+                        <template #file="{ file }"> 
+                            <div>
+                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                <span class="el-upload-list__item-actions">
+                                    <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                                        <el-icon><zoom-in /></el-icon>
+                                    </span>
+                                    <span v-if="!disabled" class="el-upload-list__item-delete"
+                                        @click="handleRemove(file, undefined, 'pic')">
+                                        <el-icon>
+                                            <Delete />
+                                        </el-icon>
+                                    </span>
                                 </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete"
-                                    @click="handleRemove(file, undefined, 'pic')">
-                                    <el-icon>
-                                        <Delete />
-                                    </el-icon>
-                                </span>
-                            </span>
-                        </div>
-                    </template>
-                </el-upload> 
+                            </div>
+                        </template>
+                    </el-upload> 
+                </div>
             </el-form-item> 
             <el-form-item>
                 <el-button type="primary" @click="submitForm(formRef)">提交</el-button>
@@ -49,9 +56,10 @@
     <div>
         <upload-popup
             :show="uploadShow"  
-            title="资质证书图片编辑"
+            :title="uploadTitle"
             :list="dynamicValidateForm.pic"
             @setShow="setShow"
+            @updateData="updateData"
         ></upload-popup>
     </div>
 </template>
@@ -74,6 +82,7 @@ const dialogImageUrl = ref('')
 const disabled = ref(false)
 const dialogVisible = ref(false)
 const uploadShow = ref(false) 
+const uploadTitle = ref('资质证书图片编辑')
 const $api: any = inject('$api')
 const formRef = ref<FormInstance>()
 const dynamicValidateForm = reactive<{ 
@@ -184,6 +193,9 @@ function setShow(v) {
 function showPopup() {
     setShow(true)
 }
+function updateData(data) {
+    dynamicValidateForm.pic = data
+}
 </script>
   
 <style lang='scss' scoped>
@@ -220,7 +232,7 @@ function showPopup() {
         // background-color: var(--el-color-primary-light-9);
     }
 
-    .limit {
+    .limit, .draggable-mode {
         .el-upload--picture-card {
             display: none;
         }
@@ -231,6 +243,14 @@ function showPopup() {
 
         .el-upload-list--picture-card .el-upload-list__item {
             margin: 0
+        }
+    }
+    .draggable-mode {
+        .el-upload--picture-card {
+            display: none;
+        } 
+        .el-upload-list--picture-card .el-upload-list__item {
+            margin: 0 8px 8px 0
         }
     }
 

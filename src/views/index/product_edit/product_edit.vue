@@ -172,35 +172,43 @@
         
         <el-form-item prop="pic" label="轮播主图" v-if="!editMode">
             <div>
-                <el-upload 
-                    ref="pic" 
-                    action=""   
-                    v-model:file-list="dynamicValidateForm.pic"
-                    list-type="picture-card" 
-                    :headers="configHeader"  
-                    :http-request="(options) => upload({...options, api: 'upimg1'}, dynamicValidateForm.pic) "
-                    :before-upload="beforeUpload">
-                    <el-icon>
-                        <Plus />
-                    </el-icon>
-
-                    <template #file="{ file }">
-                        <div>
-                            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                            <span class="el-upload-list__item-actions">
-                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                    <el-icon><zoom-in /></el-icon>
+                <div class="u-flex u-flex-wrap u-flex-items-start">
+                    <div class="el-upload el-upload--picture-card u-m-r-8 u-m-b-8" @click="showPopup('轮播主图图片编辑', 'pic')" >
+                        <el-icon>
+                            <Plus />
+                        </el-icon> 
+                    </div>
+                    <el-upload 
+                        ref="pic" 
+                        action=""
+                        class="draggable-mode u-flex-1"   
+                        v-model:file-list="dynamicValidateForm.pic"
+                        list-type="picture-card" 
+                        :headers="configHeader"  
+                        :http-request="(options) => upload({...options, api: 'upimg1'}, dynamicValidateForm.pic) "
+                        :before-upload="beforeUpload">
+                        <!-- <el-icon>
+                            <Plus />
+                        </el-icon> --> 
+                        <template #file="{ file }">
+                            <div>
+                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                <span class="el-upload-list__item-actions">
+                                    <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                                        <el-icon><zoom-in /></el-icon>
+                                    </span>
+                                    <span v-if="!disabled" class="el-upload-list__item-delete"
+                                        @click="handleRemove(file, undefined, 'pic')">
+                                        <el-icon>
+                                            <Delete />
+                                        </el-icon>
+                                    </span>
                                 </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete"
-                                    @click="handleRemove(file, undefined, 'pic')">
-                                    <el-icon>
-                                        <Delete />
-                                    </el-icon>
-                                </span>
-                            </span>
-                        </div>
-                    </template>
-                </el-upload> 
+                            </div>
+                        </template>
+                    </el-upload> 
+                </div>
+                
                 <div >
                     <el-text type="info">主图直接影响商品在商城的曝光引流效果，低质图无法获得平台免费推荐机会，仅支持png，jpg，jpeg格式，宽高至少600*600px，大小2M内。</el-text>
                 </div>
@@ -209,35 +217,43 @@
         </el-form-item> 
         <el-form-item prop="description" label="商品描述" v-if="!editMode">
             <div>
-                <el-upload 
-                    ref="description" 
-                    action=""  
-                    v-model:file-list="dynamicValidateForm.description"
-                    list-type="picture-card" 
-                    :headers="configHeader"  
-                    :http-request="(options) => upload({...options, api: 'upimg1'}, dynamicValidateForm.description) "
-                    :before-upload="beforeUpload">
-                    <el-icon>
-                        <Plus />
-                    </el-icon>
+                <div class="u-flex u-flex-wrap u-flex-items-start">
+                    <div class="el-upload el-upload--picture-card u-m-r-8 u-m-b-8" @click="showPopup('商品描述图片编辑', 'description')" >
+                        <el-icon>
+                            <Plus />
+                        </el-icon> 
+                    </div>
+                    <el-upload 
+                        ref="description" 
+                        action=""  
+                        class="draggable-mode u-flex-1"  
+                        v-model:file-list="dynamicValidateForm.description"
+                        list-type="picture-card" 
+                        :headers="configHeader"  
+                        :http-request="(options) => upload({...options, api: 'upimg1'}, dynamicValidateForm.description) "
+                        :before-upload="beforeUpload">
+                        <!-- <el-icon>
+                            <Plus />
+                        </el-icon> -->
 
-                    <template #file="{ file }">
-                        <div>
-                            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                            <span class="el-upload-list__item-actions">
-                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                    <el-icon><zoom-in /></el-icon>
+                        <template #file="{ file }">
+                            <div>
+                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                <span class="el-upload-list__item-actions">
+                                    <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                                        <el-icon><zoom-in /></el-icon>
+                                    </span>
+                                    <span v-if="!disabled" class="el-upload-list__item-delete"
+                                        @click="handleRemove(file, undefined, 'description')">
+                                        <el-icon>
+                                            <Delete />
+                                        </el-icon>
+                                    </span>
                                 </span>
-                                <span v-if="!disabled" class="el-upload-list__item-delete"
-                                    @click="handleRemove(file, undefined, 'description')">
-                                    <el-icon>
-                                        <Delete />
-                                    </el-icon>
-                                </span>
-                            </span>
-                        </div>
-                    </template>
-                </el-upload>
+                            </div>
+                        </template>
+                    </el-upload>
+                </div>
                 <div >
                     <el-text type="info">仅支持png，jpg，jpeg格式，图片宽高不低于375*500（750*1000最佳），大小2M内，图片比例3:4最佳！</el-text>
                 </div>
@@ -646,7 +662,14 @@
 
     <el-dialog v-model="dialogVisible" >
         <img w-full style="width: 100%" :src="dialogImageUrl" alt="Preview Image" />
-    </el-dialog>
+    </el-dialog> 
+    <upload-popup
+        :show="uploadShow"  
+        :title="uploadTitle"
+        :list="uploadList"
+        @setShow="setShow"
+        @updateData="updateData"
+    ></upload-popup> 
     <el-dialog v-model="dialogVisible2" title="商品规格模板" width="70%" > 
         <table-sku
             isRadioGroup
@@ -702,6 +725,10 @@ const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 const dialogVisible2 = ref(false)
 const disabled = ref(false)
+const uploadShow = ref(false) 
+const uploadTitle = ref('图片编辑')
+const uploadKey = ref('')
+const uploadList = computed(() => dynamicValidateForm[uploadKey.value || 'pic'])
 const editMode = ref('')
 const formRef = ref<FormInstance>()
 // const freightRef = ref([
@@ -1495,6 +1522,18 @@ const handleChange = (value) => {
   console.log(value)
   console.log(dynamicValidateForm.cate)
 }
+
+function setShow(v) {
+	uploadShow.value = v
+}
+function showPopup(title:string, key:string) {
+    uploadTitle.value = title
+    uploadKey.value = key
+    setShow(true)
+}
+function updateData(data) {
+    dynamicValidateForm[uploadKey.value] = data
+}
 </script>
   
 <style lang='scss' scoped>
@@ -1562,7 +1601,7 @@ const handleChange = (value) => {
     }
 }
 ::v-deep { 
-    .el-upload--picture-card {
+    .el-upload--picture-card { 
         --el-upload-picture-card-size: 65px;
         // background-color: var(--el-color-primary-light-9);
     }
@@ -1578,6 +1617,14 @@ const handleChange = (value) => {
             margin: 0
         }
     }
+    .draggable-mode {
+        .el-upload--picture-card {
+            display: none;
+        } 
+        .el-upload-list--picture-card .el-upload-list__item {
+            margin: 0 8px 8px 0
+        }
+    }
 
     .el-upload-list--picture-card .el-upload-list__item {
         --el-upload-list-picture-card-size: 65px;
@@ -1588,7 +1635,7 @@ const handleChange = (value) => {
 .table-box {
     ::v-deep {
         .el-upload--picture-card { 
-            --el-upload-picture-card-size: 55px;
+            --el-upload-picture-card-size: 55px;  
         }
         .el-upload-list--picture-card .el-upload-list__item {
             --el-upload-list-picture-card-size: 55px;
