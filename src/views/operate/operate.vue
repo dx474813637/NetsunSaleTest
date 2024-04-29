@@ -65,14 +65,14 @@
 						</template>
 						<template #content>
 							<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
-							<el-text class="u-font-14 u-m-l-20" type="info"> {{ subTitle }} </el-text>
+							<el-text class="u-font-14 u-m-l-20" type="info" v-if="!isH5"> {{ subTitle }} </el-text>
 						</template>
 						<template #extra>
 							<el-button  
 								color="#626aef"
 								dark
 								:icon="btnActive.icon"
-								v-if="btnActive && !isH5" 
+								v-if="btnActive" 
 								class="text-bold u-font-13 u-radius-10"
 								@click="router.push({name: btnActive.to.name})"
 								> 

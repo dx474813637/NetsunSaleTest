@@ -37,7 +37,7 @@
 					</template>
 					<template #content>
 						<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
-						<el-text class="u-font-14 u-m-l-20" type="info"> {{ subTitle }} </el-text>
+						<el-text class="u-font-14 u-m-l-20" type="info" v-if="!isH5"> {{ subTitle }} </el-text>
 					</template>
 					<template #extra>
 						<el-button 
@@ -80,6 +80,7 @@ const cate = cateStore()
 const {menuListAll, menuList} = toRefs(cate)  
 const user = userStore() 
 const {cpy_info} = toRefs(user)
+const { webview, isH5 } = toRefs(useSettings)
 const menuActive = ref('product_list')
 const menusShow = ref(false)
 

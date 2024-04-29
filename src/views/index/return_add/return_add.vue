@@ -1,6 +1,9 @@
 <template>
     <div style="width: 100%;">
 
+        <div class="u-p-5">
+            <el-alert title="请真实详细填写退货地址及收件人手机号，否则造成退货件丢失，商家自行承担!" :closable="false" type="success" />
+        </div>
         <el-form ref="formRef" :model="dynamicValidateForm" label-width="120px" :rules="rules"
             class="demo-dynamic u-p-20 box-border" label-position="top" scroll-to-error inline-message> 
             <el-form-item label="企业微信客服地址" prop="kefu">
