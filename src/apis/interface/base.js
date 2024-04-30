@@ -10,7 +10,7 @@ export const syblogin = (data) => axios.get('Userapi/syblogin', data)
 // msgcode  验证码获取 参数login（手机号不能是账号）
 export const msgcode = (data) => axios.get('Userapi/msgcode', data) 
 
-// product 商品列表 参数p  num默认20 cate
+// product 商品列表 参数p  num默认20 cate terms
 export const product = (data) => axios.get('Userapi/product', data) 
 // product2 运营商  商家商品列表  参数login,p和on=1 上架 =2下架
 export const product2 = (data) => axios.get('Userapi/product2', data) 

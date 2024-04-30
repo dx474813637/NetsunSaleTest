@@ -1,210 +1,228 @@
 <template>
-    <el-table 
-        v-loading="loading" 
-        :data="skuList" 
-        style="width: 100%"  
-        :highlight-current-row="isRadioGroup"
-        @current-change="handleCurrentTableChange"
-        :max-height="maxHeight"
-        > 
-        <el-table-column  fixed="left" label="ID" :width="isRadioGroup ?70:60" >
-            <template #default="{ row }">
-                <div class="u-flex">
-                    <span>{{ row.id }}</span> 
-                    <span class="u-m-l-10" v-if="isRadioGroup && currentRow && currentRow.id == row.id ">
-                        <el-Icon color="#ff0000">
-                            <i-ep-CircleCheck></i-ep-CircleCheck>
-                        </el-Icon>
-                    </span>
-                </div> 
-            </template>
-        </el-table-column>
-        <el-table-column :fixed="isH5? false :'left'"  label="商品名" width="300" >
-            <template #default="{row}">   
-                <div class="u-flex u-flex-items-start u-m-t-5 u-m-b-5" >
-                    <div class="u-m-r-10" style="flex: 0 0 45px">
-                        <el-image class="u-radius-5" lazy style="width: 45px; height: 45px" :src="row.pic.split('|')[0]" fit="fill" />
+    <div>
+        <div>
+            <DiyForm
+                :ddata="diyFormData.data"
+                :form="diyFormData.form"
+                :name="diyFormData.name"
+                :flex="diyFormData.flex"
+                :nowDialog="diyFormData"
+                sureText="搜 索"
+                showClear
+                :isView="false"
+                :showCancel="false"  
+                @confirm="onDiyFormConfirm" 
+                @remove="onDiyFormRemove" 
+            ></DiyForm>
+        </div>
+        <el-table 
+            v-loading="loading" 
+            :data="skuList" 
+            style="width: 100%"  
+            :highlight-current-row="isRadioGroup"
+            @current-change="handleCurrentTableChange"
+            :max-height="maxHeight"
+            > 
+            <el-table-column  fixed="left" label="ID" :width="isRadioGroup ?70:60" >
+                <template #default="{ row }">
+                    <div class="u-flex">
+                        <span>{{ row.id }}</span> 
+                        <span class="u-m-l-10" v-if="isRadioGroup && currentRow && currentRow.id == row.id ">
+                            <el-Icon color="#ff0000">
+                                <i-ep-CircleCheck></i-ep-CircleCheck>
+                            </el-Icon>
+                        </span>
                     </div> 
-                    <div class="u-flex-1">
-                        <el-link class="text-black" :underline="false" @click="emit('detailEvent', row.id)">
-                            {{ row.name }} 
-                        </el-link> 
-                        <div class="u-flex u-flex-wrap u-flex-items-start">
-                            <el-tag class="u-m-r-5 u-m-t-5" type="primary" size="small">{{ row.goods_no }}</el-tag> 
-                            <el-tag class="u-m-r-5 u-m-t-5" type="warning" size="small">{{ row.cate }}</el-tag>
-                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.delivery_delay_day }}天发货</el-tag>
-                            <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.warehouse }}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column :fixed="isH5? false :'left'"  label="商品名" width="300" >
+                <template #default="{row}">   
+                    <div class="u-flex u-flex-items-start u-m-t-5 u-m-b-5" >
+                        <div class="u-m-r-10" style="flex: 0 0 45px">
+                            <el-image class="u-radius-5" lazy style="width: 45px; height: 45px" :src="row.pic.split('|')[0]" fit="fill" />
+                        </div> 
+                        <div class="u-flex-1">
+                            <el-link class="text-black" :underline="false" @click="emit('detailEvent', row.id)">
+                                {{ row.name }} 
+                            </el-link> 
+                            <div class="u-flex u-flex-wrap u-flex-items-start">
+                                <el-tag class="u-m-r-5 u-m-t-5" type="primary" size="small">{{ row.goods_no }}</el-tag> 
+                                <el-tag class="u-m-r-5 u-m-t-5" type="warning" size="small">{{ row.cate }}</el-tag>
+                                <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.delivery_delay_day }}天发货</el-tag>
+                                <el-tag class="u-m-r-5 u-m-t-5" type="info" size="small">{{ row.warehouse }}</el-tag>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    
+                </template>
+            </el-table-column>
+            <!-- <el-table-column fixed="left"  label="商品名" width="200" >
+                <template #default="{row}">
+                    <el-link  @click="emit('detailEvent', row.id)">
+                        <el-text type="primary" >{{ row.name }}</el-text>
+                    </el-link> 
+                </template>
+            </el-table-column> -->
+            <el-table-column prop="price1" label="销售价" width="120" >
+                <template #default="{ row }">
+                    <el-text type="danger" class="u-line-2" >{{ row.price1 }}</el-text>
+                </template>
+            </el-table-column> 
+            <!-- <el-table-column prop="goods_no" label="商品款号" width="120" /> -->
+            <el-table-column label="子账户" width="160" align="center" v-if="cpy_info.account == 1">
+                <template #default="{row}">
+                    <div class="u-p-10" v-loading="row.ewm_loading" >
+                        <!-- <el-text type="info" class="u-font-12">{{ row.ewm }}</el-text> -->
+                        <el-select
+                            v-model="row.ewm"
+                            filterable
+                            placeholder="分配子账户" 
+                            size="small"
+                            clearable
+                            @change="(value) => {accChangeEvent(value, row)}"
+                        >
+                            <el-option
+                                v-for="item in subAccount"
+                                :key="item.id"
+                                :label="item.phone"
+                                :value="item.phone"
+                            />
+                        </el-select>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="sku" label="商品规格" width="200" >
+                <template #default="{ $index }">
+                    <el-tree :data="skuList[$index].sku" :props="defaultProps"  />
+                </template>
+            </el-table-column>
+            <el-table-column prop="recommend_remark" label="商家推荐语" width="120" >
+                <template #default="{ row }">
+                    <el-text type="warning" class="u-line-2" >{{ row.recommend_remark }}</el-text>
+                </template>
+            </el-table-column>
+            <el-table-column label="更新时间" width="100" >
+                <template #default="{row}">
+                    <div v-for="item in row.uptime.split(' ')" :key="item">
+                        <el-text type="info" class="u-font-12">{{ item }}</el-text>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="上架状态" :fixed="isH5? false :'right'" width="100" align="center"> 
+                <template #default="{row}">
+                    <el-text type="success"  v-if="row.on == '1'">
+                        上架中
+                    </el-text>
+                    <el-text type="danger" v-else>
+                        未上架
+                    </el-text>
+                    <!-- <el-switch 
+                        size="large"
+                        inline-prompt
+                        v-model="row.on" 
+                        active-value="1" 
+                        disabled
+                        inactive-value="0"
+                        active-text="上架中"
+                        inactive-text="未上架" 
+                        :loading="row.switchLoading" 
+                        :before-change="() => beforeProdOnChange(row)"
+                        />  -->
+                </template>
                 
-            </template>
-        </el-table-column>
-        <!-- <el-table-column fixed="left"  label="商品名" width="200" >
-            <template #default="{row}">
-                <el-link  @click="emit('detailEvent', row.id)">
-                    <el-text type="primary" >{{ row.name }}</el-text>
-                </el-link> 
-            </template>
-        </el-table-column> -->
-        <el-table-column prop="price1" label="销售价" width="120" >
-            <template #default="{ row }">
-                <el-text type="danger" class="u-line-2" >{{ row.price1 }}</el-text>
-            </template>
-        </el-table-column> 
-        <!-- <el-table-column prop="goods_no" label="商品款号" width="120" /> -->
-        <el-table-column label="子账户" width="160" align="center" v-if="cpy_info.account == 1">
-            <template #default="{row}">
-                <div class="u-p-10" v-loading="row.ewm_loading" >
-                    <!-- <el-text type="info" class="u-font-12">{{ row.ewm }}</el-text> -->
-                    <el-select
-                        v-model="row.ewm"
-                        filterable
-                        placeholder="分配子账户" 
-                        size="small"
-                        clearable
-                        @change="(value) => {accChangeEvent(value, row)}"
-                    >
-                        <el-option
-                            v-for="item in subAccount"
-                            :key="item.id"
-                            :label="item.phone"
-                            :value="item.phone"
-                        />
-                    </el-select>
-                </div>
-            </template>
-        </el-table-column>
-        <el-table-column prop="sku" label="商品规格" width="200" >
-            <template #default="{ $index }">
-                <el-tree :data="skuList[$index].sku" :props="defaultProps"  />
-            </template>
-        </el-table-column>
-        <el-table-column prop="recommend_remark" label="商家推荐语" width="120" >
-            <template #default="{ row }">
-                <el-text type="warning" class="u-line-2" >{{ row.recommend_remark }}</el-text>
-            </template>
-        </el-table-column>
-        <el-table-column label="更新时间" width="100" >
-            <template #default="{row}">
-                <div v-for="item in row.uptime.split(' ')" :key="item">
-                    <el-text type="info" class="u-font-12">{{ item }}</el-text>
-                </div>
-            </template>
-        </el-table-column>
-        <el-table-column label="上架状态" :fixed="isH5? false :'right'" width="100" align="center"> 
-            <template #default="{row}">
-                <el-text type="success"  v-if="row.on == '1'">
-                    上架中
-                </el-text>
-                <el-text type="danger" v-else>
-                    未上架
-                </el-text>
-                <!-- <el-switch 
-                    size="large"
-                    inline-prompt
-                    v-model="row.on" 
-                    active-value="1" 
-                    disabled
-                    inactive-value="0"
-                    active-text="上架中"
-                    inactive-text="未上架" 
-                    :loading="row.switchLoading" 
-                    :before-change="() => beforeProdOnChange(row)"
-                    />  -->
-            </template>
-            
-        </el-table-column>
-        <!-- <el-table-column label="二维码" fixed="right" aligin="center" width="80"> 
-            <template #default="{row, $index}">
-                <div class="table-box">
-                    <el-upload 
-                        :ref="(el) => setUploadRef(el, $index, uploadRefs2)" 
-                        action="" 
-                        :class="{
-                            limit: row.filesList.length == 1
-                        }"  
-                        v-model:file-list="row.filesList"
-                        list-type="picture-card" 
-                        :headers="configHeader" 
-                        :limit="1"
-                        :on-exceed="(files, uploadFiles) => handlePictureExceed(files, uploadFiles, row, $index )"
-                        :http-request="(options) => upload(options, row ) "
-                        :before-upload="beforeUpload">
-                        <el-icon>
-                            <i-ep-Plus />
-                        </el-icon>
+            </el-table-column>
+            <!-- <el-table-column label="二维码" fixed="right" aligin="center" width="80"> 
+                <template #default="{row, $index}">
+                    <div class="table-box">
+                        <el-upload 
+                            :ref="(el) => setUploadRef(el, $index, uploadRefs2)" 
+                            action="" 
+                            :class="{
+                                limit: row.filesList.length == 1
+                            }"  
+                            v-model:file-list="row.filesList"
+                            list-type="picture-card" 
+                            :headers="configHeader" 
+                            :limit="1"
+                            :on-exceed="(files, uploadFiles) => handlePictureExceed(files, uploadFiles, row, $index )"
+                            :http-request="(options) => upload(options, row ) "
+                            :before-upload="beforeUpload">
+                            <el-icon>
+                                <i-ep-Plus />
+                            </el-icon>
 
-                        <template #file="{ file }">
-                            <div>
-                                <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                                <span class="el-upload-list__item-actions">
-                                    <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                        <el-icon><i-ep-zoom-in /></el-icon>
+                            <template #file="{ file }">
+                                <div>
+                                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                    <span class="el-upload-list__item-actions">
+                                        <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                                            <el-icon><i-ep-zoom-in /></el-icon>
+                                        </span>
+                                        <span v-if="!disabled" class="el-upload-list__item-delete"
+                                            @click="handleRemove(file, $index, uploadRefs2, row)">
+                                            <el-icon>
+                                                <i-ep-Delete />
+                                            </el-icon>
+                                        </span>
                                     </span>
-                                    <span v-if="!disabled" class="el-upload-list__item-delete"
-                                        @click="handleRemove(file, $index, uploadRefs2, row)">
-                                        <el-icon>
-                                            <i-ep-Delete />
-                                        </el-icon>
-                                    </span>
-                                </span>
-                            </div>
-                        </template>
-                    </el-upload>
-                </div>
-            </template>
-        </el-table-column> -->
-        <el-table-column label="操作"  :fixed="isH5? false :'right'" width="140" align="center" v-if="isEditBtn"> 
-            <template #default="{row}">
-                
-                <div class="u-flex-column u-flex-center" >
-                    <div class="u-p-5">
-                        <el-button 
-                            link 
-                            type="primary" 
-                            size="small" 
-                            @click="router.push({name: 'product_edit', params: {id: row.id}})"
-                            >编辑</el-button> 
-                    </div>
-                    <div class="u-p-5">
-                        <el-button 
-                            link  
-                            type="primary" 
-                            size="small" 
-                            @click="router.push({name: 'product_edit', params: {id: row.id},query:{mode: '1'}})"
-                            >批发编辑</el-button> 
-                    </div>
-                    <div class="u-p-5">
-                        <el-popconfirm 
-                            title="移除确认" 
-                            @confirm="deleteProd(row.id)"
-                            confirm-button-text="确认"
-                            cancel-button-text="取消"
-                            >
-                            <template #reference>
-                                <el-button  
-                                    link  
-                                    type="danger" 
-                                    size="small"  
-                                    >删除</el-button> 
+                                </div>
                             </template>
-                        </el-popconfirm>
+                        </el-upload>
                     </div>
-                     
+                </template>
+            </el-table-column> -->
+            <el-table-column label="操作"  :fixed="isH5? false :'right'" width="140" align="center" v-if="isEditBtn"> 
+                <template #default="{row}">
                     
+                    <div class="u-flex-column u-flex-center" >
+                        <div class="u-p-5">
+                            <el-button 
+                                link 
+                                type="primary" 
+                                size="small" 
+                                @click="router.push({name: 'product_edit', params: {id: row.id}})"
+                                >编辑</el-button> 
+                        </div>
+                        <div class="u-p-5">
+                            <el-button 
+                                link  
+                                type="primary" 
+                                size="small" 
+                                @click="router.push({name: 'product_edit', params: {id: row.id},query:{mode: '1'}})"
+                                >批发编辑</el-button> 
+                        </div>
+                        <div class="u-p-5">
+                            <el-popconfirm 
+                                title="移除确认" 
+                                @confirm="deleteProd(row.id)"
+                                confirm-button-text="确认"
+                                cancel-button-text="取消"
+                                >
+                                <template #reference>
+                                    <el-button  
+                                        link  
+                                        type="danger" 
+                                        size="small"  
+                                        >删除</el-button> 
+                                </template>
+                            </el-popconfirm>
+                        </div>
+                        
+                        
+                        
+                    </div>
                     
+                </template>
+                
+            </el-table-column>
+            <template #empty>
+                <div class="u-flex u-flex-center u-p-t-20 u-p-b-20">
+                    <el-empty description="无数据" />
                 </div>
-                 
             </template>
-            
-        </el-table-column>
-        <template #empty>
-            <div class="u-flex u-flex-center u-p-t-20 u-p-b-20">
-                <el-empty description="无数据" />
-            </div>
-        </template>
-    </el-table>
+        </el-table>
+    </div>
+    
     <div class="list-page-box u-p-t-20 u-p-b-20">
         <el-pagination
             v-model:current-page="curP"
@@ -267,13 +285,37 @@ const total = ref(0)
 const pageSize = ref(20)
 const paramsObj = computed(() => {
     return {
-        p: curP.value
+        p: curP.value,
+        ...diyFormData.data
     }
 })
 const defaultProps = {
   children: 'children',
   label: 'label',
-}
+} 
+let diyFormData = reactive({
+    title: "title", 
+    name: "productFilterForm",
+    name2: "productFilterForm2",
+    show: true,
+    data: {
+        terms: ''
+    },
+    form: [
+        {
+            label: "",
+            els: [
+                {
+                    label: "商品名",
+                    el: "input",
+                    prop: "terms",
+                    place: "商品名", 
+                    required: false
+                }, 
+            ]
+        }, 
+    ], 
+}) 
 onMounted(async () => { 
     await refreshData() 
     user.getSubAccData()
@@ -433,6 +475,24 @@ const deleteProd = async (id) => {
         refreshData()
     }
 }
+
+// function onDiyFormChange(e) {
+//     console.log(e)
+// }
+async function onDiyFormRemove() {
+    loading.value = true; 
+    await getData()
+    loading.value = false;
+}
+async function onDiyFormConfirm(e) {
+    // console.log(e)  
+    loading.value = true; 
+    await getData()
+    loading.value = false;
+}
+// function onDiyFormCancel(e) {
+//     console.log(e)
+// }
 </script>
 <style lang='scss' scoped>
 @import "@/styles/table.scss";

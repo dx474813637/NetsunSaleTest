@@ -1,9 +1,13 @@
 <template> 
+    <el-row>
+        <el-text type="danger" size="small">可多个关键字配合空格模糊搜索如：“杭州 工商 西湖”</el-text>
+    </el-row>
     <el-row :gutter="20" class="u-m-b-10">
         <el-col :span="16" :xs="24">
             <el-input 
                 v-model="terms"   
                 clearable 
+                placeholder="关键字检索银行"
             />
         </el-col>
         <el-col :span="8" :xs="24">
