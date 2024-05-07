@@ -11,36 +11,29 @@
 					/></a>
 				</div>
 				<div class="main-nav">
-					<template v-if="role ==2 || role == 3">
-						<div class="nav-item">
-							<el-button  
-								color="#626aef"
-								dark
-								icon="Switch" 
-								class="text-bold u-font-13 u-radius-10"
-								@click="router.push({name: 'workers_list'})"
-								>
-								<template v-if="role == 2">运营商管理中心</template> 
-								<template v-if="role == 3">VIP商家管理中心</template> 
-								
-							</el-button> 
-						</div>
-					</template>
-					<!-- <template v-if="routerName == 'fx_helper'">
-						<div class="nav-item">
-							<router-link :to="{name: 'user_index'}">返回用户中心</router-link> 
-						</div>
-					</template>
-					<template v-else >
-						<div class="nav-item">
-							<el-link  type="primary" href="/" >返回首页</el-link> 
-						</div>
-						<div class="nav-item">
-							<el-link  type="primary" href="#/help" target="_blank">帮助中心</el-link> 
-						</div> 
-					</template> -->
-
 					
+					<div class="nav-item">
+						<el-button  
+							color="#626aef"
+							dark
+							icon="Shop" 
+							class="text-bold u-font-13 u-radius-10"
+							@click="router.push({name: 'product_list'})"
+							>
+							商品列表
+						</el-button> 
+					</div>   
+					<div class="nav-item">
+						<el-button  
+							color="#626aef"
+							dark
+							icon="User" 
+							class="text-bold u-font-13 u-radius-10"
+							@click="router.push({name: 'order_list'})"
+							>
+							用户中心
+						</el-button> 
+					</div>   
 				</div>
 			</div>
 		</div>

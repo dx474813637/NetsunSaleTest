@@ -14,6 +14,14 @@ const routes = [
         redirect: () => ({name: 'product_list'}),
     },
     {
+        path: '/login',
+        name: 'login',
+        meta: {
+            title: '登录',   
+        },
+        component: () => import('@/views/login/login.vue'),
+    },
+    {
         path: '/index',
         name: 'index',
         meta: {
@@ -26,8 +34,7 @@ const routes = [
                 path: 'product_list',
                 name: 'product_list',
                 meta: {
-                    title: '商品',  
-                    role: [1, 2, 3], 
+                    title: '商品',   
                 },
                 component: () => import('@/views/index/product_list/product_list.vue'),
             },
@@ -47,64 +54,21 @@ const routes = [
         path: '/operate',
         name: 'operate',
         meta: {
-            role: [2, 3]
+            role: [2, 3],
+            login: true
         },
-        redirect: () => ({name: 'workers_list'}),
+        redirect: () => ({name: 'order_list'}),
         component: () => import('@/views/operate/operate.vue'),
-        children: [
+        children: [ 
             {
-                path: 'workers_list',
-                name: 'workers_list',
+                path: 'order_list',
+                name: 'order_list', 
                 meta: {
-                    title: '员工管理', 
-                    role: [2, 3],
-                },
-                component: () => import('@/views/operate/workers_list/workers_list.vue'),
-            },
-            {
-                path: 'workers_add',
-                name: 'workers_add',
-                meta: {
-                    title: '绑定员工', 
-                    role: [2, 3],
-                },
-                component: () => import('@/views/operate/workers_add/workers_add.vue'),
-            },
-            {
-                path: 'workers2t_list',
-                name: 'workers2t_list',
-                meta: {
-                    title: '发展团长列表', 
-                    role: [2, 3],
-                },
-                component: () => import('@/views/operate/workers2role_list/workers2role_list.vue'),
-            },
-            {
-                path: 'workers2s_list',
-                name: 'workers2s_list', 
-                meta: {
-                    title: '发展商家列表',  
+                    title: '订单列表',  
                     role: [2],
+
                 }, 
-                component: () => import('@/views/operate/workers2shop_list/workers2shop_list.vue'),
-            },
-            {
-                path: 'shop_order_list',
-                name: 'shop_order_list', 
-                meta: {
-                    title: '商家订单',  
-                    role: [2],
-                }, 
-                component: () => import('@/views/operate/shop_order_list/shop_order_list.vue'),
-            },
-            {
-                path: 'om_product_list',
-                name: 'om_product_list', 
-                meta: {
-                    title: '商品列表',  
-                    role: [2],
-                }, 
-                component: () => import('@/views/operate/om_product_list/om_product_list.vue'),
+                component: () => import('@/views/operate/order_list/order_list.vue'),
             },
         ]
     },

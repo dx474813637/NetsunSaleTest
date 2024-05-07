@@ -23,26 +23,11 @@ router.beforeEach(async (to, from, next) => {
     //     await user.getCpyData();
     //     getCpy = true
     // }
-    // if(to?.meta?.rz && cpy_info.value.rz == 0) { 
-    //     if(!getCpy) await user.getCpyData(); 
-    //     if(cpy_info.value.rz == 0) {
-    //         ElMessageBox.confirm(
-    //             '该功能需要认证旺铺信息，请先完成认证',
-    //             '提示',
-    //             {
-    //               confirmButtonText: '立即认证',
-    //               cancelButtonText: '考虑一下',
-    //               type: 'warning',
-    //             }
-    //         )
-    //         .then(() => {
-    //             router.push({name: 'shop_info'})
-    //         }) 
-    //         next(from)
-    //         return  
-    //     }
-        
-    // }
+    let needLogin = to.matched.some(ele => ele.meta?.login)
+    if(needLogin && !localStorage.getItem('userid')) {   
+        next({name: 'login'})
+        return     
+    }
     // let router_all_mode = ['index', 'operate']
     // if(role.value === '') { 
     //     // console.log(2)

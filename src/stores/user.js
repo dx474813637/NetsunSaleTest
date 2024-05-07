@@ -61,6 +61,7 @@ export const userStore = defineStore('user', {
 				},
 			],
 			subAccount: [],
+			userid: '',
 		};
 	},
 	getters: {

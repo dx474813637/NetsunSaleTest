@@ -1,18 +1,18 @@
 <!--  -->
 <template>
 	<div class="u-p-10 box">
-		<!-- <div class="u-flex u-flex-between u-m-b-20">
-			<div class="item"></div>
-			<div class="item"> 
-				<el-select v-model="value" placeholder="状态筛选" size="large">
-					<el-option v-for="item in tabs_list" :key="item.value" :label="item.label" :value="item.value" />
-					<template #prefix><i-ep-search /></template>
-				</el-select>
-			</div>
-		</div> -->
-		<table-order-service :customParams="customParams" @detailEvent="detailEvent"></table-order-service>
+		orderl
+		<!-- <el-tabs v-model="value" class="demo-tabs" @tab-click="handleClick">
+			<el-tab-pane  
+				v-for="item in tabs_list" 
+				:key="item.value" 
+				:label="item.label" 
+				:name="item.value"
+			></el-tab-pane>
+		</el-tabs> 
+		<table-order :customParams="customParams" @detailEvent="detailEvent"></table-order>
 
-		<order-popup :show="dialogTableVisible" :id="detail_id" @setShow="setShow"></order-popup>
+		<product-popup :show="dialogTableVisible" :id="detail_id" @setShow="setShow"></product-popup> -->
 	</div>
 </template>
   
@@ -55,5 +55,21 @@ function setShow(v) {
 <style lang='scss' scoped>
 .box {
 	@extend %box-sizing;
+	::v-deep {
+		.el-tabs {
+			// --el-tabs-header-height: 50px!important;
+		}
+		
+		.el-tabs__item {
+			// color: #707173; 
+		}
+		.el-tabs__item.is-active {
+			color: var(--el-color-primary);
+		}
+		.el-tabs__nav-wrap::after {
+			height: 1px;
+		}
+	}
 }
+
 </style>

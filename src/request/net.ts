@@ -1,12 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { ElMessage, ElLoading  } from "element-plus";
 import { downloadFile, toGuid } from "@/utils"; 
-
+ 
 import router from "@/router/guard" 
 import {useSettingsStore} from '@/stores/settings'
 import {userStore} from '@/stores/user'
 // const useSettings = useSettingsStore()
-// const user = userStore()
 // import { ElLoadingComponent } from "element-plus";
 // import vm from "@/main";  
 let loadingInstance:any = null;
@@ -55,8 +54,10 @@ export const createAxiosByinterceptors = (
     instance.interceptors.request.use(
         function (config: any) {
             // 在发送请求之前做些什么
+             
             config.headers = {
                 ...config.headers, 
+                userid: localStorage.getItem('userid'),
                 token: localStorage.getItem('token'),
                 login: localStorage.getItem('login'),
             }  

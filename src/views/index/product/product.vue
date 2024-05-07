@@ -1,6 +1,6 @@
 <!--  -->
 <template> 
-	<div class="main u-p-20">
+	<div class="main u-p-20 box-border">
 		<div class="home-w">
 			<el-row :gutter="30" class="u-m-b-40">
 				<el-col :span="7">
@@ -32,7 +32,7 @@
 						</el-tabs> 
 					</div>
 				</el-col>
-				<el-col :span="12">
+				<el-col :span="17">
 					<div class="main-center u-p-r-30">
 						<div class="product-title u-m-b-10">
 							<el-text class="u-font-20">{{ product_base_data.name }}</el-text> 
@@ -126,83 +126,30 @@
 									<el-tooltip 
 										:disabled="!skuNumCheckStatus"
 										:content="skuCheck? '规格未选' : '数量未选' " placement="top">
-										<el-button type="primary" @click="addCartBtn" :disabled="skuNumCheckStatus" size="large">加入选品车</el-button>
+										<el-button type="primary" @click="addCartBtn" :disabled="skuNumCheckStatus" size="large">立即下单</el-button>
 									</el-tooltip>
 									
-								</div>
-								<div class="content-item u-m-r-10 u-m-b-10" >
-									<el-button type="danger" @click="quickUploadBtn" size="large">一键铺货</el-button>
 								</div>
 							</div>
 						</div>
 						<div class="u-flex u-flex-items-start info-row" >
-							<div class="info-row-item info-row-item-label"> </div>
+							<div class="info-row-item info-row-item-label"></div>
 							<div class="info-row-item info-row-item-content u-m-l-10 u-flex">
-								<el-popover
-									placement="top-start" 
-									:width="200"
-									trigger="hover" 
-									v-if="product_base_data.ewm"
-								>
-									<el-image style="width: 100%; height: 180px;" :src="product_base_data.ewm"></el-image>
-									<template #reference>
-										<div class="u-m-r-30">
-											<el-icon size="12" color="#f90">
-												<i-ep-Iphone />
-											</el-icon>
-											<el-text size="small" class="u-p-5" type="warning">抖店商品</el-text>
-										</div>
-										
-									</template>
-								</el-popover>
-								<!-- <el-text size="small" type="info" v-if="product_ctime">创建时间：{{ $filters.time_from( product_ctime, false )  }}</el-text> -->
 								<el-text size="small" type="info" v-if="product_ctime">创建时间：{{ product_ctime  }}</el-text>
 								<el-text size="small" type="info" class="u-m-l-30" v-if="product_uptime">更新时间：{{ product_uptime }}</el-text>
 							</div>
 						</div> 
 					</div>
 				</el-col>
-				<el-col :span="5">
-					<div class="shop-card u-p-12">
-						<div class="shop-box u-p-15 u-p-t-30 u-p-b-30">
-							<div class="shop-header shop-row u-flex u-flex-items-start">
-								<div class="shop-logo">
-									<el-avatar  :src="product_shop_data.img" />
-								</div>
-								<div class="shop-name u-m-l-10">
-									<el-link @click="$router.push({name: 'shop', params: {login: product_shop_data.login}})">
-										<el-text size="large">
-											{{product_shop_data.company}}
-										</el-text>
-										
-									</el-link>
-								</div> 
-							</div>
-							<div class="shop-row"><el-text size="small">地址：{{ product_shop_data.address }}</el-text></div>
-							<div class="shop-row"><el-text size="small">联系人：{{ product_shop_data.contacts }}</el-text></div>
-							<!-- <div class="shop-row"><el-text size="small">联系方式：{{ product_shop_data.phone }}</el-text></div> -->
-							<div class="shop-row"><el-text size="small">介绍：{{ product_shop_data.info }}</el-text></div>
-							<div class="shop-row" v-if="product_shop_data.ewm">
-								<el-text size="small">抖店</el-text>
-								<el-image
-									style="width: 100px; height: 100px"
-									:src="product_shop_data.ewm"
-									:zoom-rate="1.2"
-									:preview-src-list="[product_shop_data.ewm]" 
-									fit="cover"
-									/>
-							</div>
-						</div>
-					</div>
-				</el-col>
+				 
 			</el-row> 
 			<el-row>
-				<el-col :span="19">
+				<el-col :span="24">
 					<div class="u-m-b-40">
 						<el-tabs v-model="detailActive" type="border-card">
 							<el-tab-pane label="商品详情" name="description">
 								<div class="u-flex u-flex-wrap u-flex-items-start attribute-box u-p-10">
-									<div class="item u-flex u-flex-items-start u-m-b-10"
+									<div class="item u-m-b-10"
 										v-for="(item, index) in product_base_data.attribute"
 										:key="index"
 										>
@@ -335,7 +282,7 @@ const quickUploadBtn = () => {
 	flowShow.value = true
 }
 const getData = async () => {
-	const res = await $api.web_product_detail({ params: { id: props.id } })
+	const res = await $api.product_detail({ params: { id: props.id } })
 	if(res.code == 1) {
 		product_base_data.value = res.list
 		spec_prices_data.value = res.spec_prices
@@ -584,7 +531,7 @@ function previewHoverEvent(index) {
 }
 .attribute-box {
 	.item {
-		flex: 0 0 25%;
+		flex: 0 0 50%;
 		@extend %box-sizing;
 		.el-text {
 			align-self: auto;
