@@ -1,6 +1,5 @@
 <!--  -->
-<template>
-	<Header-base></Header-base>
+<template> 
 	<div class="main u-p-20">
 		<div class="home-w">
 			<el-row :gutter="30" class="u-m-b-40">
@@ -225,12 +224,7 @@
 			</el-row>
 		</div>
 		
-	</div>
-	<Footer-base></Footer-base>
-	<UploadShopControl
-		v-model:show="flowShow" 
-		:product="product_base_data" 
-		></UploadShopControl>
+	</div> 
 </template>
 
 <script setup lang="ts">

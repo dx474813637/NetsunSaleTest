@@ -21,6 +21,7 @@
 // ]
 import {deepClone} from '@/utils/index';
 export default function toSpecPrices(Spec: any, index: any, SpecPrices: any, result: any) { 
+    if(Spec.length == 0) return []
     for (var i = 0; i < Spec[index].length; i++) { 
         result[Spec[index][i].title] = Spec[index][i].value 
         let keyArr = `${Spec[index][i].parentKey},${Spec[index][i].key}`

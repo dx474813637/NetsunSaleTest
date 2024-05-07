@@ -1028,6 +1028,7 @@ const domainsTabsValue = ref('')
 onMounted(async () => {
     cate.getCateData() 
 	cate.getWarehouseData() 
+    showInitMessage()
     if(drafts_flag.value && !props.id) {
         ElMessageBox.confirm(
             '当前草稿箱已存在商品，是否继续编辑草稿箱商品',
@@ -1040,9 +1041,25 @@ onMounted(async () => {
         )
         .then(() => {  
             getDraftsData()
+            
         }) 
-    }
+    } 
 })
+
+const showInitMessage = () => {
+	ElMessageBox.confirm(
+		'发布的商品特卖价，要小于等于抖音平台或其他平台的定价，否则平台有权无须通知即下架商品！',
+		'提示',
+		{
+			confirmButtonText: '我已知晓',
+			showCancelButton: false, 
+			showClose: false,
+			closeOnPressEscape: false,
+			closeOnClickModal: false,
+			type: 'warning',
+		}
+	) 
+}
 interface DomainItem {
     key: number | string
     values: any

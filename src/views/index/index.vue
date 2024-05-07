@@ -8,50 +8,11 @@
 			backgroundImage: 'radial-gradient(transparent 1px, #F1F6FD 1px)',
 			boxShadow: 'none'
 		}"></header-user>
-	</el-affix>
-	
-	<el-drawer v-model="menusShow" :with-header="false" append-to-body value="ltr" size="80vw">
-		<menus-index class="menus-h5"></menus-index>
-	</el-drawer>
+	</el-affix> 
 	<div class="user-wrap " :class="{fx_mode: routerName == 'fx_helper'}">
-		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
-			<div class="item item-menus u-m-r-15" >  
-				<el-affix class="menus-index-affix" :offset="76">
-					<div class="u-p-5 u-radius-8 bg-white menus-w box-border">
-						<el-scrollbar height="100%" >
-							<menus-index></menus-index>
-						</el-scrollbar> 
-					</div>
-					
-				</el-affix>
-				
-			</div>
-			
-			
-			<div class="item item-main u-radius-8 u-flex-column u-flex-items-start">
-				<el-page-header class="u-p-10 u-p-t-20 box-border" style="width: 100%;"  title="后退"  @back="onBack"> 
-					<template #icon >
-						<el-icon class="text-base">
-							<i-ep-ArrowLeft></i-ep-ArrowLeft>
-						</el-icon>
-					</template>
-					<template #content>
-						<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
-						<el-text class="u-font-14 u-m-l-20" type="info" v-if="!isH5"> {{ subTitle }} </el-text>
-					</template>
-					<template #extra>
-						<el-button 
-							type="primary" 
-							plain 
-							v-if="btnActive" 
-							@click="router.push({name: btnActive.to.name})"
-							>{{ btnActive.title }}</el-button>
-					</template>
-					<!-- <div class="mt-4 text-sm font-bold">
-						Your additional content can be added with default slot, You may put as
-						many content as you want here.
-					</div> -->
-				</el-page-header>
+		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">  
+			<div class="item item-main u-radius-8 u-flex-column u-flex-items-start u-p-20">
+				 
 				<router-view class="u-flex-1" style="width: 100%;" :key="routerPath"></router-view>
 			</div>
 		</div>

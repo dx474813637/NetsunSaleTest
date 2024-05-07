@@ -6,6 +6,7 @@
                 :form="diyFormData.form"
                 :name="diyFormData.name"
                 :flex="diyFormData.flex"
+                :align="diyFormData.align"
                 :nowDialog="diyFormData"
                 sureText="搜 索"
                 showClear
@@ -301,20 +302,33 @@ let diyFormData = reactive({
     data: {
         terms: ''
     },
-    form: [
+    flex: 'row',
+    align: 'start',
+    form: 
+    [
         {
-            label: "",
-            els: [
-                {
-                    label: "商品名",
-                    el: "input",
-                    prop: "terms",
-                    place: "商品名", 
-                    required: false
-                }, 
-            ]
-        }, 
-    ], 
+            label: "商品名",
+            el: "input",
+            prop: "terms",
+            class: 'width-auto',
+            place: "商品名", 
+            required: false
+        },  
+    ],
+    // [
+    //     {
+    //         label: "",
+    //         els: [
+    //             {
+    //                 label: "商品名",
+    //                 el: "input",
+    //                 prop: "terms",
+    //                 place: "商品名", 
+    //                 required: false
+    //             }, 
+    //         ]
+    //     }, 
+    // ], 
 }) 
 onMounted(async () => { 
     await refreshData() 

@@ -22,8 +22,8 @@ export default (({ mode }) => {
 		server: {
 			hmr: true,
 			proxy: {
-				'/Userapi': { // 匹配请求路径，
-					target: 'https://wstm.y.netsun.com/', // 代理的目标地址
+				'/Market': { // 匹配请求路径，
+					target: 'https://www.sunmaxx.cn/', // 代理的目标地址
 					// 开发模式，默认的127.0.0.1,开启后代理服务会把origin修改为目标地址
 					changeOrigin: true,
 					// secure: true, // 是否https接口
@@ -68,7 +68,7 @@ export default (({ mode }) => {
 				}
 			}
 		},
-		// base: '/netsunsaleadmin',
+		// base: '/netsunsaletest',
 		plugins: [
 			vue(),
 			// viteMockServe({

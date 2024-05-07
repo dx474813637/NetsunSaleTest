@@ -5,7 +5,7 @@
         :model="ddata"
         label-width="auto"
         class="q-form u-flex u-flex-wrap"
-        :class="['q-form-' + name, 'q-form-' + name.slice(-4), `flex-${flex}-start`, refName]"
+        :class="['q-form-' + name, 'q-form-' + name.slice(-4), `flex-${flex}-start`, `u-flex-items-${align}`, refName]"
       >
         <div
           v-for="(i, n) in form.filter((i) => i)"
@@ -56,7 +56,7 @@
           </slot>
           <slot name="item-handle" :pItem="i"></slot>
         </div>
-        <div class="handle">
+        <div class="handle" :class="[flex]">
           <el-button plain type="danger" v-if="showClear" @click.stop="removeBtn">清 除</el-button>
           <el-button v-if="showCancel" plain @click="$emit('cancel')">
             {{
@@ -134,6 +134,10 @@
     flex: {
       type: String,
       default: "col"
+    },
+    align: {
+      type: String,
+      default: "center"
     },
     isView: {
       type: Boolean,
@@ -231,13 +235,22 @@
       }
     }
     .handle {
-      width: 100% !important;
+      width: 100% ;//!important;
+	  &.row {
+		width: auto;
+      	flex: 0 0 auto;
+	  }
     }
     > div {
       // flex: 0 0 50%;
       flex: 0 0 100%;
       // margin-top: 10px;
       align-items: center;
+	  &.width-auto {
+			flex: 0 0 auto;
+			width: auto;
+			padding-right: 10px; 
+		}
       // background: #f00;
       > h4 {
         margin-bottom: 10px;
@@ -262,7 +275,7 @@
       }
     }
     > .handle {
-      flex: 0 0 100% !important;
+      flex: 0 0 100% ;//!important;
       text-align: left;
     }
   }
