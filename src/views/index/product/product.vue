@@ -178,7 +178,6 @@
 import { reactive, ref, watch, onMounted, onUnmounted, inject, toRefs, computed } from 'vue';
 import { ElMessage, ElNotification } from 'element-plus' 
 import router from '@/router';
-const cart = cartStore()
 import useProductSku from '@/hook/useProductSku.ts'
 import {isObjectEqual, deepClone} from '@/utils/index'
 import { cartStore } from '@/stores/cart'
@@ -186,10 +185,12 @@ import { userStore } from '@/stores/user';
 import { useSettingsStore } from '@/stores/settings';
 import { cateStore } from '@/stores/cate';
 import {timeFrom} from '@/utils/index'
+const cart = cartStore()
 const user = userStore();
 const settings = useSettingsStore();
 let { login } = toRefs(user); 
 const cate = cateStore();
+const { cart_list } = toRefs(cart);
 let { freight_list } = toRefs(cate); 
 const product_ctime = computed(() => timeFrom(String(new Date(product_base_data.value.ctime).getTime())) )
 const product_uptime = computed(() => timeFrom(String(new Date(product_base_data.value.uptime).getTime())) )
@@ -227,6 +228,9 @@ const flowShow = ref(false)
 
 const freight_name = computed(() => freight_list.value.filter(ele => ele.value == product_base_data.value?.freight_id)[0]?.label)
 
+const products_list = computed(() => {
+	return cart_list.value.map(ele => ({...ele, products: ele.products})).filter(ele => ele.products.length != 0)
+})
 const skuPrice = computed(() => {
 	let price = 0;
 	let i = findIndexby()
@@ -271,6 +275,7 @@ watch(
 )
  
 onMounted(async () => { 
+	cart.removeCartData()
 	await getData()
 	settings.setTitle(product_base_data.value.name)
 	window.addEventListener('storage', cart.addEventLocalStorage) 
@@ -377,18 +382,32 @@ const addCartBtn = () => {
 		checked: false,
 	} 
 	let flag = cart.addProduct2Cart(skuItem)
-	if(flag) ElNotification({
-		title: '系统消息',
-		type: 'success',
-		message: '成功加入购物车！',
-    	position: 'bottom-right',
-	})
-	
+	if(flag) {
+		router.push({name: 'order_create'})
+		// ElNotification({
+		// 	title: '系统消息',
+		// 	type: 'success',
+		// 	message: '成功加入购物车！',
+		// 	position: 'bottom-right',
+		// })
+		// await createOrder()
+	}
 } 
 function previewHoverEvent(index) {
 	activeIndex.value = +index
 }
-
+ 
+async function createOrder() { 
+	let arr = products_list.value.map(ele => ele.products.map(item => ({id: item.id, num: item.num}))).reduce((a, b) => a.concat(b)) 
+	const res = await $api.create_order({
+		pid_array: JSON.stringify(arr) 
+	}, {loading: true})
+	if(res.code == 1) { 
+		cart.removeCartData()
+		router.replace({name: 'order_list'})
+		ElMessage.success(res.msg)
+	}
+}
 </script>
 <style lang='scss' scoped>
 .main {

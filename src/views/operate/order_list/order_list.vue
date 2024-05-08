@@ -1,23 +1,14 @@
 <!--  -->
 <template>
-	<div class="u-p-10 box">
-		orderl
-		<!-- <el-tabs v-model="value" class="demo-tabs" @tab-click="handleClick">
-			<el-tab-pane  
-				v-for="item in tabs_list" 
-				:key="item.value" 
-				:label="item.label" 
-				:name="item.value"
-			></el-tab-pane>
-		</el-tabs> 
+	<div class="u-p-10 box"> 
 		<table-order :customParams="customParams" @detailEvent="detailEvent"></table-order>
 
-		<product-popup :show="dialogTableVisible" :id="detail_id" @setShow="setShow"></product-popup> -->
+		<product-popup :show="dialogTableVisible" :id="detail_id" @setShow="setShow"></product-popup> 
 	</div>
 </template>
   
 <script setup lang='ts'>
-import { computed, ref, inject } from 'vue'
+import { computed, ref, inject, onMounted } from 'vue'
 const $api: any = inject('$api')
 const tabs_list = ref([
 	{ label: '全部状态', value: '' },
@@ -41,6 +32,9 @@ const customParams = computed(() => {
 		type: value.value,
 		role: role.value
 	}
+})
+onMounted(() => {
+	$api.order_detail({params: {order_id: 1}})
 })
 const detail_id = ref('');
 const dialogTableVisible = ref(false);

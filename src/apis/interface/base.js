@@ -6,6 +6,8 @@ export const product = (data) => axios.get('Market/product', data)
 // product_detail 商品详情 参数id
 export const product_detail = (data) => axios.get('Market/product_detail', data) 
 
+// address
+export const address = (data) => axios.get('Market/address', data) 
 // longs 发现列表，不用翻页。就4种类型的
 export const longs = (data) => axios.get('Market/longs', data) 
 // create_order 创建订单 字段跟小程序一致 

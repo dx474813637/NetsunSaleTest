@@ -39,6 +39,14 @@ const routes = [
                 component: () => import('@/views/index/product_list/product_list.vue'),
             },
             {
+                path: 'note_list',
+                name: 'note_list',
+                meta: {
+                    title: '发现',   
+                },
+                component: () => import('@/views/index/note_list/note_list.vue'),
+            },
+            {
                 path: '/product/:id',
                 name: 'product',
                 meta: {
@@ -70,6 +78,25 @@ const routes = [
                 }, 
                 component: () => import('@/views/operate/order_list/order_list.vue'),
             },
+            {
+                path: 'order/:id',
+                name: 'order', 
+                meta: {
+                    title: '订单详情',  
+                    role: [2],
+
+                }, 
+                props:true, 
+                component: () => import('@/views/operate/order/order.vue'),
+            },
+            {
+                path: 'order_create',
+                name: 'order_create',
+                meta: {
+                    title: '订单创建', 
+                }, 
+                component: () => import('@/views/operate/order_create/order_create.vue'),
+            }, 
         ]
     },
     {

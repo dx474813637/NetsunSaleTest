@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-	<!-- <el-affix @change="headerAffixChange">
+	<el-affix @change="headerAffixChange">
 		<header-user :customStyle="headerAffixStatus? {
 			background: '#fff',
 			boxShadow: '0 5px 5px rgba(90,90,90,.08)'
@@ -8,83 +8,38 @@
 			background: 'transparent',
 			boxShadow: 'none'
 		}"></header-user>
-	</el-affix> -->
-	
-	<el-drawer custom-class="menus-drawer" v-model="menusShow" :with-header="false" value="ltr" size="80vw">
-		<div style="height: calc(100% - 40px);">
-			<menus-index class="menus-h5" mode="operate"></menus-index>
-		</div>
-		<div class="u-flex u-flex-items-center u-flex-between u-p-15 box-border return-w"
-			@click="router.push({name: 'product_list'})" 
-			style="height: 40px;cursor: pointer;">
-			<div class="item u-flex u-flex-items-center">
-				<el-icon ><Operation /></el-icon>
-				<el-text class="u-m-l-10 ">商家中心</el-text>
-			</div>
-			<div class="item">
-				<el-icon size="14"><ArrowRight /></el-icon>
-			</div>
-		</div>
-	</el-drawer>
+	</el-affix>
+	 
 	<div class="user-wrap " >
-		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">
-			<div class="item item-menus u-m-r-20" v-if="true">  
-				<el-affix :offset="15">
-					<div class="u-p-5 menus-w box-border base-shadow">
-						<div style="height: calc(100% - 40px);">
-							<el-scrollbar height="100%" > 
-								<menus-index mode="operate"></menus-index>
-							</el-scrollbar> 
-						</div>
-						
-						<div class="u-flex u-flex-items-center u-flex-between text-white u-p-15 box-border return-w"
-							@click="router.push({name: 'product_list'})" 
-							style="height: 40px;cursor: pointer;">
-							<div class="item u-flex u-flex-items-center">
-								<el-icon color="#fff"><Operation /></el-icon>
-								<el-text class="u-m-l-10 text-white">商家中心</el-text>
-							</div>
-							<div class="item">
-								<el-icon size="14"><ArrowRight /></el-icon>
-							</div>
-						</div>
-					</div>
-					
-				</el-affix>
-				
-			</div>
-			
-			
-			<div class="item item-main u-flex-column u-flex-items-start">
-				<el-affix :offset="15" style="width: 100%;">
-					<el-page-header class="u-p-15 u-radius-15 box-border base-shadow u-m-b-15 page-header" style="width: 100%;"  title="后退"  @back="onBack"> 
-						<template #icon >
-							<el-icon class="text-base">
-								<i-ep-ArrowLeft></i-ep-ArrowLeft>
-							</el-icon>
-						</template>
-						<template #content>
-							<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
-							<el-text class="u-font-14 u-m-l-20" type="info" v-if="!isH5"> {{ subTitle }} </el-text>
-						</template>
-						<template #extra>
-							<el-button  
-								color="#626aef"
-								dark
-								:icon="btnActive.icon"
-								v-if="btnActive" 
-								class="text-bold u-font-13 u-radius-10"
-								@click="router.push({name: btnActive.to.name})"
-								> 
-								{{ btnActive.title }} 
-							</el-button>
-						</template>
-						<!-- <div class="mt-4 text-sm font-bold">
-							Your additional content can be added with default slot, You may put as
-							many content as you want here.
-						</div> -->
-					</el-page-header>
-				</el-affix>
+		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border"> 
+			<div class="item item-main u-flex-column u-flex-items-start"> 
+				<el-page-header class="u-p-15 u-radius-15 box-border base-shadow u-m-b-15 page-header" style="width: 100%;"  title="后退"  @back="onBack"> 
+					<template #icon >
+						<el-icon class="text-base">
+							<i-ep-ArrowLeft></i-ep-ArrowLeft>
+						</el-icon>
+					</template>
+					<template #content>
+						<el-text class="u-font-16 text-black" tag="b"> {{ useSettings.title }} </el-text>
+						<el-text class="u-font-14 u-m-l-20" type="info" v-if="!isH5"> {{ subTitle }} </el-text>
+					</template>
+					<template #extra>
+						<el-button  
+							color="#626aef"
+							dark
+							:icon="btnActive.icon"
+							v-if="btnActive" 
+							class="text-bold u-font-13 u-radius-10"
+							@click="router.push({name: btnActive.to.name})"
+							> 
+							{{ btnActive.title }} 
+						</el-button>
+					</template>
+					<!-- <div class="mt-4 text-sm font-bold">
+						Your additional content can be added with default slot, You may put as
+						many content as you want here.
+					</div> -->
+				</el-page-header> 
 				
 				<router-view class="u-flex-1 base-shadow" style="width: 100%;" :key="routerPath"></router-view>
 			</div>

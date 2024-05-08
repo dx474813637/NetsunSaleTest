@@ -14,10 +14,10 @@ import path from 'path'; //导入已经安装的@type/node
 // https://vitejs.dev/config/
 
 export default (({ mode }) => {
-	// console.log(mode, loadEnv(mode, process.cwd()))
 	// const VITE_BASE_URL: string = loadEnv(mode, process.cwd()).VITE_BASE_URL;
 	// console.log(VITE_BASE_URL)
-	// const VITE_RES_URL_CHILD: string = loadEnv(mode, process.cwd()).VITE_RES_URL_CHILD;
+	const VITE_RES_URL_CHILD: string = loadEnv(mode, process.cwd()).VITE_RES_URL_CHILD;
+	console.log(mode, loadEnv(mode, process.cwd()), VITE_RES_URL_CHILD)
 	return defineConfig({
 		server: {
 			hmr: true,
@@ -68,7 +68,8 @@ export default (({ mode }) => {
 				}
 			}
 		},
-		// base: '/netsunsaletest',
+		// base: VITE_RES_URL_CHILD,
+		base: mode == 'development'? '' : '/mall/',
 		plugins: [
 			vue(),
 			// viteMockServe({

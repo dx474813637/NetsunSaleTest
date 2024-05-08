@@ -25,7 +25,7 @@
 					<div class="price">
 						<div class="price-unit u-font-14">￥</div>
 						<div class="price-num">
-							<el-statistic :value="origin.price" :precision="2" value-style="color: #ff0000"></el-statistic>
+							<el-statistic :value="origin.price1" :precision="2" value-style="color: #ff0000"></el-statistic>
 						</div>
 					</div>
 				</div>

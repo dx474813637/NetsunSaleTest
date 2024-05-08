@@ -17,10 +17,21 @@
 							color="#626aef"
 							dark
 							icon="Shop" 
-							class="text-bold u-font-13 u-radius-10"
+							class="u-font-13 u-radius-10"
 							@click="router.push({name: 'product_list'})"
 							>
-							商品列表
+							商品
+						</el-button> 
+					</div>   
+					<div class="nav-item">
+						<el-button  
+							color="#626aef"
+							dark
+							icon="List" 
+							class="u-font-13 u-radius-10"
+							@click="router.push({name: 'note_list'})"
+							>
+							发现
 						</el-button> 
 					</div>   
 					<div class="nav-item">
@@ -28,10 +39,10 @@
 							color="#626aef"
 							dark
 							icon="User" 
-							class="text-bold u-font-13 u-radius-10"
+							class="u-font-13 u-radius-10"
 							@click="router.push({name: 'order_list'})"
 							>
-							用户中心
+							订单
 						</el-button> 
 					</div>   
 				</div>

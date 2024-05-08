@@ -68,18 +68,18 @@ export const cartStore = defineStore('cart', {
 			return arr
 		},
 		addProduct2Cart(data) {
-			if(!login.value) {
-				settings.setPrevPage(router.currentRoute.value)
+			if(!localStorage.getItem('userid')) {
+				// settings.setPrevPage(router.currentRoute.value)
 				ElMessage.error('请先登录');
 				settings.goLogin()
-				return
+				return false
 			}
 			
 			let { id: shopId } = data.shop;
 			data = {
 				...data, 
 				loading: false, 
-				checked: false
+				checked: true
 			} 
 			let shop_index = this.cart_list.findIndex(ele => ele.shop.id == shopId);
 			// console.log(shop_index)
@@ -90,7 +90,7 @@ export const cartStore = defineStore('cart', {
 				let datas = {  
 					shop: {
 						...shopObj, 
-						checked: false,
+						checked: true,
 						indeterminate: false
 					},
 					products: [data]

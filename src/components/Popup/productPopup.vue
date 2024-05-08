@@ -32,16 +32,7 @@
                                         value-style="color: #ff0000; font-size: 22px; font-weight: bold"></el-statistic>
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-fahuo u-m-b-5">
-                            <div class="u-flex u-flex-items-start info-row">
-                                <div class="info-row-item info-row-item-label">商家：</div>
-                                <div
-                                    class="info-row-item info-row-item-content u-flex u-flex-items-start u-flex-wrap u-m-l-5">
-                                    <el-text>{{ product_shop_data.company }}</el-text>
-                                </div>
-                            </div>
-                        </div>
+                        </div> 
                         <div class="product-fahuo u-m-b-5">
                             <div class="u-flex u-flex-items-start info-row">
                                 <div class="info-row-item info-row-item-label">发货：</div>
