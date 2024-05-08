@@ -26,7 +26,7 @@
 					<div class="nav-item">
 						<el-button  
 							color="#626aef"
-							dark
+							dark 
 							icon="List" 
 							class="u-font-13 u-radius-10"
 							@click="router.push({name: 'note_list'})"
