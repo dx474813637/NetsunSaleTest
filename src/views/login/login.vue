@@ -64,8 +64,8 @@ const $api: any = inject('$api')
 const $axios: any = inject('$axios')
 const formRef = ref<FormInstance>()
 const loginForm = reactive({
-	login: 'test',
-	password: '123456'
+	login: '',
+	password: ''
 })
 
 

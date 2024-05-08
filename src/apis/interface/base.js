@@ -13,7 +13,7 @@ export const longs = (data) => axios.get('Market/longs', data)
 // create_order 创建订单 字段跟小程序一致 
 export const create_order = (data, config) => axios.post('Market/create_order', data, config)
 // order_list 订单列表 参数p
-export const order_list = (data) => axios.get(' Market/order_list', data) 
+export const order_list = (data) => axios.get('Market/order_list', data) 
 // order_detail 订单详情 参数order_id
 export const order_detail = (data) => axios.get('Market/order_detail', data) 
 // change_order_status 未付款取消订单  参数order_id
