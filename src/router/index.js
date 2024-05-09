@@ -11,7 +11,15 @@ import { createRouter, createWebHistory, createWebHashHistory, RouterView } from
 const routes = [
     {
         path: '/',
-        redirect: () => ({name: 'product_list'}),
+        redirect: () => ({name: 'home'}),
+    },
+    {
+        path: '/home',
+        name: 'home',
+        meta: {
+            title: '首页',   
+        },
+        component: () => import('@/views/home/home.vue'),
     },
     {
         path: '/login',

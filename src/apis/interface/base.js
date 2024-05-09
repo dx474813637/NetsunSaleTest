@@ -1,7 +1,7 @@
 import axios from '@/request/index';
  
 
-// product 商品列表 参数p  num默认20 cate terms
+// product 商品列表 参数p  num默认20 cate terms 
 export const product = (data) => axios.get('Market/product', data)  
 // product_detail 商品详情 参数id
 export const product_detail = (data) => axios.get('Market/product_detail', data) 
@@ -24,6 +24,9 @@ export const order_refund = (data) => axios.get('Market/order_refund', data)
 // https://www.sunmaxx.cn/Index/qrcode?url=pay.code_url 拼接 是一个二维码图片
 export const weixin_pay = (data) => axios.get('Market/weixin_pay', data) 
 // test
-// 123456
+// a789456
 // login 登录接口 成功后返回userid userid从头部传
 export const login = (data, config) => axios.post('Market/login', data, config) 
+  
+// cate_list 分类接口
+export const cate_list = (data) => axios.get('Market/cate_list', data) 

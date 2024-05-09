@@ -31,6 +31,7 @@ const isOperate = computed(() => router.currentRoute.value.matched.some(ele => e
 		'operate': isOperate
 	}">
 		<router-view :key="router.currentRoute.value.fullPath"></router-view>
+		<footer-base></footer-base>
 	</div>
 	
 </template>

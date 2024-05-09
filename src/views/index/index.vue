@@ -1,15 +1,9 @@
 <!--  -->
 <template>
-	<el-affix @change="headerAffixChange">
-		<header-user :customStyle="headerAffixStatus? {
-			backgroundImage: 'radial-gradient(transparent 1px, #fff 1px)',
-			boxShadow: '0 5px 5px rgba(90,90,90,.08)'
-		} :  {
-			backgroundImage: 'radial-gradient(transparent 1px, #F1F6FD 1px)',
-			boxShadow: 'none'
-		}"></header-user>
+	<el-affix @change="headerAffixChange" :z-index="2500">
+		<header-user></header-user>
 	</el-affix> 
-	<div class="user-wrap " :class="{fx_mode: routerName == 'fx_helper'}">
+	<div class="user-wrap u-m-b-30" :class="{fx_mode: routerName == 'fx_helper'}">
 		<div class="home-w u-flex u-flex-items-start u-p-t-15 box-border">  
 			<div class="item item-main u-radius-8 u-flex-column u-flex-items-start u-p-20">
 				 
@@ -26,8 +20,7 @@
 			circle 
 			@click="menusShow = !menusShow"
 		/>
-	</div>
-	<!-- <footer-help></footer-help> -->
+	</div> 
 </template>
 
 <script setup lang="ts">

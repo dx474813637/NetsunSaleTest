@@ -1,55 +1,58 @@
 <!--  -->
 <template>
 	<header-user ></header-user>
-	<div class="home-w">
-		<div class="u-p-t-80 u-p-b-30">
-			<el-row>
-				<el-col :span="15"></el-col>
-				<el-col :span="9">
-					<div class="login-box bg-white u-radius-8 u-p-30 u-p-t-40">
-						<el-form
-							ref="formRef"
-							style="max-width: 600px"
-							:model="loginForm"
-							label-width="auto"
-							class="demo-ruleForm"
-						>
-							<el-form-item
-								label="账号"
-								prop="login"
-								:rules="[
-									{ required: true, message: 'login is required' }, 
-								]"
-								>
-								<el-input
-									v-model="loginForm.login"
-									type="text"
-									autocomplete="off"
-								/>
-							</el-form-item>
-							<el-form-item
-								label="密码"
-								prop="password"
-								:rules="[
-									{ required: true, message: 'password is required' }, 
-								]"
-								>
-								<el-input
-									v-model="loginForm.password"
-									type="password"
-									autocomplete="off"
-								/>
-							</el-form-item>
-							<el-form-item class="u-p-t-30">
-								<el-button style="width: 100%;" type="primary" @click="submitForm(formRef)">登录</el-button> 
-							</el-form-item>
-						</el-form>
-					</div>
-				</el-col>
-			</el-row>
-			
+	<div class="main" style="background: url('https://www.sunmaxx.cn/Public/index/images/sjhz-bg.jpg') center no-repeat; background-size: 100% 100%;">
+		<div class="home-w">
+			<div class="u-p-t-80 u-p-b-80">
+				<el-row>
+					<el-col :span="15"></el-col>
+					<el-col :span="9">
+						<div class="login-box bg-white u-radius-8 u-p-40 u-p-t-60 u-p-b-60">
+							<el-form
+								ref="formRef"
+								style="max-width: 600px"
+								:model="loginForm"
+								label-width="auto"
+								class="demo-ruleForm"
+							>
+								<el-form-item
+									label="账号"
+									prop="login"
+									:rules="[
+										{ required: true, message: 'login is required' }, 
+									]"
+									>
+									<el-input
+										v-model="loginForm.login"
+										type="text"
+										autocomplete="off"
+									/>
+								</el-form-item>
+								<el-form-item
+									label="密码"
+									prop="password"
+									:rules="[
+										{ required: true, message: 'password is required' }, 
+									]"
+									>
+									<el-input
+										v-model="loginForm.password"
+										type="password"
+										autocomplete="off"
+									/>
+								</el-form-item>
+								<el-form-item class="u-p-t-30">
+									<el-button style="width: 100%;" type="primary" @click="submitForm(formRef)">登录</el-button> 
+								</el-form-item>
+							</el-form>
+						</div>
+					</el-col>
+				</el-row>
+				
+			</div>
 		</div>
 	</div>
+	
 </template>
 
 <script setup lang='ts'>
@@ -79,6 +82,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 			const res = await $api.login({...loginForm})
 			if(res.code == 1) {
 				ElMessage.success('登录成功')
+				userid.value = res.userid
 				localStorage.setItem('userid', res.userid)
 				router.go(-1)
 			}
@@ -98,7 +102,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
 .box {
 	@extend %box-sizing;
 }
-
+.main {
+	height: calc(100vh - 242px)
+}
 .list {
 	@include flex(x, start, start);
 	flex-wrap: wrap;

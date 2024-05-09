@@ -1,79 +1,14 @@
-<template>
-	<div class="ad-box u-p-b-10">
-		<div class="home-w">
-			<el-image  loading="lazy" src="/ad-banner1.jpg"  alt="" />
-		</div>
-	</div>
-	
+<template> 
 	<footer class="footer">
-		<div class="home-w">
-			 <div class="footer-link u-flex u-flex-center u-m-b-10">
-				<el-link type="primary" >
-					<router-link 
-						tag="a"  
-						:to="{
-							name: 'web_danye',
-							params: {
-								id: '21'
-							}
-						}"
-						>关于我们</router-link> 
-				</el-link>
-				<el-divider direction="vertical" class="u-m-l-20 u-m-r-20" />
-				<el-link type="primary" >
-					<router-link 
-						tag="a"  
-						:to="{
-							name: 'web_danye',
-							params: {
-								id: '22'
-							}
-						}"
-						>联系我们</router-link> 
-				</el-link>
-				<el-divider direction="vertical" class="u-m-l-20 u-m-r-20" />
-				<el-link type="primary" >
-					<router-link 
-						tag="a"  
-						:to="{
-							name: 'web_danye',
-							params: {
-								id: '23'
-							}
-						}"
-						>商务合作</router-link> 
-				</el-link>
-				<el-divider direction="vertical" class="u-m-l-20 u-m-r-20" />
-				<el-link type="primary" >
-					<router-link 
-						tag="a"  
-						:to="{
-							name: 'web_danye',
-							params: {
-								id: '24'
-							}
-						}"
-						>隐私政策</router-link> 
-				</el-link>
-				<el-divider direction="vertical" class="u-m-l-20 u-m-r-20" />
-				<el-link type="primary" >
-					<router-link 
-						tag="a"  
-						:to="{
-							name: 'web_danye',
-							params: {
-								id: '25'
-							}
-						}"
-						>供应商入驻</router-link> 
-				</el-link> 
-			 </div>
-			 <div class="footer-link footer-link-sub u-flex u-flex-center" style="color: #999">
-				<el-link type="info" :underline="false" href="/" target="_blank">增值电信业务经营许可证：浙B2-2023</el-link>
-				<el-divider direction="vertical" class="u-m-l-20 u-m-r-20" />
-				<el-link type="info" :underline="false" href="/" target="_blank">经营性网站备案信息: 浙1CP备2023000-1 </el-link>
-				<el-link type="info" class="u-m-l-20 " :underline="false" href="#/" > Copyright @ 2023网盛特卖 版权所有</el-link> 
-			 </div>
+		<div class="home-w u-flex-column u-flex-items-center u-p-30"> 
+			<div class="u-m-b-10">
+				<el-text>投诉、客服:0571-88228151</el-text>
+				<el-text>联系地址:浙江省杭州市滨江区长河街道立业路788号网盛大厦4楼</el-text>
+				<el-text>hzsales@netsun.com</el-text>
+			</div>
+			<div>
+				<el-text>◎ 浙江网盛跨境电商服务有限公司 版权所有 浙ICP备2023038152号-2</el-text> 
+			</div>
 		</div>
 	</footer>
 </template>
@@ -92,6 +27,9 @@
 .footer {
 	min-height: 120px;
 	background-color: #fff; 
+	.el-text {
+		padding: 0 5px
+	}
 }
 .footer-link-sub {
 	.el-link {

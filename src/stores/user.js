@@ -61,7 +61,7 @@ export const userStore = defineStore('user', {
 				},
 			],
 			subAccount: [],
-			userid: '',
+			userid: '' || localStorage.getItem('userid'),
 		};
 	},
 	getters: {
@@ -77,6 +77,7 @@ export const userStore = defineStore('user', {
 			console.log('清除token 登录过期')
 			this.user_info = {}
 			this.cpy_info = {}
+			localStorage.removeItem('userid')
 			localStorage.removeItem('token')
 			localStorage.removeItem('login')
 		},

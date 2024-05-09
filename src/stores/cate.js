@@ -53,6 +53,11 @@ export const cateStore = defineStore('cate', {
 			}) 
 			return cate
 		},
+		cate_list_index: (state) => {
+			let cate = deepClone(state.cate_list)  
+			if(cate.length == 0) return []; 
+			return cate.slice(0, 4) 
+		},
 		menuListAll: (state) => {
 			return filterMenusData(state.menus)
 		},
